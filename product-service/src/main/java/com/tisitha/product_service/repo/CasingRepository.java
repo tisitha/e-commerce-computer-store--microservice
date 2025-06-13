@@ -17,7 +17,7 @@ public interface CasingRepository extends JpaRepository<Casing, UUID> {
 
     List<Casing> findByNameContainingIgnoreCase(String text);
 
-    List<Casing> findByCaseTypeInAndMaxGPULengthInAndIncludedFansIn(List<String> caseType, List<String> maxGPULength, List<String> includedFans);
+    List<Casing> findByBrandInAndCaseTypeInAndMaxGPULengthInAndIncludedFansIn(List<String> brand,List<String> caseType, List<String> maxGPULength, List<String> includedFans);
 
     @Query("SELECT DISTINCT c.caseType FROM Casing c")
     List<String> findDistinctCaseType();
@@ -27,4 +27,7 @@ public interface CasingRepository extends JpaRepository<Casing, UUID> {
 
     @Query("SELECT DISTINCT c.includedFans FROM Casing c")
     List<String> findDistinctIncludedFans();
+
+    @Query("SELECT DISTINCT c.brand FROM Casing c")
+    List<String> findDistinctBrand();
 }

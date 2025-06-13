@@ -1,9 +1,10 @@
 package com.tisitha.product_service.service;
 
-import com.tisitha.product_service.dto.CasingFilterOptionsDTO;
-import com.tisitha.product_service.dto.CasingRequestDTO;
-import com.tisitha.product_service.dto.CasingResponseDTO;
+
 import com.tisitha.product_service.dto.ProductPageSortDto;
+import com.tisitha.product_service.dto.casing.CasingFilterOptionsDTO;
+import com.tisitha.product_service.dto.casing.CasingRequestDTO;
+import com.tisitha.product_service.dto.casing.CasingResponseDTO;
 import com.tisitha.product_service.model.Casing;
 import com.tisitha.product_service.repo.CasingRepository;
 import org.springframework.data.domain.Page;
@@ -24,24 +25,40 @@ public class CasingServiceImp implements CasingService{
         this.casingRepository = casingRepository;
     }
 
+    @Override
     public CasingFilterOptionsDTO getAvailableFilters() {
         return new CasingFilterOptionsDTO(
+                casingRepository.findDistinctBrand(),
                 casingRepository.findDistinctCaseType(),
                 casingRepository.findDistinctMaxGPULength(),
                 casingRepository.findDistinctIncludedFans());
     }
 
     @Override
-    public ProductPageSortDto<CasingResponseDTO> getAll(Integer pageNumber, Integer pageSize, String sortBy, String dir, List<String> caseType, List<String> maxGPULength, List<String> includedFans) {
+    public ProductPageSortDto<CasingResponseDTO> getAll(Integer pageNumber, Integer pageSize, String sortBy, String dir,List<String> brand, List<String> caseType, List<String> maxGPULength, List<String> includedFans) {
         Sort sort = dir.equalsIgnoreCase("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
 
         Page<Casing> casingPage = casingRepository.findAll(pageable);
         List<Casing> casingList1 = casingPage.getContent();
-        List<Casing> casingList2 = casingRepository.findByCaseTypeInAndMaxGPULengthInAndIncludedFansIn(caseType,maxGPULength,includedFans);
-        casingList1.retainAll(casingList2);
 
-        List<CasingResponseDTO> dtos = casingList1.stream().map(this::convertToDTO).toList();
+        if(brand.isEmpty()){
+            brand = casingRepository.findDistinctCaseType();
+        }
+        if(caseType.isEmpty()){
+            caseType = casingRepository.findDistinctCaseType();
+        }
+        if(maxGPULength.isEmpty()){
+            maxGPULength = casingRepository.findDistinctMaxGPULength();
+        }
+        if(includedFans.isEmpty()){
+            includedFans = casingRepository.findDistinctIncludedFans();
+        }
+
+        List<Casing> casingList2 = casingRepository.findByBrandInAndCaseTypeInAndMaxGPULengthInAndIncludedFansIn(brand,caseType,maxGPULength,includedFans);
+        List<Casing> casingList = casingList1.stream().filter(casingList2::contains).toList();
+
+        List<CasingResponseDTO> dtos = casingList.stream().map(this::convertToDTO).toList();
 
         return new ProductPageSortDto<CasingResponseDTO>(dtos,casingPage.getTotalElements(),casingPage.getTotalPages(),casingPage.isLast());
     }
@@ -78,6 +95,7 @@ public class CasingServiceImp implements CasingService{
                 casing.isNew(),
                 casing.isTop(),
                 casing.getDeal(),
+                casing.getBrand(),
                 casing.getCaseType(),
                 casing.getMaxGPULength(),
                 casing.getIncludedFans()

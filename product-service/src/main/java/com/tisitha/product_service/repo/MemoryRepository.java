@@ -1,18 +1,46 @@
 package com.tisitha.product_service.repo;
 
-import com.tisitha.product_service.model.Casing;
+import com.tisitha.product_service.model.Memory;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.UUID;
 
-public interface MemoryRepository extends JpaRepository<Casing, UUID> {
+public interface MemoryRepository extends JpaRepository<Memory, UUID> {
 
-    List<Casing> findAllByIsNew(boolean b);
+    List<Memory> findAllByIsNew(boolean b);
 
-    List<Casing> findAllByIsTop(boolean b);
+    List<Memory> findAllByIsTop(boolean b);
 
-    List<Casing> findAllByDealNot(int i);
+    List<Memory> findAllByDealNot(int i);
 
-    List<Casing> findByNameContainingIgnoreCase(String text);
+    List<Memory> findByNameContainingIgnoreCase(String text);
+
+    List<Memory> findByMemoryTypeInAndCapacityGBInAndSpeedMHzInAndFormFactorInAndRgbLightingInAndBrandIn(
+            List<String> memoryType,
+            List<String> capacityGB,
+            List<String> speedMHz,
+            List<String> formFactor,
+            List<String> rgbLighting,
+            List<String> brand
+    );
+
+    @Query("SELECT DISTINCT m.memoryType FROM Memory m")
+    List<String> findDistinctMemoryType();
+
+    @Query("SELECT DISTINCT m.capacityGB FROM Memory m")
+    List<String> findDistinctCapacityGB();
+
+    @Query("SELECT DISTINCT m.speedMHz FROM Memory m")
+    List<String> findDistinctSpeedMHz();
+
+    @Query("SELECT DISTINCT m.formFactor FROM Memory m")
+    List<String> findDistinctFormFactor();
+
+    @Query("SELECT DISTINCT m.rgbLighting FROM Memory m")
+    List<String> findDistinctRgbLighting();
+
+    @Query("SELECT DISTINCT m.brand FROM Memory m")
+    List<String> findDistinctBrand();
 }

@@ -28,6 +28,7 @@ public class Monitor {
     private boolean isTop;
     private double deal;
 
+    private String brand;
     private String displayResolution;
     private String refreshRateHz;
     private String responseTimeMs;

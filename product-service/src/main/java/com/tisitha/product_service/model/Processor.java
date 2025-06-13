@@ -28,6 +28,7 @@ public class Processor {
     private boolean isTop;
     private double deal;
 
+    private String brand;
     private String cpuSeries;
     private String cpuSocket;
     private String coreCount;

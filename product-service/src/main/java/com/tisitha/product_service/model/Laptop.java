@@ -28,6 +28,7 @@ public class Laptop {
     private boolean isTop;
     private double deal;
 
+    private String brand;
     private String processorBrand;
     private String processorSeries;
     private String ramCapacity;

@@ -28,6 +28,7 @@ public class Peripheral {
     private boolean isTop;
     private double deal;
 
+    private String brand;
     private String peripheralType;
     private String connectivityType;
     private String rgbLighting;

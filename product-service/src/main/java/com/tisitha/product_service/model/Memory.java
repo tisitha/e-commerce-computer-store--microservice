@@ -33,5 +33,5 @@ public class Memory {
     private String speedMHz;
     private String formFactor;
     private String rgbLighting;
-    private String brandName;
+    private String brand;
 }

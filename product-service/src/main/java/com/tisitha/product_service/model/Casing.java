@@ -28,6 +28,7 @@ public class Casing {
     private boolean isTop;
     private double deal;
 
+    private String brand;
     private String caseType;
     private String maxGPULength;
     private String includedFans;

@@ -1,4 +1,4 @@
-package com.tisitha.product_service.dto;
+package com.tisitha.product_service.dto.graphicCard;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class CasingResponseDTO {
+public class GraphicCardResponseDTO {
 
     private UUID id;
 
@@ -19,7 +19,7 @@ public class CasingResponseDTO {
     private boolean isTop;
     private double deal;
 
-    private String caseType;
-    private String maxGPULength;
-    private String includedFans;
+    private String gpuManufacturer;
+    private String gpuSeries;
+    private String vRamCapacity;
 }

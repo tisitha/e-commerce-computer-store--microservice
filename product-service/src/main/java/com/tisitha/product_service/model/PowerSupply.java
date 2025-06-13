@@ -28,6 +28,7 @@ public class PowerSupply {
     private boolean isTop;
     private double deal;
 
+    private String brand;
     private String wattageOutput;
     private String certificationRating;
     private String formFactor;

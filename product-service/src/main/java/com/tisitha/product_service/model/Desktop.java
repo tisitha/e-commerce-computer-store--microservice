@@ -28,6 +28,7 @@ public class Desktop {
     private boolean isTop;
     private double deal;
 
+    private String brand;
     private String productType;
     private String processorBrand;
     private String processorSeries;

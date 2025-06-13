@@ -1,0 +1,205 @@
+package com.tisitha.product_service.service;
+
+
+import com.tisitha.product_service.dto.ProductPageSortDto;
+import com.tisitha.product_service.dto.laptop.LaptopFilterOptionsDTO;
+import com.tisitha.product_service.dto.laptop.LaptopRequestDTO;
+import com.tisitha.product_service.dto.laptop.LaptopResponseDTO;
+import com.tisitha.product_service.model.Laptop;
+import com.tisitha.product_service.repo.LaptopRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
+
+@Service
+public class LaptopServiceImp implements LaptopService{
+
+    private final LaptopRepository laptopRepository;
+
+    public LaptopServiceImp(LaptopRepository laptopRepository) {
+        this.laptopRepository = laptopRepository;
+    }
+
+    @Override
+    public LaptopFilterOptionsDTO getAvailableFilters() {
+        return new LaptopFilterOptionsDTO(
+                laptopRepository.findDistinctBrand(),
+                laptopRepository.findDistinctProcessorBrand(),
+                laptopRepository.findDistinctProcessorSeries(),
+                laptopRepository.findDistinctRamCapacity(),
+                laptopRepository.findDistinctStorageCapacity(),
+                laptopRepository.findDistinctDisplayResolution(),
+                laptopRepository.findDistinctOperatingSystem(),
+                laptopRepository.findDistinctGraphicsCardType(),
+                laptopRepository.findDistinctFeaturesIncluded());
+    }
+
+    @Override
+    public ProductPageSortDto<LaptopResponseDTO> getAll(Integer pageNumber, Integer pageSize, String sortBy, String dir, List<String> brand, List<String> processorBrand, List<String> processorSeries, List<String> ramCapacity, List<String> storageCapacity, List<String> displayResolution, List<String> operatingSystem, List<String> graphicsCardType, List<String> featuresIncluded) {
+        Sort sort = dir.equalsIgnoreCase("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
+
+        Page<Laptop> laptopPage = laptopRepository.findAll(pageable);
+        List<Laptop> laptopList1 = laptopPage.getContent();
+
+        if(brand.isEmpty()){
+            brand = laptopRepository.findDistinctBrand();
+        }
+        if(processorBrand.isEmpty()){
+            processorBrand = laptopRepository.findDistinctProcessorBrand();
+        }
+        if(processorSeries.isEmpty()){
+            processorSeries = laptopRepository.findDistinctProcessorSeries();
+        }
+        if(ramCapacity.isEmpty()){
+            ramCapacity = laptopRepository.findDistinctRamCapacity();
+        }
+        if(storageCapacity.isEmpty()){
+            storageCapacity = laptopRepository.findDistinctStorageCapacity();
+        }
+        if(displayResolution.isEmpty()){
+            displayResolution = laptopRepository.findDistinctDisplayResolution();
+        }
+        if(operatingSystem.isEmpty()){
+            operatingSystem = laptopRepository.findDistinctOperatingSystem();
+        }
+        if(graphicsCardType.isEmpty()){
+            graphicsCardType = laptopRepository.findDistinctGraphicsCardType();
+        }
+        if(featuresIncluded.isEmpty()){
+            featuresIncluded = laptopRepository.findDistinctFeaturesIncluded();
+        }
+
+        List<Laptop> laptopList2 = laptopRepository.findByBrandInAndProcessorBrandInAndProcessorSeriesInAndRamCapacityInAndStorageCapacityInAndDisplayResolutionInAndOperatingSystemInAndGraphicsCardTypeInAndFeaturesIncludedIn(brand,processorBrand,processorSeries,ramCapacity,storageCapacity,displayResolution,operatingSystem,graphicsCardType,featuresIncluded);
+        List<Laptop> laptopList = laptopList1.stream().filter(laptopList2::contains).toList();
+
+        List<LaptopResponseDTO> dtos = laptopList.stream().map(this::convertToDTO).toList();
+
+        return new ProductPageSortDto<LaptopResponseDTO>(dtos,laptopPage.getTotalElements(),laptopPage.getTotalPages(),laptopPage.isLast());
+    }
+
+    @Override
+    public LaptopResponseDTO add(LaptopRequestDTO dto) {
+        Laptop laptop = new Laptop();
+
+        laptop.setName(dto.getName());
+        laptop.setImgUrl(dto.getImgUrl());
+        laptop.setDescription(dto.getDescription());
+        laptop.setPrice(dto.getPrice());
+        laptop.setNew(dto.isNew());
+        laptop.setTop(dto.isTop());
+        laptop.setDeal(dto.getDeal());
+        laptop.setBrand(dto.getBrand());
+        laptop.setProcessorBrand(dto.getProcessorBrand());
+        laptop.setProcessorSeries(dto.getProcessorSeries());
+        laptop.setRamCapacity(dto.getRamCapacity());
+        laptop.setStorageCapacity(dto.getStorageCapacity());
+        laptop.setDisplayResolution(dto.getDisplayResolution());
+        laptop.setOperatingSystem(dto.getOperatingSystem());
+        laptop.setGraphicsCardType(dto.getGraphicsCardType());
+        laptop.setFeaturesIncluded(dto.getFeaturesIncluded());
+
+        Laptop newLaptop =  laptopRepository.save(laptop);
+
+        //send Inventory
+
+        return convertToDTO(newLaptop);
+    }
+
+    LaptopResponseDTO convertToDTO(Laptop laptop ){
+        return new LaptopResponseDTO(
+                laptop.getId(),
+                laptop.getName(),
+                laptop.getImgUrl(),
+                laptop.getDescription(),
+                laptop.getPrice(),
+                laptop.isNew(),
+                laptop.isTop(),
+                laptop.getDeal(),
+                laptop.getBrand(),
+                laptop.getProcessorBrand(),
+                laptop.getProcessorSeries(),
+                laptop.getRamCapacity(),
+                laptop.getStorageCapacity(),
+                laptop.getDisplayResolution(),
+                laptop.getOperatingSystem(),
+                laptop.getGraphicsCardType(),
+                laptop.getFeaturesIncluded()
+        );
+    }
+
+    @Override
+    public List<LaptopResponseDTO> isNew() {
+        List<Laptop> laptops = laptopRepository.findAllByIsNew(true);
+        return laptops.stream().map(this::convertToDTO).toList();
+    }
+
+    @Override
+    public List<LaptopResponseDTO> isTop() {
+        List<Laptop> laptops = laptopRepository.findAllByIsTop(true);
+        return laptops.stream().map(this::convertToDTO).toList();
+    }
+
+    @Override
+    public List<LaptopResponseDTO> isDeal() {
+        List<Laptop> laptops = laptopRepository.findAllByDealNot(0);
+        return laptops.stream().map(this::convertToDTO).toList();
+    }
+
+    @Override
+    public List<LaptopResponseDTO> search(String text) {
+        List<Laptop> laptops = laptopRepository.findByNameContainingIgnoreCase(text);
+        return laptops.stream().map(this::convertToDTO).toList();
+    }
+
+    @Override
+    public LaptopResponseDTO getProduct(UUID id) {
+        Laptop laptop = laptopRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        return convertToDTO(laptop);
+    }
+
+    @Override
+    public LaptopResponseDTO updateProduct(UUID id, LaptopRequestDTO dto) {
+        Laptop laptop = laptopRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+
+        laptop.setName(dto.getName());
+        laptop.setImgUrl(dto.getImgUrl());
+        laptop.setDescription(dto.getDescription());
+        laptop.setPrice(dto.getPrice());
+        laptop.setNew(dto.isNew());
+        laptop.setTop(dto.isTop());
+        laptop.setDeal(dto.getDeal());
+        laptop.setBrand(dto.getBrand());
+        laptop.setProcessorBrand(dto.getProcessorBrand());
+        laptop.setProcessorSeries(dto.getProcessorSeries());
+        laptop.setRamCapacity(dto.getRamCapacity());
+        laptop.setStorageCapacity(dto.getStorageCapacity());
+        laptop.setDisplayResolution(dto.getDisplayResolution());
+        laptop.setOperatingSystem(dto.getOperatingSystem());
+        laptop.setGraphicsCardType(dto.getGraphicsCardType());
+        laptop.setFeaturesIncluded(dto.getFeaturesIncluded());
+
+        Laptop newLaptop =  laptopRepository.save(laptop);
+
+        //send Inventory
+
+        return convertToDTO(newLaptop);
+    }
+
+    @Override
+    public void deleteProduct(UUID id) {
+        if(laptopRepository.existsById(id)){
+            laptopRepository.deleteById(id);
+            //delete from Inventory
+        }
+        else {
+            throw new RuntimeException("Invalid Product");
+        }
+    }
+
+}

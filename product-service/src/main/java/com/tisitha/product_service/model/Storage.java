@@ -28,6 +28,7 @@ public class Storage {
     private boolean isTop;
     private double deal;
 
+    private String brand;
     private String storageType;
     private String capacityGB;
     private String interfaceType;

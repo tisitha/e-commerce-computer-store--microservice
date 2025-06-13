@@ -14,7 +14,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Motherboard {
+public class MotherBoard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,6 +28,7 @@ public class Motherboard {
     private boolean isTop;
     private double deal;
 
+    private String brand;
     private String cpuSocket;
     private String chipsetSeries;
     private String formFactor;

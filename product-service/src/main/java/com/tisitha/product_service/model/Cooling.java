@@ -28,6 +28,7 @@ public class Cooling {
     private boolean isTop;
     private double deal;
 
+    private String brand;
     private String coolingType;
     private String socketCompatibility;
     private String fanSize;

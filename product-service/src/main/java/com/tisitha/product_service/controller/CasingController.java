@@ -1,15 +1,15 @@
 package com.tisitha.product_service.controller;
 
-import com.tisitha.product_service.dto.CasingGetRequestDTO;
-import com.tisitha.product_service.dto.CasingRequestDTO;
-import com.tisitha.product_service.dto.CasingResponseDTO;
 import com.tisitha.product_service.dto.ProductPageSortDto;
+import com.tisitha.product_service.dto.casing.CasingFilterOptionsDTO;
+import com.tisitha.product_service.dto.casing.CasingGetRequestDTO;
+import com.tisitha.product_service.dto.casing.CasingRequestDTO;
+import com.tisitha.product_service.dto.casing.CasingResponseDTO;
 import com.tisitha.product_service.service.CasingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -22,17 +22,15 @@ public class CasingController {
         this.casingService = casingService;
     }
 
-    private Integer pageNumber;
-    private Integer pageSize;
-    private String sortBy;
-    private String dir;
-    private List<String> caseType;
-    private List<String> maxGPULength;
-    private List<String> includedFans;
-
     @GetMapping("/get")
     public ResponseEntity<ProductPageSortDto<CasingResponseDTO>> getCasing(@RequestBody CasingGetRequestDTO dto){
-        return new ResponseEntity<>(casingService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getCaseType(),dto.getMaxGPULength(),dto.getIncludedFans()),
+        return new ResponseEntity<>(casingService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getCaseType(),dto.getMaxGPULength(),dto.getIncludedFans()),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("/filters")
+    public ResponseEntity<CasingFilterOptionsDTO> getCasingFilters(){
+        return new ResponseEntity<>(casingService.getAvailableFilters(),
                 HttpStatus.OK);
     }
 
@@ -43,13 +41,13 @@ public class CasingController {
     }
 
     @PutMapping("/admin/update/{id}")
-    public ResponseEntity<CasingResponseDTO> add(@PathVariable UUID id, @RequestBody CasingRequestDTO dto){
+    public ResponseEntity<CasingResponseDTO> update(@PathVariable UUID id, @RequestBody CasingRequestDTO dto){
         return new ResponseEntity<>(casingService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
 
     @PutMapping("/admin/delete/{id}")
-    public ResponseEntity<Void> add(@PathVariable UUID id){
+    public ResponseEntity<Void> delete(@PathVariable UUID id){
         casingService.deleteProduct(id);
         return ResponseEntity.ok().build();
     }
