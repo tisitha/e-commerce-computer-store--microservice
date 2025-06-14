@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("category/casings")
+@RequestMapping("/product")
 public class CasingController {
 
     private final CasingService casingService;
@@ -22,31 +22,31 @@ public class CasingController {
         this.casingService = casingService;
     }
 
-    @GetMapping("/get")
+    @GetMapping("/category/casings/get")
     public ResponseEntity<ProductPageSortDto<CasingResponseDTO>> getCasing(@RequestBody CasingGetRequestDTO dto){
         return new ResponseEntity<>(casingService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getCaseType(),dto.getMaxGPULength(),dto.getIncludedFans()),
                 HttpStatus.OK);
     }
 
-    @GetMapping("/filters")
+    @GetMapping("/category/casings/filters")
     public ResponseEntity<CasingFilterOptionsDTO> getCasingFilters(){
         return new ResponseEntity<>(casingService.getAvailableFilters(),
                 HttpStatus.OK);
     }
 
-    @PostMapping("/admin/add")
+    @PostMapping("/admin/category/casings/add")
     public ResponseEntity<CasingResponseDTO> add(@RequestBody CasingRequestDTO dto){
         return new ResponseEntity<>(casingService.add(dto),
                 HttpStatus.CREATED);
     }
 
-    @PutMapping("/admin/update/{id}")
+    @PutMapping("/admin/category/casings/update/{id}")
     public ResponseEntity<CasingResponseDTO> update(@PathVariable UUID id, @RequestBody CasingRequestDTO dto){
         return new ResponseEntity<>(casingService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
 
-    @PutMapping("/admin/delete/{id}")
+    @PutMapping("/admin/category/casings/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
         casingService.deleteProduct(id);
         return ResponseEntity.ok().build();
