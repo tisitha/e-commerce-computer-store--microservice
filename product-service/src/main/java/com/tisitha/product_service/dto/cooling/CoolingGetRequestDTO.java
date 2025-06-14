@@ -14,5 +14,5 @@ public class CoolingGetRequestDTO {
     private List<String> coolingType;
     private List<String> socketCompatibility;
     private List<String> fanSize;
-    private List<String> rGBLighting;
+    private List<String> rgbLighting;
 }

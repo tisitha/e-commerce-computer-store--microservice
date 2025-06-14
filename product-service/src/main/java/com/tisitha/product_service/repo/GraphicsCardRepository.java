@@ -1,26 +1,26 @@
 package com.tisitha.product_service.repo;
 
-import com.tisitha.product_service.model.GraphicCard;
+import com.tisitha.product_service.model.GraphicsCard;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.UUID;
 
-public interface GraphicCardRepository extends JpaRepository<GraphicCard, UUID> {
+public interface GraphicsCardRepository extends JpaRepository<GraphicsCard, UUID> {
 
-    List<GraphicCard> findAllByIsNew(boolean b);
+    List<GraphicsCard> findAllByIsNew(boolean b);
 
-    List<GraphicCard> findAllByIsTop(boolean b);
+    List<GraphicsCard> findAllByIsTop(boolean b);
 
-    List<GraphicCard> findAllByDealNot(int i);
+    List<GraphicsCard> findAllByDealNot(int i);
 
-    List<GraphicCard> findByNameContainingIgnoreCase(String text);
+    List<GraphicsCard> findByNameContainingIgnoreCase(String text);
 
-    List<GraphicCard> findByGpuManufacturerInAndGpuSeriesInAndVRamCapacityIn(
+    List<GraphicsCard> findByGpuManufacturerInAndGpuSeriesInAndVramGbIn(
             List<String> gpuManufacturer,
             List<String> gpuSeries,
-            List<String> vRamCapacity
+            List<String> vramGb
     );
 
     @Query("SELECT DISTINCT g.gpuManufacturer FROM GraphicsCard g")
@@ -29,6 +29,6 @@ public interface GraphicCardRepository extends JpaRepository<GraphicCard, UUID> 
     @Query("SELECT DISTINCT g.gpuSeries FROM GraphicsCard g")
     List<String> findDistinctGpuSeries();
 
-    @Query("SELECT DISTINCT g.vRamCapacity FROM GraphicsCard g")
+    @Query("SELECT DISTINCT g.vramGb FROM GraphicsCard g")
     List<String> findDistinctVRamCapacity();
 }

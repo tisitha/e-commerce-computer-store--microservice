@@ -30,33 +30,33 @@ public interface DesktopRepository extends JpaRepository<Desktop, UUID> {
             List<String> operatingSystem
     );
 
-    @Query("SELECT DISTINCT p.brand FROM Product p")
+    @Query("SELECT DISTINCT p.brand FROM Desktop p")
     List<String> findDistinctBrand();
 
-    @Query("SELECT DISTINCT p.productType FROM Product p")
+    @Query("SELECT DISTINCT p.productType FROM Desktop p")
     List<String> findDistinctProductType();
 
-    @Query("SELECT DISTINCT p.processorBrand FROM Product p")
+    @Query("SELECT DISTINCT p.processorBrand FROM Desktop p")
     List<String> findDistinctProcessorBrand();
 
-    @Query("SELECT DISTINCT p.processorSeries FROM Product p")
+    @Query("SELECT DISTINCT p.processorSeries FROM Desktop p")
     List<String> findDistinctProcessorSeries();
 
-    @Query("SELECT DISTINCT p.gpuManufacturer FROM Product p")
+    @Query("SELECT DISTINCT p.gpuManufacturer FROM Desktop p")
     List<String> findDistinctGpuManufacturer();
 
-    @Query("SELECT DISTINCT p.gpuSeries FROM Product p")
+    @Query("SELECT DISTINCT p.gpuSeries FROM Desktop p")
     List<String> findDistinctGpuSeries();
 
-    @Query("SELECT DISTINCT p.ramCapacity FROM Product p")
+    @Query("SELECT DISTINCT p.ramCapacity FROM Desktop p")
     List<String> findDistinctRamCapacity();
 
-    @Query("SELECT DISTINCT p.storageType FROM Product p")
+    @Query("SELECT DISTINCT p.storageType FROM Desktop p")
     List<String> findDistinctStorageType();
 
-    @Query("SELECT DISTINCT p.storageCapacity FROM Product p")
+    @Query("SELECT DISTINCT p.storageCapacity FROM Desktop p")
     List<String> findDistinctStorageCapacity();
 
-    @Query("SELECT DISTINCT p.operatingSystem FROM Product p")
+    @Query("SELECT DISTINCT p.operatingSystem FROM Desktop p")
     List<String> findDistinctOperatingSystem();
 }

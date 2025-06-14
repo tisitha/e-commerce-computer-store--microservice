@@ -22,31 +22,31 @@ public class SoftwareController {
         this.softwareService = softwareService;
     }
 
-    @GetMapping("/category/softwares/get")
+    @GetMapping("/category/software/get")
     public ResponseEntity<ProductPageSortDto<SoftwareResponseDTO>> getSoftware(@RequestBody SoftwareGetRequestDTO dto){
         return new ResponseEntity<>(softwareService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getYears(),dto.getUses()),
                 HttpStatus.OK);
     }
 
-    @GetMapping("/category/softwares/filters")
+    @GetMapping("/category/software/filters")
     public ResponseEntity<SoftwareFilterOptionsDTO> getSoftwareFilters(){
         return new ResponseEntity<>(softwareService.getAvailableFilters(),
                 HttpStatus.OK);
     }
 
-    @PostMapping("/admin/category/softwares/add")
+    @PostMapping("/admin/category/software/add")
     public ResponseEntity<SoftwareResponseDTO> add(@RequestBody SoftwareRequestDTO dto){
         return new ResponseEntity<>(softwareService.add(dto),
                 HttpStatus.CREATED);
     }
 
-    @PutMapping("/admin/category/softwares/update/{id}")
+    @PutMapping("/admin/category/software/update/{id}")
     public ResponseEntity<SoftwareResponseDTO> update(@PathVariable UUID id, @RequestBody SoftwareRequestDTO dto){
         return new ResponseEntity<>(softwareService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
 
-    @PutMapping("/admin/category/softwares/delete/{id}")
+    @PutMapping("/admin/category/software/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
         softwareService.deleteProduct(id);
         return ResponseEntity.ok().build();

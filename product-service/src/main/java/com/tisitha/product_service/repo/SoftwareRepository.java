@@ -23,12 +23,12 @@ public interface SoftwareRepository extends JpaRepository<Software, UUID> {
             List<String> uses
     );
 
-    @Query("SELECT DISTINCT p.brand FROM ProductWarranty p")
+    @Query("SELECT DISTINCT p.brand FROM Software p")
     List<String> findDistinctBrand();
 
-    @Query("SELECT DISTINCT p.years FROM ProductWarranty p")
+    @Query("SELECT DISTINCT p.years FROM Software p")
     List<String> findDistinctYears();
 
-    @Query("SELECT DISTINCT p.uses FROM ProductWarranty p")
+    @Query("SELECT DISTINCT p.uses FROM Software p")
     List<String> findDistinctUses();
 }

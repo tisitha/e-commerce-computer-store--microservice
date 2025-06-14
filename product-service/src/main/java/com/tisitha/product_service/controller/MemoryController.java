@@ -22,31 +22,31 @@ public class MemoryController {
         this.memoryService = memoryService;
     }
 
-    @GetMapping("/category/memorys/get")
+    @GetMapping("/category/memory/get")
     public ResponseEntity<ProductPageSortDto<MemoryResponseDTO>> getMemory(@RequestBody MemoryGetRequestDTO dto){
         return new ResponseEntity<>(memoryService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getMemoryType(),dto.getCapacityGB(),dto.getSpeedMHz(),dto.getFormFactor(),dto.getRgbLighting(),dto.getBrand()),
                 HttpStatus.OK);
     }
 
-    @GetMapping("/category/memorys/filters")
+    @GetMapping("/category/memory/filters")
     public ResponseEntity<MemoryFilterOptionsDTO> getMemoryFilters(){
         return new ResponseEntity<>(memoryService.getAvailableFilters(),
                 HttpStatus.OK);
     }
 
-    @PostMapping("/admin/category/memorys/add")
+    @PostMapping("/admin/category/memory/add")
     public ResponseEntity<MemoryResponseDTO> add(@RequestBody MemoryRequestDTO dto){
         return new ResponseEntity<>(memoryService.add(dto),
                 HttpStatus.CREATED);
     }
 
-    @PutMapping("/admin/category/memorys/update/{id}")
+    @PutMapping("/admin/category/memory/update/{id}")
     public ResponseEntity<MemoryResponseDTO> update(@PathVariable UUID id, @RequestBody MemoryRequestDTO dto){
         return new ResponseEntity<>(memoryService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
 
-    @PutMapping("/admin/category/memorys/delete/{id}")
+    @PutMapping("/admin/category/memory/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
         memoryService.deleteProduct(id);
         return ResponseEntity.ok().build();

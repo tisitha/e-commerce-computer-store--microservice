@@ -19,7 +19,7 @@ public class ProductController {
     private final CasingService casingService;
     private final CoolingService coolingService;
     private final DesktopService desktopService;
-    private final GraphicCardService graphicCardService;
+    private final GraphicsCardService graphicsCardService;
     private final LaptopService laptopService;
     private final MemoryService memoryService;
     private final MonitorService monitorService;
@@ -36,7 +36,7 @@ public class ProductController {
         dto.add(casingService.isNew());
         dto.add(coolingService.isNew());
         dto.add(desktopService.isNew());
-        dto.add(graphicCardService.isNew());
+        dto.add(graphicsCardService.isNew());
         dto.add(laptopService.isNew());
         dto.add(memoryService.isNew());
         dto.add(monitorService.isNew());
@@ -55,7 +55,7 @@ public class ProductController {
         dto.add(casingService.isTop());
         dto.add(coolingService.isTop());
         dto.add(desktopService.isTop());
-        dto.add(graphicCardService.isTop());
+        dto.add(graphicsCardService.isTop());
         dto.add(laptopService.isTop());
         dto.add(memoryService.isTop());
         dto.add(monitorService.isTop());
@@ -74,7 +74,7 @@ public class ProductController {
         dto.add(casingService.isDeal());
         dto.add(coolingService.isDeal());
         dto.add(desktopService.isDeal());
-        dto.add(graphicCardService.isDeal());
+        dto.add(graphicsCardService.isDeal());
         dto.add(laptopService.isDeal());
         dto.add(memoryService.isDeal());
         dto.add(monitorService.isDeal());

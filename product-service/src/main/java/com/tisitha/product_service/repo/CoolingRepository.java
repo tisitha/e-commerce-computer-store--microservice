@@ -23,19 +23,19 @@ public interface CoolingRepository extends JpaRepository<Cooling, UUID> {
             List<String> rgbLighting
     );
 
-    @Query("SELECT DISTINCT c.brand FROM Cooler c")
+    @Query("SELECT DISTINCT c.brand FROM Cooling c")
     List<String> findDistinctBrand();
 
-    @Query("SELECT DISTINCT c.coolingType FROM Cooler c")
+    @Query("SELECT DISTINCT c.coolingType FROM Cooling c")
     List<String> findDistinctCoolingType();
 
-    @Query("SELECT DISTINCT c.socketCompatibility FROM Cooler c")
+    @Query("SELECT DISTINCT c.socketCompatibility FROM Cooling c")
     List<String> findDistinctSocketCompatibility();
 
-    @Query("SELECT DISTINCT c.fanSize FROM Cooler c")
+    @Query("SELECT DISTINCT c.fanSize FROM Cooling c")
     List<String> findDistinctFanSize();
 
-    @Query("SELECT DISTINCT c.rgbLighting FROM Cooler c")
+    @Query("SELECT DISTINCT c.rgbLighting FROM Cooling c")
     List<String> findDistinctRgbLighting();
 
     List<Cooling> findByNameContainingIgnoreCase(String text);

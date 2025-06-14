@@ -27,24 +27,24 @@ public interface ProcessorRepository extends JpaRepository<Processor, UUID> {
             List<String> integratedGraphics
     );
 
-    @Query("SELECT DISTINCT c.brand FROM Cpu c")
+    @Query("SELECT DISTINCT c.brand FROM Processor c")
     List<String> findDistinctBrand();
 
-    @Query("SELECT DISTINCT c.cpuSeries FROM Cpu c")
+    @Query("SELECT DISTINCT c.cpuSeries FROM Processor c")
     List<String> findDistinctCpuSeries();
 
-    @Query("SELECT DISTINCT c.cpuSocket FROM Cpu c")
+    @Query("SELECT DISTINCT c.cpuSocket FROM Processor c")
     List<String> findDistinctCpuSocket();
 
-    @Query("SELECT DISTINCT c.coreCount FROM Cpu c")
+    @Query("SELECT DISTINCT c.coreCount FROM Processor c")
     List<String> findDistinctCoreCount();
 
-    @Query("SELECT DISTINCT c.threadCount FROM Cpu c")
+    @Query("SELECT DISTINCT c.threadCount FROM Processor c")
     List<String> findDistinctThreadCount();
 
-    @Query("SELECT DISTINCT c.baseClockSpeedGHz FROM Cpu c")
+    @Query("SELECT DISTINCT c.baseClockSpeedGHz FROM Processor c")
     List<String> findDistinctBaseClockSpeedGHz();
 
-    @Query("SELECT DISTINCT c.integratedGraphics FROM Cpu c")
+    @Query("SELECT DISTINCT c.integratedGraphics FROM Processor c")
     List<String> findDistinctIntegratedGraphics();
 }

@@ -82,7 +82,7 @@ public class CoolingServiceImp implements CoolingService{
         cooling.setCoolingType(dto.getCoolingType());
         cooling.setSocketCompatibility(dto.getSocketCompatibility());
         cooling.setFanSize(dto.getFanSize());
-        cooling.setRGBLighting(dto.getRGBLighting());
+        cooling.setRgbLighting(dto.getRgbLighting());
 
         Cooling newCooling =  coolingRepository.save(cooling);
 
@@ -105,7 +105,7 @@ public class CoolingServiceImp implements CoolingService{
                 cooling.getCoolingType(),
                 cooling.getSocketCompatibility(),
                 cooling.getFanSize(),
-                cooling.getRGBLighting()
+                cooling.getRgbLighting()
         );
     }
 
@@ -154,7 +154,7 @@ public class CoolingServiceImp implements CoolingService{
         cooling.setCoolingType(dto.getCoolingType());
         cooling.setSocketCompatibility(dto.getSocketCompatibility());
         cooling.setFanSize(dto.getFanSize());
-        cooling.setRGBLighting(dto.getRGBLighting());
+        cooling.setRgbLighting(dto.getRgbLighting());
 
         Cooling newCooling =  coolingRepository.save(cooling);
 

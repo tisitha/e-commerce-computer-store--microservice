@@ -6,5 +6,5 @@ public record CoolingFilterOptionsDTO(List<String> brand,
                                       List<String> coolingType,
                                       List<String> socketCompatibility,
                                       List<String> fanSize,
-                                      List<String> rGBLighting) {
+                                      List<String> rgbLighting) {
 }

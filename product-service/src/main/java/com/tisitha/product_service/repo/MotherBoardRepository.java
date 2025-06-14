@@ -28,27 +28,27 @@ public interface MotherBoardRepository extends JpaRepository<MotherBoard, UUID> 
             List<String> wirelessConnectivity
     );
 
-    @Query("SELECT DISTINCT m.brand FROM Motherboard m")
+    @Query("SELECT DISTINCT m.brand FROM MotherBoard m")
     List<String> findDistinctBrand();
 
-    @Query("SELECT DISTINCT m.cpuSocket FROM Motherboard m")
+    @Query("SELECT DISTINCT m.cpuSocket FROM MotherBoard m")
     List<String> findDistinctCpuSocket();
 
-    @Query("SELECT DISTINCT m.chipsetSeries FROM Motherboard m")
+    @Query("SELECT DISTINCT m.chipsetSeries FROM MotherBoard m")
     List<String> findDistinctChipsetSeries();
 
-    @Query("SELECT DISTINCT m.formFactor FROM Motherboard m")
+    @Query("SELECT DISTINCT m.formFactor FROM MotherBoard m")
     List<String> findDistinctFormFactor();
 
-    @Query("SELECT DISTINCT m.ramType FROM Motherboard m")
+    @Query("SELECT DISTINCT m.ramType FROM MotherBoard m")
     List<String> findDistinctRamType();
 
-    @Query("SELECT DISTINCT m.pcieSlotVersion FROM Motherboard m")
+    @Query("SELECT DISTINCT m.pcieSlotVersion FROM MotherBoard m")
     List<String> findDistinctPcieSlotVersion();
 
-    @Query("SELECT DISTINCT m.m2Slots FROM Motherboard m")
+    @Query("SELECT DISTINCT m.m2Slots FROM MotherBoard m")
     List<String> findDistinctM2Slots();
 
-    @Query("SELECT DISTINCT m.wirelessConnectivity FROM Motherboard m")
+    @Query("SELECT DISTINCT m.wirelessConnectivity FROM MotherBoard m")
     List<String> findDistinctWirelessConnectivity();
 }

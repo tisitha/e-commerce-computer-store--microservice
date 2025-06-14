@@ -14,7 +14,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Cooling {
+public class GraphicsCard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,9 +28,8 @@ public class Cooling {
     private boolean isTop;
     private double deal;
 
-    private String brand;
-    private String coolingType;
-    private String socketCompatibility;
-    private String fanSize;
-    private String rgbLighting;
+    private String gpuManufacturer;
+    private String gpuSeries;
+    private String vramGb;
+
 }

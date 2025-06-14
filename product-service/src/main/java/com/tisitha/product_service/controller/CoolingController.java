@@ -22,31 +22,31 @@ public class CoolingController {
         this.coolingService = coolingService;
     }
 
-    @GetMapping("/category/coolings/get")
+    @GetMapping("/category/cooling/get")
     public ResponseEntity<ProductPageSortDto<CoolingResponseDTO>> getCooling(@RequestBody CoolingGetRequestDTO dto){
-        return new ResponseEntity<>(coolingService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getCoolingType(),dto.getSocketCompatibility(),dto.getFanSize(),dto.getRGBLighting()),
+        return new ResponseEntity<>(coolingService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getCoolingType(),dto.getSocketCompatibility(),dto.getFanSize(),dto.getRgbLighting()),
                 HttpStatus.OK);
     }
 
-    @GetMapping("/category/coolings/filters")
+    @GetMapping("/category/cooling/filters")
     public ResponseEntity<CoolingFilterOptionsDTO> getCoolingFilters(){
         return new ResponseEntity<>(coolingService.getAvailableFilters(),
                 HttpStatus.OK);
     }
 
-    @PostMapping("/admin/category/coolings/add")
+    @PostMapping("/admin/category/cooling/add")
     public ResponseEntity<CoolingResponseDTO> add(@RequestBody CoolingRequestDTO dto){
         return new ResponseEntity<>(coolingService.add(dto),
                 HttpStatus.CREATED);
     }
 
-    @PutMapping("/admin/category/coolings/update/{id}")
+    @PutMapping("/admin/category/cooling/update/{id}")
     public ResponseEntity<CoolingResponseDTO> update(@PathVariable UUID id, @RequestBody CoolingRequestDTO dto){
         return new ResponseEntity<>(coolingService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
 
-    @PutMapping("/admin/category/coolings/delete/{id}")
+    @PutMapping("/admin/category/cooling/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
         coolingService.deleteProduct(id);
         return ResponseEntity.ok().build();

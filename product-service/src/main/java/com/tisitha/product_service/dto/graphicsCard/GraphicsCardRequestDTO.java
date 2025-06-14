@@ -1,15 +1,9 @@
-package com.tisitha.product_service.dto.graphicCard;
+package com.tisitha.product_service.dto.graphicsCard;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.UUID;
-
 @Data
-@AllArgsConstructor
-public class GraphicCardResponseDTO {
-
-    private UUID id;
+public class GraphicsCardRequestDTO {
 
     private String name;
     private String imgUrl;
@@ -21,5 +15,7 @@ public class GraphicCardResponseDTO {
 
     private String gpuManufacturer;
     private String gpuSeries;
-    private String vRamCapacity;
+    private String vramGb;
+
+    private Integer quantity;
 }
