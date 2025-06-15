@@ -34,7 +34,7 @@ public class InventoryController {
     }
 
     @DeleteMapping("delete-quantity")
-    public ResponseEntity<Void> updateQuantity(UUID id){
+    public ResponseEntity<Void> deleteQuantity(UUID id){
         inventoryService.deleteFromInventory(id);
         return ResponseEntity.ok().build();
     }

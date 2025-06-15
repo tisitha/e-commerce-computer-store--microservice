@@ -5,6 +5,7 @@ import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.storage.StorageFilterOptionsDTO;
 import com.tisitha.product_service.dto.storage.StorageRequestDTO;
 import com.tisitha.product_service.dto.storage.StorageResponseDTO;
+import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.Storage;
 import com.tisitha.product_service.repo.StorageRepository;
 import org.springframework.data.domain.Page;
@@ -20,9 +21,11 @@ import java.util.UUID;
 public class StorageServiceImp implements StorageService{
 
     private final StorageRepository storageRepository;
+    private final InventoryClient inventoryClient;
 
-    public StorageServiceImp(StorageRepository storageRepository) {
+    public StorageServiceImp(StorageRepository storageRepository, InventoryClient inventoryClient) {
         this.storageRepository = storageRepository;
+        this.inventoryClient = inventoryClient;
     }
 
     @Override
@@ -86,7 +89,7 @@ public class StorageServiceImp implements StorageService{
 
         Storage newStorage =  storageRepository.save(storage);
 
-        //send Inventory
+        inventoryClient.addQuantity(newStorage.getId(),dto.getQuantity());
 
         return convertToDTO(newStorage);
     }
@@ -158,7 +161,7 @@ public class StorageServiceImp implements StorageService{
 
         Storage newStorage =  storageRepository.save(storage);
 
-        //send Inventory
+        inventoryClient.updateQuantity(newStorage.getId(),dto.getQuantity());
 
         return convertToDTO(newStorage);
     }
@@ -167,7 +170,7 @@ public class StorageServiceImp implements StorageService{
     public void deleteProduct(UUID id) {
         if(storageRepository.existsById(id)){
             storageRepository.deleteById(id);
-            //delete from Inventory
+            inventoryClient.deleteQuantity(id);
         }
         else {
             throw new RuntimeException("Invalid Product");

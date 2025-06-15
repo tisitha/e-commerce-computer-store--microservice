@@ -5,6 +5,7 @@ import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.peripheral.PeripheralFilterOptionsDTO;
 import com.tisitha.product_service.dto.peripheral.PeripheralRequestDTO;
 import com.tisitha.product_service.dto.peripheral.PeripheralResponseDTO;
+import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.Peripheral;
 import com.tisitha.product_service.repo.PeripheralRepository;
 import org.springframework.data.domain.Page;
@@ -20,9 +21,11 @@ import java.util.UUID;
 public class PeripheralServiceImp implements PeripheralService{
 
     private final PeripheralRepository peripheralRepository;
+    private final InventoryClient inventoryClient;
 
-    public PeripheralServiceImp(PeripheralRepository peripheralRepository) {
+    public PeripheralServiceImp(PeripheralRepository peripheralRepository, InventoryClient inventoryClient) {
         this.peripheralRepository = peripheralRepository;
+        this.inventoryClient = inventoryClient;
     }
 
     @Override
@@ -82,7 +85,7 @@ public class PeripheralServiceImp implements PeripheralService{
 
         Peripheral newPeripheral =  peripheralRepository.save(peripheral);
 
-        //send Inventory
+        inventoryClient.addQuantity(newPeripheral.getId(),dto.getQuantity());
 
         return convertToDTO(newPeripheral);
     }
@@ -152,7 +155,7 @@ public class PeripheralServiceImp implements PeripheralService{
 
         Peripheral newPeripheral =  peripheralRepository.save(peripheral);
 
-        //send Inventory
+        inventoryClient.updateQuantity(newPeripheral.getId(),dto.getQuantity());
 
         return convertToDTO(newPeripheral);
     }
@@ -161,7 +164,7 @@ public class PeripheralServiceImp implements PeripheralService{
     public void deleteProduct(UUID id) {
         if(peripheralRepository.existsById(id)){
             peripheralRepository.deleteById(id);
-            //delete from Inventory
+            inventoryClient.deleteQuantity(id);
         }
         else {
             throw new RuntimeException("Invalid Product");

@@ -5,6 +5,7 @@ import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.software.SoftwareFilterOptionsDTO;
 import com.tisitha.product_service.dto.software.SoftwareRequestDTO;
 import com.tisitha.product_service.dto.software.SoftwareResponseDTO;
+import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.Software;
 import com.tisitha.product_service.repo.SoftwareRepository;
 import org.springframework.data.domain.Page;
@@ -20,9 +21,11 @@ import java.util.UUID;
 public class SoftwareServiceImp implements SoftwareService{
 
     private final SoftwareRepository softwareRepository;
+    private final InventoryClient inventoryClient;
 
-    public SoftwareServiceImp(SoftwareRepository softwareRepository) {
+    public SoftwareServiceImp(SoftwareRepository softwareRepository, InventoryClient inventoryClient) {
         this.softwareRepository = softwareRepository;
+        this.inventoryClient = inventoryClient;
     }
 
     @Override
@@ -76,7 +79,7 @@ public class SoftwareServiceImp implements SoftwareService{
 
         Software newSoftware =  softwareRepository.save(software);
 
-        //send Inventory
+        inventoryClient.addQuantity(newSoftware.getId(),dto.getQuantity());
 
         return convertToDTO(newSoftware);
     }
@@ -144,7 +147,7 @@ public class SoftwareServiceImp implements SoftwareService{
 
         Software newSoftware =  softwareRepository.save(software);
 
-        //send Inventory
+        inventoryClient.updateQuantity(newSoftware.getId(),dto.getQuantity());
 
         return convertToDTO(newSoftware);
     }
@@ -153,7 +156,7 @@ public class SoftwareServiceImp implements SoftwareService{
     public void deleteProduct(UUID id) {
         if(softwareRepository.existsById(id)){
             softwareRepository.deleteById(id);
-            //delete from Inventory
+            inventoryClient.deleteQuantity(id);
         }
         else {
             throw new RuntimeException("Invalid Product");

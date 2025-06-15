@@ -5,6 +5,7 @@ import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.graphicsCard.GraphicsCardFilterOptionsDTO;
 import com.tisitha.product_service.dto.graphicsCard.GraphicsCardRequestDTO;
 import com.tisitha.product_service.dto.graphicsCard.GraphicsCardResponseDTO;
+import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.GraphicsCard;
 import com.tisitha.product_service.repo.GraphicsCardRepository;
 import org.springframework.data.domain.Page;
@@ -20,9 +21,11 @@ import java.util.UUID;
 public class GraphicsCardServiceImp implements GraphicsCardService {
 
     private final GraphicsCardRepository graphicsCardRepository;
+    private final InventoryClient inventoryClient;
 
-    public GraphicsCardServiceImp(GraphicsCardRepository graphicsCardRepository) {
+    public GraphicsCardServiceImp(GraphicsCardRepository graphicsCardRepository, InventoryClient inventoryClient) {
         this.graphicsCardRepository = graphicsCardRepository;
+        this.inventoryClient = inventoryClient;
     }
 
     @Override
@@ -76,7 +79,7 @@ public class GraphicsCardServiceImp implements GraphicsCardService {
 
         GraphicsCard newGraphicsCard =  graphicsCardRepository.save(graphicsCard);
 
-        //send Inventory
+        inventoryClient.addQuantity(newGraphicsCard.getId(),dto.getQuantity());
 
         return convertToDTO(newGraphicsCard);
     }
@@ -144,7 +147,7 @@ public class GraphicsCardServiceImp implements GraphicsCardService {
 
         GraphicsCard newGraphicsCard =  graphicsCardRepository.save(graphicsCard);
 
-        //send Inventory
+        inventoryClient.updateQuantity(newGraphicsCard.getId(),dto.getQuantity());
 
         return convertToDTO(newGraphicsCard);
     }
@@ -153,7 +156,7 @@ public class GraphicsCardServiceImp implements GraphicsCardService {
     public void deleteProduct(UUID id) {
         if(graphicsCardRepository.existsById(id)){
             graphicsCardRepository.deleteById(id);
-            //delete from Inventory
+            inventoryClient.deleteQuantity(id);
         }
         else {
             throw new RuntimeException("Invalid Product");

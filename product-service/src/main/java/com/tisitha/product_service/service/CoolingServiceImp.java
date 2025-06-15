@@ -5,6 +5,7 @@ import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.cooling.CoolingFilterOptionsDTO;
 import com.tisitha.product_service.dto.cooling.CoolingRequestDTO;
 import com.tisitha.product_service.dto.cooling.CoolingResponseDTO;
+import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.Cooling;
 import com.tisitha.product_service.repo.CoolingRepository;
 import org.springframework.data.domain.Page;
@@ -20,9 +21,11 @@ import java.util.UUID;
 public class CoolingServiceImp implements CoolingService{
 
     private final CoolingRepository coolingRepository;
+    private final InventoryClient inventoryClient;
 
-    public CoolingServiceImp(CoolingRepository coolingRepository) {
+    public CoolingServiceImp(CoolingRepository coolingRepository, InventoryClient inventoryClient) {
         this.coolingRepository = coolingRepository;
+        this.inventoryClient = inventoryClient;
     }
 
     @Override
@@ -86,7 +89,7 @@ public class CoolingServiceImp implements CoolingService{
 
         Cooling newCooling =  coolingRepository.save(cooling);
 
-        //send Inventory
+        inventoryClient.addQuantity(newCooling.getId(),dto.getQuantity());
 
         return convertToDTO(newCooling);
     }
@@ -158,7 +161,7 @@ public class CoolingServiceImp implements CoolingService{
 
         Cooling newCooling =  coolingRepository.save(cooling);
 
-        //send Inventory
+        inventoryClient.updateQuantity(newCooling.getId(),dto.getQuantity());
 
         return convertToDTO(newCooling);
     }
@@ -167,7 +170,7 @@ public class CoolingServiceImp implements CoolingService{
     public void deleteProduct(UUID id) {
         if(coolingRepository.existsById(id)){
             coolingRepository.deleteById(id);
-            //delete from Inventory
+            inventoryClient.deleteQuantity(id);
         }
         else {
             throw new RuntimeException("Invalid Product");

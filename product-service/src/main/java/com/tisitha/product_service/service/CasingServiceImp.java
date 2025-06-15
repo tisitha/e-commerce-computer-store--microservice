@@ -5,6 +5,7 @@ import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.casing.CasingFilterOptionsDTO;
 import com.tisitha.product_service.dto.casing.CasingRequestDTO;
 import com.tisitha.product_service.dto.casing.CasingResponseDTO;
+import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.Casing;
 import com.tisitha.product_service.repo.CasingRepository;
 import org.springframework.data.domain.Page;
@@ -21,8 +22,11 @@ public class CasingServiceImp implements CasingService{
 
     private final CasingRepository casingRepository;
 
-    public CasingServiceImp(CasingRepository casingRepository) {
+    private final InventoryClient inventoryClient;
+
+    public CasingServiceImp(CasingRepository casingRepository, InventoryClient inventoryClient) {
         this.casingRepository = casingRepository;
+        this.inventoryClient = inventoryClient;
     }
 
     @Override
@@ -80,7 +84,7 @@ public class CasingServiceImp implements CasingService{
 
         Casing newCasing =  casingRepository.save(casing);
 
-        //send Inventory
+        inventoryClient.addQuantity(newCasing.getId(),dto.getQuantity());
 
         return convertToDTO(newCasing);
     }
@@ -149,7 +153,7 @@ public class CasingServiceImp implements CasingService{
 
         Casing newCasing =  casingRepository.save(casing);
 
-        //send Inventory
+        inventoryClient.updateQuantity(newCasing.getId(),dto.getQuantity());
 
         return convertToDTO(newCasing);
     }
@@ -158,7 +162,7 @@ public class CasingServiceImp implements CasingService{
     public void deleteProduct(UUID id) {
         if(casingRepository.existsById(id)){
             casingRepository.deleteById(id);
-            //delete from Inventory
+            inventoryClient.deleteQuantity(id);
         }
         else {
             throw new RuntimeException("Invalid Product");

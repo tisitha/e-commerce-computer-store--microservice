@@ -5,6 +5,7 @@ import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.motherBoard.MotherBoardFilterOptionsDTO;
 import com.tisitha.product_service.dto.motherBoard.MotherBoardRequestDTO;
 import com.tisitha.product_service.dto.motherBoard.MotherBoardResponseDTO;
+import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.MotherBoard;
 import com.tisitha.product_service.repo.MotherBoardRepository;
 import org.springframework.data.domain.Page;
@@ -20,9 +21,11 @@ import java.util.UUID;
 public class MotherBoardServiceImp implements MotherBoardService{
 
     private final MotherBoardRepository motherBoardRepository;
+    private final InventoryClient inventoryClient;
 
-    public MotherBoardServiceImp(MotherBoardRepository motherBoardRepository) {
+    public MotherBoardServiceImp(MotherBoardRepository motherBoardRepository, InventoryClient inventoryClient) {
         this.motherBoardRepository = motherBoardRepository;
+        this.inventoryClient = inventoryClient;
     }
 
     @Override
@@ -101,7 +104,7 @@ public class MotherBoardServiceImp implements MotherBoardService{
 
         MotherBoard newMotherBoard =  motherBoardRepository.save(motherBoard);
 
-        //send Inventory
+        inventoryClient.addQuantity(newMotherBoard.getId(),dto.getQuantity());
 
         return convertToDTO(newMotherBoard);
     }
@@ -179,7 +182,7 @@ public class MotherBoardServiceImp implements MotherBoardService{
 
         MotherBoard newMotherBoard =  motherBoardRepository.save(motherBoard);
 
-        //send Inventory
+        inventoryClient.updateQuantity(newMotherBoard.getId(),dto.getQuantity());
 
         return convertToDTO(newMotherBoard);
     }
@@ -188,7 +191,7 @@ public class MotherBoardServiceImp implements MotherBoardService{
     public void deleteProduct(UUID id) {
         if(motherBoardRepository.existsById(id)){
             motherBoardRepository.deleteById(id);
-            //delete from Inventory
+            inventoryClient.deleteQuantity(id);
         }
         else {
             throw new RuntimeException("Invalid Product");

@@ -5,6 +5,7 @@ import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.desktop.DesktopFilterOptionsDTO;
 import com.tisitha.product_service.dto.desktop.DesktopRequestDTO;
 import com.tisitha.product_service.dto.desktop.DesktopResponseDTO;
+import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.Desktop;
 import com.tisitha.product_service.repo.DesktopRepository;
 import org.springframework.data.domain.Page;
@@ -20,9 +21,11 @@ import java.util.UUID;
 public class DesktopServiceImp implements DesktopService{
 
     private final DesktopRepository desktopRepository;
+    private final InventoryClient inventoryClient;
 
-    public DesktopServiceImp(DesktopRepository desktopRepository) {
+    public DesktopServiceImp(DesktopRepository desktopRepository, InventoryClient inventoryClient) {
         this.desktopRepository = desktopRepository;
+        this.inventoryClient = inventoryClient;
     }
 
     @Override
@@ -110,7 +113,7 @@ public class DesktopServiceImp implements DesktopService{
 
         Desktop newDesktop =  desktopRepository.save(desktop);
 
-        //send Inventory
+        inventoryClient.addQuantity(newDesktop.getId(),dto.getQuantity());
 
         return convertToDTO(newDesktop);
     }
@@ -191,7 +194,7 @@ public class DesktopServiceImp implements DesktopService{
 
         Desktop newDesktop =  desktopRepository.save(desktop);
 
-        //send Inventory
+        inventoryClient.updateQuantity(newDesktop.getId(),dto.getQuantity());
 
         return convertToDTO(newDesktop);
     }
@@ -200,7 +203,7 @@ public class DesktopServiceImp implements DesktopService{
     public void deleteProduct(UUID id) {
         if(desktopRepository.existsById(id)){
             desktopRepository.deleteById(id);
-            //delete from Inventory
+            inventoryClient.deleteQuantity(id);
         }
         else {
             throw new RuntimeException("Invalid Product");

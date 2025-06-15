@@ -5,6 +5,7 @@ import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.laptop.LaptopFilterOptionsDTO;
 import com.tisitha.product_service.dto.laptop.LaptopRequestDTO;
 import com.tisitha.product_service.dto.laptop.LaptopResponseDTO;
+import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.Laptop;
 import com.tisitha.product_service.repo.LaptopRepository;
 import org.springframework.data.domain.Page;
@@ -20,9 +21,11 @@ import java.util.UUID;
 public class LaptopServiceImp implements LaptopService{
 
     private final LaptopRepository laptopRepository;
+    private final InventoryClient inventoryClient;
 
-    public LaptopServiceImp(LaptopRepository laptopRepository) {
+    public LaptopServiceImp(LaptopRepository laptopRepository, InventoryClient inventoryClient) {
         this.laptopRepository = laptopRepository;
+        this.inventoryClient = inventoryClient;
     }
 
     @Override
@@ -106,7 +109,7 @@ public class LaptopServiceImp implements LaptopService{
 
         Laptop newLaptop =  laptopRepository.save(laptop);
 
-        //send Inventory
+        inventoryClient.addQuantity(newLaptop.getId(),dto.getQuantity());
 
         return convertToDTO(newLaptop);
     }
@@ -186,7 +189,7 @@ public class LaptopServiceImp implements LaptopService{
 
         Laptop newLaptop =  laptopRepository.save(laptop);
 
-        //send Inventory
+        inventoryClient.updateQuantity(newLaptop.getId(),dto.getQuantity());
 
         return convertToDTO(newLaptop);
     }
@@ -195,7 +198,7 @@ public class LaptopServiceImp implements LaptopService{
     public void deleteProduct(UUID id) {
         if(laptopRepository.existsById(id)){
             laptopRepository.deleteById(id);
-            //delete from Inventory
+            inventoryClient.deleteQuantity(id);
         }
         else {
             throw new RuntimeException("Invalid Product");

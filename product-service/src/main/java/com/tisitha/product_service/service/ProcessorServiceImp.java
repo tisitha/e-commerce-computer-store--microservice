@@ -5,6 +5,7 @@ import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.processor.ProcessorFilterOptionsDTO;
 import com.tisitha.product_service.dto.processor.ProcessorRequestDTO;
 import com.tisitha.product_service.dto.processor.ProcessorResponseDTO;
+import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.Processor;
 import com.tisitha.product_service.repo.ProcessorRepository;
 import org.springframework.data.domain.Page;
@@ -20,9 +21,11 @@ import java.util.UUID;
 public class ProcessorServiceImp implements ProcessorService{
 
     private final ProcessorRepository processorRepository;
+    private final InventoryClient inventoryClient;
 
-    public ProcessorServiceImp(ProcessorRepository processorRepository) {
+    public ProcessorServiceImp(ProcessorRepository processorRepository, InventoryClient inventoryClient) {
         this.processorRepository = processorRepository;
+        this.inventoryClient = inventoryClient;
     }
 
     @Override
@@ -96,7 +99,7 @@ public class ProcessorServiceImp implements ProcessorService{
 
         Processor newProcessor =  processorRepository.save(processor);
 
-        //send Inventory
+        inventoryClient.addQuantity(newProcessor.getId(),dto.getQuantity());
 
         return convertToDTO(newProcessor);
     }
@@ -172,7 +175,7 @@ public class ProcessorServiceImp implements ProcessorService{
 
         Processor newProcessor =  processorRepository.save(processor);
 
-        //send Inventory
+        inventoryClient.updateQuantity(newProcessor.getId(),dto.getQuantity());
 
         return convertToDTO(newProcessor);
     }
@@ -181,7 +184,7 @@ public class ProcessorServiceImp implements ProcessorService{
     public void deleteProduct(UUID id) {
         if(processorRepository.existsById(id)){
             processorRepository.deleteById(id);
-            //delete from Inventory
+            inventoryClient.deleteQuantity(id);
         }
         else {
             throw new RuntimeException("Invalid Product");

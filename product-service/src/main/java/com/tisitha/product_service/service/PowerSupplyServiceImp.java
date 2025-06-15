@@ -5,6 +5,7 @@ import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.powerSupply.PowerSupplyFilterOptionsDTO;
 import com.tisitha.product_service.dto.powerSupply.PowerSupplyRequestDTO;
 import com.tisitha.product_service.dto.powerSupply.PowerSupplyResponseDTO;
+import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.PowerSupply;
 import com.tisitha.product_service.repo.PowerSupplyRepository;
 import org.springframework.data.domain.Page;
@@ -20,9 +21,11 @@ import java.util.UUID;
 public class PowerSupplyServiceImp implements PowerSupplyService{
 
     private final PowerSupplyRepository powerSupplyRepository;
+    private final InventoryClient inventoryClient;
 
-    public PowerSupplyServiceImp(PowerSupplyRepository powerSupplyRepository) {
+    public PowerSupplyServiceImp(PowerSupplyRepository powerSupplyRepository, InventoryClient inventoryClient) {
         this.powerSupplyRepository = powerSupplyRepository;
+        this.inventoryClient = inventoryClient;
     }
 
     @Override
@@ -86,7 +89,7 @@ public class PowerSupplyServiceImp implements PowerSupplyService{
 
         PowerSupply newPowerSupply =  powerSupplyRepository.save(powerSupply);
 
-        //send Inventory
+        inventoryClient.addQuantity(newPowerSupply.getId(),dto.getQuantity());
 
         return convertToDTO(newPowerSupply);
     }
@@ -158,7 +161,7 @@ public class PowerSupplyServiceImp implements PowerSupplyService{
 
         PowerSupply newPowerSupply =  powerSupplyRepository.save(powerSupply);
 
-        //send Inventory
+        inventoryClient.updateQuantity(newPowerSupply.getId(),dto.getQuantity());
 
         return convertToDTO(newPowerSupply);
     }
@@ -167,7 +170,7 @@ public class PowerSupplyServiceImp implements PowerSupplyService{
     public void deleteProduct(UUID id) {
         if(powerSupplyRepository.existsById(id)){
             powerSupplyRepository.deleteById(id);
-            //delete from Inventory
+            inventoryClient.deleteQuantity(id);
         }
         else {
             throw new RuntimeException("Invalid Product");

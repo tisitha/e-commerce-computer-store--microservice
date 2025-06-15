@@ -5,6 +5,7 @@ import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.monitor.MonitorFilterOptionsDTO;
 import com.tisitha.product_service.dto.monitor.MonitorRequestDTO;
 import com.tisitha.product_service.dto.monitor.MonitorResponseDTO;
+import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.Monitor;
 import com.tisitha.product_service.repo.MonitorRepository;
 import org.springframework.data.domain.Page;
@@ -20,9 +21,11 @@ import java.util.UUID;
 public class MonitorServiceImp implements MonitorService{
 
     private final MonitorRepository monitorRepository;
+    private final InventoryClient inventoryClient;
 
-    public MonitorServiceImp(MonitorRepository monitorRepository) {
+    public MonitorServiceImp(MonitorRepository monitorRepository, InventoryClient inventoryClient) {
         this.monitorRepository = monitorRepository;
+        this.inventoryClient = inventoryClient;
     }
 
     @Override
@@ -96,7 +99,7 @@ public class MonitorServiceImp implements MonitorService{
 
         Monitor newMonitor =  monitorRepository.save(monitor);
 
-        //send Inventory
+        inventoryClient.addQuantity(newMonitor.getId(),dto.getQuantity());
 
         return convertToDTO(newMonitor);
     }
@@ -172,7 +175,7 @@ public class MonitorServiceImp implements MonitorService{
 
         Monitor newMonitor =  monitorRepository.save(monitor);
 
-        //send Inventory
+        inventoryClient.updateQuantity(newMonitor.getId(),dto.getQuantity());
 
         return convertToDTO(newMonitor);
     }
@@ -181,7 +184,7 @@ public class MonitorServiceImp implements MonitorService{
     public void deleteProduct(UUID id) {
         if(monitorRepository.existsById(id)){
             monitorRepository.deleteById(id);
-            //delete from Inventory
+            inventoryClient.deleteQuantity(id);
         }
         else {
             throw new RuntimeException("Invalid Product");

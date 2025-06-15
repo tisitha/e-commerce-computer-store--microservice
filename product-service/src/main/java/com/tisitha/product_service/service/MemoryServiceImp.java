@@ -5,6 +5,7 @@ import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.memory.MemoryFilterOptionsDTO;
 import com.tisitha.product_service.dto.memory.MemoryRequestDTO;
 import com.tisitha.product_service.dto.memory.MemoryResponseDTO;
+import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.Memory;
 import com.tisitha.product_service.repo.MemoryRepository;
 import org.springframework.data.domain.Page;
@@ -20,9 +21,11 @@ import java.util.UUID;
 public class MemoryServiceImp implements MemoryService{
 
     private final MemoryRepository memoryRepository;
+    private final InventoryClient inventoryClient;
 
-    public MemoryServiceImp(MemoryRepository memoryRepository) {
+    public MemoryServiceImp(MemoryRepository memoryRepository, InventoryClient inventoryClient) {
         this.memoryRepository = memoryRepository;
+        this.inventoryClient = inventoryClient;
     }
 
     @Override
@@ -91,7 +94,7 @@ public class MemoryServiceImp implements MemoryService{
 
         Memory newMemory =  memoryRepository.save(memory);
 
-        //send Inventory
+        inventoryClient.addQuantity(newMemory.getId(),dto.getQuantity());
 
         return convertToDTO(newMemory);
     }
@@ -165,7 +168,7 @@ public class MemoryServiceImp implements MemoryService{
 
         Memory newMemory =  memoryRepository.save(memory);
 
-        //send Inventory
+        inventoryClient.updateQuantity(newMemory.getId(),dto.getQuantity());
 
         return convertToDTO(newMemory);
     }
@@ -174,7 +177,7 @@ public class MemoryServiceImp implements MemoryService{
     public void deleteProduct(UUID id) {
         if(memoryRepository.existsById(id)){
             memoryRepository.deleteById(id);
-            //delete from Inventory
+            inventoryClient.deleteQuantity(id);
         }
         else {
             throw new RuntimeException("Invalid Product");
