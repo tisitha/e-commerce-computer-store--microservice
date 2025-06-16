@@ -98,7 +98,7 @@ public class DesktopServiceImp implements DesktopService{
         desktop.setImgUrl(dto.getImgUrl());
         desktop.setDescription(dto.getDescription());
         desktop.setPrice(dto.getPrice());
-        desktop.setNew(dto.isNew());
+        desktop.setLatest(dto.isLatest());
         desktop.setTop(dto.isTop());
         desktop.setDeal(dto.getDeal());
         desktop.setBrand(dto.getBrand());
@@ -125,7 +125,7 @@ public class DesktopServiceImp implements DesktopService{
                 desktop.getImgUrl(),
                 desktop.getDescription(),
                 desktop.getPrice(),
-                desktop.isNew(),
+                desktop.isLatest(),
                 desktop.isTop(),
                 desktop.getDeal(),
                 desktop.getBrand(),
@@ -143,13 +143,13 @@ public class DesktopServiceImp implements DesktopService{
 
     @Override
     public List<DesktopResponseDTO> isNew() {
-        List<Desktop> desktops = desktopRepository.findAllByIsNew(true);
+        List<Desktop> desktops = desktopRepository.findAllByLatest(true);
         return desktops.stream().map(this::convertToDTO).toList();
     }
 
     @Override
     public List<DesktopResponseDTO> isTop() {
-        List<Desktop> desktops = desktopRepository.findAllByIsTop(true);
+        List<Desktop> desktops = desktopRepository.findAllByTop(true);
         return desktops.stream().map(this::convertToDTO).toList();
     }
 
@@ -179,7 +179,7 @@ public class DesktopServiceImp implements DesktopService{
         desktop.setImgUrl(dto.getImgUrl());
         desktop.setDescription(dto.getDescription());
         desktop.setPrice(dto.getPrice());
-        desktop.setNew(dto.isNew());
+        desktop.setLatest(dto.isLatest());
         desktop.setTop(dto.isTop());
         desktop.setDeal(dto.getDeal());
         desktop.setBrand(dto.getBrand());

@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public interface MonitorRepository extends JpaRepository<Monitor, UUID> {
 
-    List<Monitor> findAllByIsNew(boolean b);
+    List<Monitor> findAllByLatest(boolean b);
 
-    List<Monitor> findAllByIsTop(boolean b);
+    List<Monitor> findAllByTop(boolean b);
 
     List<Monitor> findAllByDealNot(int i);
 

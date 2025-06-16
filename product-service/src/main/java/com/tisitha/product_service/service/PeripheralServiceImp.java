@@ -75,7 +75,7 @@ public class PeripheralServiceImp implements PeripheralService{
         peripheral.setImgUrl(dto.getImgUrl());
         peripheral.setDescription(dto.getDescription());
         peripheral.setPrice(dto.getPrice());
-        peripheral.setNew(dto.isNew());
+        peripheral.setLatest(dto.isLatest());
         peripheral.setTop(dto.isTop());
         peripheral.setDeal(dto.getDeal());
         peripheral.setBrand(dto.getBrand());
@@ -97,7 +97,7 @@ public class PeripheralServiceImp implements PeripheralService{
                 peripheral.getImgUrl(),
                 peripheral.getDescription(),
                 peripheral.getPrice(),
-                peripheral.isNew(),
+                peripheral.isLatest(),
                 peripheral.isTop(),
                 peripheral.getDeal(),
                 peripheral.getBrand(),
@@ -109,13 +109,13 @@ public class PeripheralServiceImp implements PeripheralService{
 
     @Override
     public List<PeripheralResponseDTO> isNew() {
-        List<Peripheral> peripherals = peripheralRepository.findAllByIsNew(true);
+        List<Peripheral> peripherals = peripheralRepository.findAllByLatest(true);
         return peripherals.stream().map(this::convertToDTO).toList();
     }
 
     @Override
     public List<PeripheralResponseDTO> isTop() {
-        List<Peripheral> peripherals = peripheralRepository.findAllByIsTop(true);
+        List<Peripheral> peripherals = peripheralRepository.findAllByTop(true);
         return peripherals.stream().map(this::convertToDTO).toList();
     }
 
@@ -145,7 +145,7 @@ public class PeripheralServiceImp implements PeripheralService{
         peripheral.setImgUrl(dto.getImgUrl());
         peripheral.setDescription(dto.getDescription());
         peripheral.setPrice(dto.getPrice());
-        peripheral.setNew(dto.isNew());
+        peripheral.setLatest(dto.isLatest());
         peripheral.setTop(dto.isTop());
         peripheral.setDeal(dto.getDeal());
         peripheral.setBrand(dto.getBrand());

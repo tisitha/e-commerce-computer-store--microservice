@@ -78,7 +78,7 @@ public class PowerSupplyServiceImp implements PowerSupplyService{
         powerSupply.setImgUrl(dto.getImgUrl());
         powerSupply.setDescription(dto.getDescription());
         powerSupply.setPrice(dto.getPrice());
-        powerSupply.setNew(dto.isNew());
+        powerSupply.setLatest(dto.isLatest());
         powerSupply.setTop(dto.isTop());
         powerSupply.setDeal(dto.getDeal());
         powerSupply.setBrand(dto.getBrand());
@@ -101,7 +101,7 @@ public class PowerSupplyServiceImp implements PowerSupplyService{
                 powerSupply.getImgUrl(),
                 powerSupply.getDescription(),
                 powerSupply.getPrice(),
-                powerSupply.isNew(),
+                powerSupply.isLatest(),
                 powerSupply.isTop(),
                 powerSupply.getDeal(),
                 powerSupply.getBrand(),
@@ -114,13 +114,13 @@ public class PowerSupplyServiceImp implements PowerSupplyService{
 
     @Override
     public List<PowerSupplyResponseDTO> isNew() {
-        List<PowerSupply> powerSupplys = powerSupplyRepository.findAllByIsNew(true);
+        List<PowerSupply> powerSupplys = powerSupplyRepository.findAllByLatest(true);
         return powerSupplys.stream().map(this::convertToDTO).toList();
     }
 
     @Override
     public List<PowerSupplyResponseDTO> isTop() {
-        List<PowerSupply> powerSupplys = powerSupplyRepository.findAllByIsTop(true);
+        List<PowerSupply> powerSupplys = powerSupplyRepository.findAllByTop(true);
         return powerSupplys.stream().map(this::convertToDTO).toList();
     }
 
@@ -150,7 +150,7 @@ public class PowerSupplyServiceImp implements PowerSupplyService{
         powerSupply.setImgUrl(dto.getImgUrl());
         powerSupply.setDescription(dto.getDescription());
         powerSupply.setPrice(dto.getPrice());
-        powerSupply.setNew(dto.isNew());
+        powerSupply.setLatest(dto.isLatest());
         powerSupply.setTop(dto.isTop());
         powerSupply.setDeal(dto.getDeal());
         powerSupply.setBrand(dto.getBrand());

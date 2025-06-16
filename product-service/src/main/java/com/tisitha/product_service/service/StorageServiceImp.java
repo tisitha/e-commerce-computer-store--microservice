@@ -78,7 +78,7 @@ public class StorageServiceImp implements StorageService{
         storage.setImgUrl(dto.getImgUrl());
         storage.setDescription(dto.getDescription());
         storage.setPrice(dto.getPrice());
-        storage.setNew(dto.isNew());
+        storage.setLatest(dto.isLatest());
         storage.setTop(dto.isTop());
         storage.setDeal(dto.getDeal());
         storage.setBrand(dto.getBrand());
@@ -101,7 +101,7 @@ public class StorageServiceImp implements StorageService{
                 storage.getImgUrl(),
                 storage.getDescription(),
                 storage.getPrice(),
-                storage.isNew(),
+                storage.isLatest(),
                 storage.isTop(),
                 storage.getDeal(),
                 storage.getBrand(),
@@ -114,13 +114,13 @@ public class StorageServiceImp implements StorageService{
 
     @Override
     public List<StorageResponseDTO> isNew() {
-        List<Storage> storages = storageRepository.findAllByIsNew(true);
+        List<Storage> storages = storageRepository.findAllByLatest(true);
         return storages.stream().map(this::convertToDTO).toList();
     }
 
     @Override
     public List<StorageResponseDTO> isTop() {
-        List<Storage> storages = storageRepository.findAllByIsTop(true);
+        List<Storage> storages = storageRepository.findAllByTop(true);
         return storages.stream().map(this::convertToDTO).toList();
     }
 
@@ -150,7 +150,7 @@ public class StorageServiceImp implements StorageService{
         storage.setImgUrl(dto.getImgUrl());
         storage.setDescription(dto.getDescription());
         storage.setPrice(dto.getPrice());
-        storage.setNew(dto.isNew());
+        storage.setLatest(dto.isLatest());
         storage.setTop(dto.isTop());
         storage.setDeal(dto.getDeal());
         storage.setBrand(dto.getBrand());

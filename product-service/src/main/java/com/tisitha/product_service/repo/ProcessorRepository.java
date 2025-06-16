@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public interface ProcessorRepository extends JpaRepository<Processor, UUID> {
 
-    List<Processor> findAllByIsNew(boolean b);
+    List<Processor> findAllByLatest(boolean b);
 
-    List<Processor> findAllByIsTop(boolean b);
+    List<Processor> findAllByTop(boolean b);
 
     List<Processor> findAllByDealNot(int i);
 

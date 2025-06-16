@@ -86,7 +86,7 @@ public class ProcessorServiceImp implements ProcessorService{
         processor.setImgUrl(dto.getImgUrl());
         processor.setDescription(dto.getDescription());
         processor.setPrice(dto.getPrice());
-        processor.setNew(dto.isNew());
+        processor.setLatest(dto.isLatest());
         processor.setTop(dto.isTop());
         processor.setDeal(dto.getDeal());
         processor.setBrand(dto.getBrand());
@@ -111,7 +111,7 @@ public class ProcessorServiceImp implements ProcessorService{
                 processor.getImgUrl(),
                 processor.getDescription(),
                 processor.getPrice(),
-                processor.isNew(),
+                processor.isLatest(),
                 processor.isTop(),
                 processor.getDeal(),
                 processor.getBrand(),
@@ -126,13 +126,13 @@ public class ProcessorServiceImp implements ProcessorService{
 
     @Override
     public List<ProcessorResponseDTO> isNew() {
-        List<Processor> processors = processorRepository.findAllByIsNew(true);
+        List<Processor> processors = processorRepository.findAllByLatest(true);
         return processors.stream().map(this::convertToDTO).toList();
     }
 
     @Override
     public List<ProcessorResponseDTO> isTop() {
-        List<Processor> processors = processorRepository.findAllByIsTop(true);
+        List<Processor> processors = processorRepository.findAllByTop(true);
         return processors.stream().map(this::convertToDTO).toList();
     }
 
@@ -162,7 +162,7 @@ public class ProcessorServiceImp implements ProcessorService{
         processor.setImgUrl(dto.getImgUrl());
         processor.setDescription(dto.getDescription());
         processor.setPrice(dto.getPrice());
-        processor.setNew(dto.isNew());
+        processor.setLatest(dto.isLatest());
         processor.setTop(dto.isTop());
         processor.setDeal(dto.getDeal());
         processor.setBrand(dto.getBrand());

@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public interface StorageRepository extends JpaRepository<Storage, UUID> {
 
-    List<Storage> findAllByIsNew(boolean b);
+    List<Storage> findAllByLatest(boolean b);
 
-    List<Storage> findAllByIsTop(boolean b);
+    List<Storage> findAllByTop(boolean b);
 
     List<Storage> findAllByDealNot(int i);
 

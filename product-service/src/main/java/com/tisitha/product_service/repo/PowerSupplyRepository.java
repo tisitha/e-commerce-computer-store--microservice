@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public interface PowerSupplyRepository extends JpaRepository<PowerSupply, UUID> {
 
-    List<PowerSupply> findAllByIsNew(boolean b);
+    List<PowerSupply> findAllByLatest(boolean b);
 
-    List<PowerSupply> findAllByIsTop(boolean b);
+    List<PowerSupply> findAllByTop(boolean b);
 
     List<PowerSupply> findAllByDealNot(int i);
 

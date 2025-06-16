@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public interface GraphicsCardRepository extends JpaRepository<GraphicsCard, UUID> {
 
-    List<GraphicsCard> findAllByIsNew(boolean b);
+    List<GraphicsCard> findAllByLatest(boolean b);
 
-    List<GraphicsCard> findAllByIsTop(boolean b);
+    List<GraphicsCard> findAllByTop(boolean b);
 
     List<GraphicsCard> findAllByDealNot(int i);
 

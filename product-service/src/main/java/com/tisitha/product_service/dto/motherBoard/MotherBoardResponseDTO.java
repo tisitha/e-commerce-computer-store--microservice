@@ -15,8 +15,8 @@ public class MotherBoardResponseDTO {
     private String imgUrl;
     private String description;
     private double price;
-    private boolean isNew;
-    private boolean isTop;
+    private boolean latest;
+    private boolean top;
     private double deal;
 
     private String brand;

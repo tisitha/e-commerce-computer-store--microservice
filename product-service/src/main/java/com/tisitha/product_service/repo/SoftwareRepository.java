@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public interface SoftwareRepository extends JpaRepository<Software, UUID> {
 
-    List<Software> findAllByIsNew(boolean b);
+    List<Software> findAllByLatest(boolean b);
 
-    List<Software> findAllByIsTop(boolean b);
+    List<Software> findAllByTop(boolean b);
 
     List<Software> findAllByDealNot(int i);
 

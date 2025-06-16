@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public interface PeripheralRepository extends JpaRepository<Peripheral, UUID> {
 
-    List<Peripheral> findAllByIsNew(boolean b);
+    List<Peripheral> findAllByLatest(boolean b);
 
-    List<Peripheral> findAllByIsTop(boolean b);
+    List<Peripheral> findAllByTop(boolean b);
 
     List<Peripheral> findAllByDealNot(int i);
 

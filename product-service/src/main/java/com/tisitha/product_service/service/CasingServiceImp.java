@@ -75,9 +75,10 @@ public class CasingServiceImp implements CasingService{
         casing.setImgUrl(dto.getImgUrl());
         casing.setDescription(dto.getDescription());
         casing.setPrice(dto.getPrice());
-        casing.setNew(dto.isNew());
+        casing.setLatest(dto.isLatest());
         casing.setTop(dto.isTop());
         casing.setDeal(dto.getDeal());
+        casing.setBrand(dto.getBrand());
         casing.setCaseType(dto.getCaseType());
         casing.setMaxGPULength(dto.getMaxGPULength());
         casing.setIncludedFans(dto.getIncludedFans());
@@ -96,7 +97,7 @@ public class CasingServiceImp implements CasingService{
                 casing.getImgUrl(),
                 casing.getDescription(),
                 casing.getPrice(),
-                casing.isNew(),
+                casing.isLatest(),
                 casing.isTop(),
                 casing.getDeal(),
                 casing.getBrand(),
@@ -108,13 +109,13 @@ public class CasingServiceImp implements CasingService{
 
     @Override
     public List<CasingResponseDTO> isNew() {
-        List<Casing> casings = casingRepository.findAllByIsNew(true);
+        List<Casing> casings = casingRepository.findAllByLatest(true);
         return casings.stream().map(this::convertToDTO).toList();
     }
 
     @Override
     public List<CasingResponseDTO> isTop() {
-        List<Casing> casings = casingRepository.findAllByIsTop(true);
+        List<Casing> casings = casingRepository.findAllByTop(true);
         return casings.stream().map(this::convertToDTO).toList();
     }
 
@@ -144,7 +145,7 @@ public class CasingServiceImp implements CasingService{
         casing.setImgUrl(dto.getImgUrl());
         casing.setDescription(dto.getDescription());
         casing.setPrice(dto.getPrice());
-        casing.setNew(dto.isNew());
+        casing.setLatest(dto.isLatest());
         casing.setTop(dto.isTop());
         casing.setDeal(dto.getDeal());
         casing.setCaseType(dto.getCaseType());

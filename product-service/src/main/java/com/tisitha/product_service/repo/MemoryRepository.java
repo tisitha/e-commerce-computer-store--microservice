@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public interface MemoryRepository extends JpaRepository<Memory, UUID> {
 
-    List<Memory> findAllByIsNew(boolean b);
+    List<Memory> findAllByLatest(boolean b);
 
-    List<Memory> findAllByIsTop(boolean b);
+    List<Memory> findAllByTop(boolean b);
 
     List<Memory> findAllByDealNot(int i);
 

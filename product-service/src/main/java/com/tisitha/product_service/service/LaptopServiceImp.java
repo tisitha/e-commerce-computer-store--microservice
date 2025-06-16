@@ -94,7 +94,7 @@ public class LaptopServiceImp implements LaptopService{
         laptop.setImgUrl(dto.getImgUrl());
         laptop.setDescription(dto.getDescription());
         laptop.setPrice(dto.getPrice());
-        laptop.setNew(dto.isNew());
+        laptop.setLatest(dto.isLatest());
         laptop.setTop(dto.isTop());
         laptop.setDeal(dto.getDeal());
         laptop.setBrand(dto.getBrand());
@@ -121,7 +121,7 @@ public class LaptopServiceImp implements LaptopService{
                 laptop.getImgUrl(),
                 laptop.getDescription(),
                 laptop.getPrice(),
-                laptop.isNew(),
+                laptop.isLatest(),
                 laptop.isTop(),
                 laptop.getDeal(),
                 laptop.getBrand(),
@@ -138,13 +138,13 @@ public class LaptopServiceImp implements LaptopService{
 
     @Override
     public List<LaptopResponseDTO> isNew() {
-        List<Laptop> laptops = laptopRepository.findAllByIsNew(true);
+        List<Laptop> laptops = laptopRepository.findAllByLatest(true);
         return laptops.stream().map(this::convertToDTO).toList();
     }
 
     @Override
     public List<LaptopResponseDTO> isTop() {
-        List<Laptop> laptops = laptopRepository.findAllByIsTop(true);
+        List<Laptop> laptops = laptopRepository.findAllByTop(true);
         return laptops.stream().map(this::convertToDTO).toList();
     }
 
@@ -174,7 +174,7 @@ public class LaptopServiceImp implements LaptopService{
         laptop.setImgUrl(dto.getImgUrl());
         laptop.setDescription(dto.getDescription());
         laptop.setPrice(dto.getPrice());
-        laptop.setNew(dto.isNew());
+        laptop.setLatest(dto.isLatest());
         laptop.setTop(dto.isTop());
         laptop.setDeal(dto.getDeal());
         laptop.setBrand(dto.getBrand());

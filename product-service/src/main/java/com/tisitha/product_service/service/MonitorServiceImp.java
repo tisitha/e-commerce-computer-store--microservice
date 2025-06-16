@@ -86,7 +86,7 @@ public class MonitorServiceImp implements MonitorService{
         monitor.setImgUrl(dto.getImgUrl());
         monitor.setDescription(dto.getDescription());
         monitor.setPrice(dto.getPrice());
-        monitor.setNew(dto.isNew());
+        monitor.setLatest(dto.isLatest());
         monitor.setTop(dto.isTop());
         monitor.setDeal(dto.getDeal());
         monitor.setBrand(dto.getBrand());
@@ -111,7 +111,7 @@ public class MonitorServiceImp implements MonitorService{
                 monitor.getImgUrl(),
                 monitor.getDescription(),
                 monitor.getPrice(),
-                monitor.isNew(),
+                monitor.isLatest(),
                 monitor.isTop(),
                 monitor.getDeal(),
                 monitor.getBrand(),
@@ -126,13 +126,13 @@ public class MonitorServiceImp implements MonitorService{
 
     @Override
     public List<MonitorResponseDTO> isNew() {
-        List<Monitor> monitors = monitorRepository.findAllByIsNew(true);
+        List<Monitor> monitors = monitorRepository.findAllByLatest(true);
         return monitors.stream().map(this::convertToDTO).toList();
     }
 
     @Override
     public List<MonitorResponseDTO> isTop() {
-        List<Monitor> monitors = monitorRepository.findAllByIsTop(true);
+        List<Monitor> monitors = monitorRepository.findAllByTop(true);
         return monitors.stream().map(this::convertToDTO).toList();
     }
 
@@ -162,7 +162,7 @@ public class MonitorServiceImp implements MonitorService{
         monitor.setImgUrl(dto.getImgUrl());
         monitor.setDescription(dto.getDescription());
         monitor.setPrice(dto.getPrice());
-        monitor.setNew(dto.isNew());
+        monitor.setLatest(dto.isLatest());
         monitor.setTop(dto.isTop());
         monitor.setDeal(dto.getDeal());
         monitor.setBrand(dto.getBrand());

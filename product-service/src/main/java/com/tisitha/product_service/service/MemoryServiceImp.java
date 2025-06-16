@@ -82,7 +82,7 @@ public class MemoryServiceImp implements MemoryService{
         memory.setImgUrl(dto.getImgUrl());
         memory.setDescription(dto.getDescription());
         memory.setPrice(dto.getPrice());
-        memory.setNew(dto.isNew());
+        memory.setLatest(dto.isLatest());
         memory.setTop(dto.isTop());
         memory.setDeal(dto.getDeal());
         memory.setMemoryType(dto.getMemoryType());
@@ -106,7 +106,7 @@ public class MemoryServiceImp implements MemoryService{
                 memory.getImgUrl(),
                 memory.getDescription(),
                 memory.getPrice(),
-                memory.isNew(),
+                memory.isLatest(),
                 memory.isTop(),
                 memory.getDeal(),
                 memory.getMemoryType(),
@@ -120,13 +120,13 @@ public class MemoryServiceImp implements MemoryService{
 
     @Override
     public List<MemoryResponseDTO> isNew() {
-        List<Memory> memorys = memoryRepository.findAllByIsNew(true);
+        List<Memory> memorys = memoryRepository.findAllByLatest(true);
         return memorys.stream().map(this::convertToDTO).toList();
     }
 
     @Override
     public List<MemoryResponseDTO> isTop() {
-        List<Memory> memorys = memoryRepository.findAllByIsTop(true);
+        List<Memory> memorys = memoryRepository.findAllByTop(true);
         return memorys.stream().map(this::convertToDTO).toList();
     }
 
@@ -156,7 +156,7 @@ public class MemoryServiceImp implements MemoryService{
         memory.setImgUrl(dto.getImgUrl());
         memory.setDescription(dto.getDescription());
         memory.setPrice(dto.getPrice());
-        memory.setNew(dto.isNew());
+        memory.setLatest(dto.isLatest());
         memory.setTop(dto.isTop());
         memory.setDeal(dto.getDeal());
         memory.setMemoryType(dto.getMemoryType());

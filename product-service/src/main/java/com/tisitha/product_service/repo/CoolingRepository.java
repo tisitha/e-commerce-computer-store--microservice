@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public interface CoolingRepository extends JpaRepository<Cooling, UUID> {
 
-    List<Cooling> findAllByIsNew(boolean b);
+    List<Cooling> findAllByLatest(boolean b);
 
-    List<Cooling> findAllByIsTop(boolean b);
+    List<Cooling> findAllByTop(boolean b);
 
     List<Cooling> findAllByDealNot(int i);
 

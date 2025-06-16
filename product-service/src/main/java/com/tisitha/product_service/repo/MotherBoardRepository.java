@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public interface MotherBoardRepository extends JpaRepository<MotherBoard, UUID> {
 
-    List<MotherBoard> findAllByIsNew(boolean b);
+    List<MotherBoard> findAllByLatest(boolean b);
 
-    List<MotherBoard> findAllByIsTop(boolean b);
+    List<MotherBoard> findAllByTop(boolean b);
 
     List<MotherBoard> findAllByDealNot(int i);
 

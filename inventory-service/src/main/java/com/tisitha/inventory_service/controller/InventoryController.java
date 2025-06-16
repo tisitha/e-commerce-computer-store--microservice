@@ -18,23 +18,23 @@ public class InventoryController {
         this.inventoryService = inventoryService;
     }
 
-    @GetMapping("get-quantity")
-    public ResponseEntity<InventoryDTO> getQuantity(UUID id){
+    @GetMapping("get-quantity/{id}")
+    public ResponseEntity<InventoryDTO> getQuantity(@PathVariable UUID id){
         return new ResponseEntity<>(inventoryService.getQuantity(id), HttpStatus.OK);
     }
 
-    @PostMapping("add-quantity")
-    public ResponseEntity<InventoryDTO> addQuantity(UUID id,Integer quantity){
+    @PostMapping("add-quantity/{id}")
+    public ResponseEntity<InventoryDTO> addQuantity(@PathVariable UUID id,@RequestParam Integer quantity){
         return new ResponseEntity<>(inventoryService.addQuantity(id,quantity), HttpStatus.CREATED);
     }
 
-    @PutMapping("update-quantity")
-    public ResponseEntity<InventoryDTO> updateQuantity(UUID id,Integer quantity){
+    @PutMapping("update-quantity/{id}")
+    public ResponseEntity<InventoryDTO> updateQuantity(@PathVariable UUID id,@RequestParam Integer quantity){
         return new ResponseEntity<>(inventoryService.updateQuantity(id,quantity), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("delete-quantity")
-    public ResponseEntity<Void> deleteQuantity(UUID id){
+    @DeleteMapping("delete-quantity/{id}")
+    public ResponseEntity<Void> deleteQuantity(@PathVariable UUID id){
         inventoryService.deleteFromInventory(id);
         return ResponseEntity.ok().build();
     }

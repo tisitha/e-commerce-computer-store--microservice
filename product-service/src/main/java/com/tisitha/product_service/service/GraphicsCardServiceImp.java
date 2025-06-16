@@ -70,7 +70,7 @@ public class GraphicsCardServiceImp implements GraphicsCardService {
         graphicsCard.setImgUrl(dto.getImgUrl());
         graphicsCard.setDescription(dto.getDescription());
         graphicsCard.setPrice(dto.getPrice());
-        graphicsCard.setNew(dto.isNew());
+        graphicsCard.setLatest(dto.isLatest());
         graphicsCard.setTop(dto.isTop());
         graphicsCard.setDeal(dto.getDeal());
         graphicsCard.setGpuManufacturer(dto.getGpuManufacturer());
@@ -91,7 +91,7 @@ public class GraphicsCardServiceImp implements GraphicsCardService {
                 graphicsCard.getImgUrl(),
                 graphicsCard.getDescription(),
                 graphicsCard.getPrice(),
-                graphicsCard.isNew(),
+                graphicsCard.isLatest(),
                 graphicsCard.isTop(),
                 graphicsCard.getDeal(),
                 graphicsCard.getGpuManufacturer(),
@@ -102,13 +102,13 @@ public class GraphicsCardServiceImp implements GraphicsCardService {
 
     @Override
     public List<GraphicsCardResponseDTO> isNew() {
-        List<GraphicsCard> graphicsCards = graphicsCardRepository.findAllByIsNew(true);
+        List<GraphicsCard> graphicsCards = graphicsCardRepository.findAllByLatest(true);
         return graphicsCards.stream().map(this::convertToDTO).toList();
     }
 
     @Override
     public List<GraphicsCardResponseDTO> isTop() {
-        List<GraphicsCard> graphicsCards = graphicsCardRepository.findAllByIsTop(true);
+        List<GraphicsCard> graphicsCards = graphicsCardRepository.findAllByTop(true);
         return graphicsCards.stream().map(this::convertToDTO).toList();
     }
 
@@ -138,7 +138,7 @@ public class GraphicsCardServiceImp implements GraphicsCardService {
         graphicsCard.setImgUrl(dto.getImgUrl());
         graphicsCard.setDescription(dto.getDescription());
         graphicsCard.setPrice(dto.getPrice());
-        graphicsCard.setNew(dto.isNew());
+        graphicsCard.setLatest(dto.isLatest());
         graphicsCard.setTop(dto.isTop());
         graphicsCard.setDeal(dto.getDeal());
         graphicsCard.setGpuManufacturer(dto.getGpuManufacturer());

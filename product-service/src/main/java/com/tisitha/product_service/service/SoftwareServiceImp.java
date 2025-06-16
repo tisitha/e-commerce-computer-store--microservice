@@ -70,7 +70,7 @@ public class SoftwareServiceImp implements SoftwareService{
         software.setImgUrl(dto.getImgUrl());
         software.setDescription(dto.getDescription());
         software.setPrice(dto.getPrice());
-        software.setNew(dto.isNew());
+        software.setLatest(dto.isLatest());
         software.setTop(dto.isTop());
         software.setDeal(dto.getDeal());
         software.setBrand(dto.getBrand());
@@ -91,7 +91,7 @@ public class SoftwareServiceImp implements SoftwareService{
                 software.getImgUrl(),
                 software.getDescription(),
                 software.getPrice(),
-                software.isNew(),
+                software.isLatest(),
                 software.isTop(),
                 software.getDeal(),
                 software.getBrand(),
@@ -102,13 +102,13 @@ public class SoftwareServiceImp implements SoftwareService{
 
     @Override
     public List<SoftwareResponseDTO> isNew() {
-        List<Software> softwares = softwareRepository.findAllByIsNew(true);
+        List<Software> softwares = softwareRepository.findAllByLatest(true);
         return softwares.stream().map(this::convertToDTO).toList();
     }
 
     @Override
     public List<SoftwareResponseDTO> isTop() {
-        List<Software> softwares = softwareRepository.findAllByIsTop(true);
+        List<Software> softwares = softwareRepository.findAllByTop(true);
         return softwares.stream().map(this::convertToDTO).toList();
     }
 
@@ -138,7 +138,7 @@ public class SoftwareServiceImp implements SoftwareService{
         software.setImgUrl(dto.getImgUrl());
         software.setDescription(dto.getDescription());
         software.setPrice(dto.getPrice());
-        software.setNew(dto.isNew());
+        software.setLatest(dto.isLatest());
         software.setTop(dto.isTop());
         software.setDeal(dto.getDeal());
         software.setBrand(dto.getBrand());

@@ -78,7 +78,7 @@ public class CoolingServiceImp implements CoolingService{
         cooling.setImgUrl(dto.getImgUrl());
         cooling.setDescription(dto.getDescription());
         cooling.setPrice(dto.getPrice());
-        cooling.setNew(dto.isNew());
+        cooling.setLatest(dto.isLatest());
         cooling.setTop(dto.isTop());
         cooling.setDeal(dto.getDeal());
         cooling.setBrand(dto.getBrand());
@@ -101,7 +101,7 @@ public class CoolingServiceImp implements CoolingService{
                 cooling.getImgUrl(),
                 cooling.getDescription(),
                 cooling.getPrice(),
-                cooling.isNew(),
+                cooling.isLatest(),
                 cooling.isTop(),
                 cooling.getDeal(),
                 cooling.getBrand(),
@@ -114,13 +114,13 @@ public class CoolingServiceImp implements CoolingService{
 
     @Override
     public List<CoolingResponseDTO> isNew() {
-        List<Cooling> coolings = coolingRepository.findAllByIsNew(true);
+        List<Cooling> coolings = coolingRepository.findAllByLatest(true);
         return coolings.stream().map(this::convertToDTO).toList();
     }
 
     @Override
     public List<CoolingResponseDTO> isTop() {
-        List<Cooling> coolings = coolingRepository.findAllByIsTop(true);
+        List<Cooling> coolings = coolingRepository.findAllByTop(true);
         return coolings.stream().map(this::convertToDTO).toList();
     }
 
@@ -150,7 +150,7 @@ public class CoolingServiceImp implements CoolingService{
         cooling.setImgUrl(dto.getImgUrl());
         cooling.setDescription(dto.getDescription());
         cooling.setPrice(dto.getPrice());
-        cooling.setNew(dto.isNew());
+        cooling.setLatest(dto.isLatest());
         cooling.setTop(dto.isTop());
         cooling.setDeal(dto.getDeal());
         cooling.setBrand(dto.getBrand());

@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public interface CasingRepository extends JpaRepository<Casing, UUID> {
 
-    List<Casing> findAllByIsNew(boolean b);
+    List<Casing> findAllByLatest(boolean b);
 
-    List<Casing> findAllByIsTop(boolean b);
+    List<Casing> findAllByTop(boolean b);
 
     List<Casing> findAllByDealNot(int i);
 

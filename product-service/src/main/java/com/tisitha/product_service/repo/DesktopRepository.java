@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public interface DesktopRepository extends JpaRepository<Desktop, UUID> {
 
-    List<Desktop> findAllByIsNew(boolean b);
+    List<Desktop> findAllByLatest(boolean b);
 
-    List<Desktop> findAllByIsTop(boolean b);
+    List<Desktop> findAllByTop(boolean b);
 
     List<Desktop> findAllByDealNot(int i);
 

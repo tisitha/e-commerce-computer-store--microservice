@@ -8,19 +8,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @FeignClient(name = "INVENTORY-SERVICE")
-@RequestMapping("/inventory")
 public interface InventoryClient {
 
-    @GetMapping("/get-quantity")
-    public ResponseEntity<InventoryDTO> getQuantity(UUID id);
+    @GetMapping("inventory/get-quantity/{id}")
+    public ResponseEntity<InventoryDTO> getQuantity(@PathVariable UUID id);
 
-    @PostMapping("/add-quantity")
-    public ResponseEntity<InventoryDTO> addQuantity(UUID id,Integer quantity);
+    @PostMapping("inventory/add-quantity/{id}")
+    public ResponseEntity<InventoryDTO> addQuantity(@PathVariable UUID id,@RequestParam Integer quantity);
 
-    @PutMapping("/update-quantity")
-    public ResponseEntity<InventoryDTO> updateQuantity(UUID id,Integer quantity);
+    @PutMapping("inventory/update-quantity/{id}")
+    public ResponseEntity<InventoryDTO> updateQuantity(@PathVariable UUID id,@RequestParam Integer quantity);
 
-    @DeleteMapping("/delete-quantity")
-    public ResponseEntity<Void> deleteQuantity(UUID id);
+    @DeleteMapping("inventory/delete-quantity/{id}")
+    public ResponseEntity<Void> deleteQuantity(@PathVariable UUID id);
 
 }

@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public interface LaptopRepository extends JpaRepository<Laptop, UUID> {
 
-    List<Laptop> findAllByIsNew(boolean b);
+    List<Laptop> findAllByLatest(boolean b);
 
-    List<Laptop> findAllByIsTop(boolean b);
+    List<Laptop> findAllByTop(boolean b);
 
     List<Laptop> findAllByDealNot(int i);
 
