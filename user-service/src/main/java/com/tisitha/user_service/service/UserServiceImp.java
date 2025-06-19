@@ -1,6 +1,8 @@
 package com.tisitha.user_service.service;
 
+import com.tisitha.user_service.dto.PasswordDTO;
 import com.tisitha.user_service.dto.RegisterRequestDTO;
+import com.tisitha.user_service.dto.UpdateUserDTO;
 import com.tisitha.user_service.model.User;
 import com.tisitha.user_service.model.UserRole;
 import com.tisitha.user_service.repository.UserRepository;
@@ -51,28 +53,32 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void updateUser(UUID id, RegisterRequestDTO registerRequestDTO) {
-        if(!registerRequestDTO.getPassword().equals(registerRequestDTO.getPasswordRepeat())){
+    public void updateUser(UUID id, UpdateUserDTO updateUserDTO) {
+        if(!updateUserDTO.getPassword().equals(updateUserDTO.getPasswordRepeat())){
             throw new RuntimeException("password not matching");
         }
-        User user = new User();
-        user.setEmail(registerRequestDTO.getEmail());
-        user.setPassword(passwordEncoder.encode(registerRequestDTO.getPassword()));
-        user.setFirstName(registerRequestDTO.getFirstName());
-        user.setLastName(registerRequestDTO.getLastName());
-        user.setDob(registerRequestDTO.getDob());
-        user.setAddress1(registerRequestDTO.getAddress1());
-        user.setAddress2(registerRequestDTO.getAddress2());
-        user.setContactNo(registerRequestDTO.getContactNo());
+        User user = userRepository.findById(id).orElseThrow(()->new RuntimeException("user not found"));
+        if(!passwordEncoder.matches(updateUserDTO.getCurrentPassword(), user.getPassword())){
+            throw new RuntimeException("password not correct");
+        }
+        user.setEmail(updateUserDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(updateUserDTO.getPassword()));
+        user.setFirstName(updateUserDTO.getFirstName());
+        user.setLastName(updateUserDTO.getLastName());
+        user.setDob(updateUserDTO.getDob());
+        user.setAddress1(updateUserDTO.getAddress1());
+        user.setAddress2(updateUserDTO.getAddress2());
+        user.setContactNo(updateUserDTO.getContactNo());
         user.setRole(UserRole.ROLE_USER);
 
         userRepository.save(user);
     }
 
     @Override
-    public void deleteUser(UUID id) {
-        if(!userRepository.existsById(id)){
-            throw new RuntimeException("user not found");
+    public void deleteUser(UUID id, PasswordDTO pass) {
+        User user = userRepository.findById(id).orElseThrow(()->new RuntimeException("user not found"));
+        if(!passwordEncoder.matches(pass.password(), user.getPassword())){
+            throw new RuntimeException("password not correct");
         }
         userRepository.deleteById(id);
     }

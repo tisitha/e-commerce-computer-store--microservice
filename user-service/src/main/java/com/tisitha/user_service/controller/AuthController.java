@@ -1,9 +1,6 @@
 package com.tisitha.user_service.controller;
 
-import com.tisitha.user_service.dto.ChangePassword;
-import com.tisitha.user_service.dto.LoginRequestDTO;
-import com.tisitha.user_service.dto.LoginResponseDTO;
-import com.tisitha.user_service.dto.RegisterRequestDTO;
+import com.tisitha.user_service.dto.*;
 import com.tisitha.user_service.service.AuthService;
 import com.tisitha.user_service.service.ForgotPasswordService;
 import org.springframework.http.HttpStatus;
@@ -59,9 +56,9 @@ public class AuthController {
     }
 
     @PutMapping("/user-update/{id}")
-    public ResponseEntity<Void> updateUser(@PathVariable UUID id, @RequestBody RegisterRequestDTO registerRequestDTO) {
+    public ResponseEntity<Void> updateUser(@PathVariable UUID id, @RequestBody UpdateUserDTO updateUserDTO) {
         try{
-            authService.updateUser(id,registerRequestDTO);
+            authService.updateUser(id,updateUserDTO);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
@@ -69,9 +66,9 @@ public class AuthController {
     }
 
     @DeleteMapping("/user-delete/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable UUID id, @RequestBody PasswordDTO pass) {
         try{
-            authService.deleteUser(id);
+            authService.deleteUser(id,pass);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();

@@ -1,6 +1,8 @@
 package com.tisitha.user_service.service;
 
+import com.tisitha.user_service.dto.PasswordDTO;
 import com.tisitha.user_service.dto.RegisterRequestDTO;
+import com.tisitha.user_service.dto.UpdateUserDTO;
 import com.tisitha.user_service.model.User;
 
 import java.util.Optional;
@@ -14,7 +16,7 @@ public interface UserService {
 
     void updatePassword(String email, String password);
 
-    void updateUser(UUID id,RegisterRequestDTO registerRequestDTO);
+    void updateUser(UUID id, UpdateUserDTO updateUserDTO);
 
-    void deleteUser(UUID id);
+    void deleteUser(UUID id, PasswordDTO pass);
 }

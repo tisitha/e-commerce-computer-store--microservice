@@ -1,7 +1,9 @@
 package com.tisitha.user_service.service;
 
 import com.tisitha.user_service.dto.LoginRequestDTO;
+import com.tisitha.user_service.dto.PasswordDTO;
 import com.tisitha.user_service.dto.RegisterRequestDTO;
+import com.tisitha.user_service.dto.UpdateUserDTO;
 import com.tisitha.user_service.util.JwtUtil;
 import io.jsonwebtoken.JwtException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,13 +50,13 @@ public class AuthServiceImp implements AuthService {
     }
 
     @Override
-    public void updateUser(UUID id, RegisterRequestDTO registerRequestDTO) {
-        userService.updateUser(id,registerRequestDTO);
+    public void updateUser(UUID id, UpdateUserDTO updateUserDTO) {
+        userService.updateUser(id,updateUserDTO);
     }
 
     @Override
-    public void deleteUser(UUID id) {
-        userService.deleteUser(id);
+    public void deleteUser(UUID id, PasswordDTO pass) {
+        userService.deleteUser(id,pass);
     }
 
 }

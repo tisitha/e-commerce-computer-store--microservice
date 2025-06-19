@@ -84,8 +84,6 @@ public class ForgotPasswordServiceImp implements ForgotPasswordService{
         userService.updatePassword(email,encodedPassword);
 
         forgotPasswordRepository.deleteById(fp.getFpId());
-
-        throw new RuntimeException("Password has been changed");
     }
 
     private Integer otpGenerator(){
