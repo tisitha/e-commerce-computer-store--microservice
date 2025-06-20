@@ -10,8 +10,8 @@ spring:
               enabled: true
               lower-case-service-id: true
           routes:
-            - id: auth-service
-              uri: lb://AUTH-SERVICE
+            - id: user-service
+              uri: lb://USER-SERVICE
               predicates:
                 - Path=/auth/**
               filters:
@@ -20,7 +20,23 @@ spring:
             - id: product-service-route
               uri: lb://PRODUCT-SERVICE
               predicates:
-                - Path=/product , /product/**
+                - Path=/product/**
+              filters:
+                - JwtValidation
+                - StripPrefix=0
+
+            - id: inventory-service-route
+              uri: lb://INVENTORY-SERVICE
+              predicates:
+                - Path=/inventory/**
+              filters:
+                - JwtValidation
+                - StripPrefix=0
+
+            - id: order-service-route
+              uri: lb://ORDER-SERVICE
+              predicates:
+                - Path=/cart/** , /order/**
               filters:
                 - JwtValidation
                 - StripPrefix=0
@@ -37,4 +53,4 @@ server:
   port: 8080
 auth:
   service:
-    url: ${AUTH_SERVICE_URL}
+    url: ${USER_SERVICE_URL}
