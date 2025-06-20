@@ -1,6 +1,8 @@
 package com.tisitha.product_service.repo;
 
 import com.tisitha.product_service.model.Software;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,10 +19,11 @@ public interface SoftwareRepository extends JpaRepository<Software, UUID> {
 
     List<Software> findByNameContainingIgnoreCase(String text);
 
-    List<Software> findByBrandInAndYearsInAndUsesIn(
+    Page<Software> findByBrandInAndYearsInAndUsesIn(
             List<String> brand,
             List<String> years,
-            List<String> uses
+            List<String> uses,
+            Pageable pageable
     );
 
     @Query("SELECT DISTINCT p.brand FROM Software p")

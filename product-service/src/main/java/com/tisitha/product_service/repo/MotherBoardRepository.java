@@ -1,6 +1,8 @@
 package com.tisitha.product_service.repo;
 
 import com.tisitha.product_service.model.MotherBoard;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,7 +19,7 @@ public interface MotherBoardRepository extends JpaRepository<MotherBoard, UUID> 
 
     List<MotherBoard> findByNameContainingIgnoreCase(String text);
 
-    List<MotherBoard> findByBrandInAndCpuSocketInAndChipsetSeriesInAndFormFactorInAndRamTypeInAndPcieSlotVersionInAndM2SlotsInAndWirelessConnectivityIn(
+    Page<MotherBoard> findByBrandInAndCpuSocketInAndChipsetSeriesInAndFormFactorInAndRamTypeInAndPcieSlotVersionInAndM2SlotsInAndWirelessConnectivityIn(
             List<String> brand,
             List<String> cpuSocket,
             List<String> chipsetSeries,
@@ -25,7 +27,8 @@ public interface MotherBoardRepository extends JpaRepository<MotherBoard, UUID> 
             List<String> ramType,
             List<String> pcieSlotVersion,
             List<String> m2Slots,
-            List<String> wirelessConnectivity
+            List<String> wirelessConnectivity,
+            Pageable pageable
     );
 
     @Query("SELECT DISTINCT m.brand FROM MotherBoard m")

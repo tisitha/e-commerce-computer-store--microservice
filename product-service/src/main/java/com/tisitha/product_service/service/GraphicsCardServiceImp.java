@@ -41,9 +41,6 @@ public class GraphicsCardServiceImp implements GraphicsCardService {
         Sort sort = dir.equalsIgnoreCase("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
 
-        Page<GraphicsCard> graphicsCardPage = graphicsCardRepository.findAll(pageable);
-        List<GraphicsCard> graphicsCardList1 = graphicsCardPage.getContent();
-
         if(gpuManufacturer.isEmpty()){
             gpuManufacturer = graphicsCardRepository.findDistinctGpuManufacturer();
         }
@@ -54,8 +51,8 @@ public class GraphicsCardServiceImp implements GraphicsCardService {
             vRamCapacity = graphicsCardRepository.findDistinctVRamCapacity();
         }
 
-        List<GraphicsCard> graphicsCardList2 = graphicsCardRepository.findByGpuManufacturerInAndGpuSeriesInAndVramGbIn(gpuManufacturer,gpuSeries,vRamCapacity);
-        List<GraphicsCard> graphicsCardList = graphicsCardList1.stream().filter(graphicsCardList2::contains).toList();
+        Page<GraphicsCard> graphicsCardPage = graphicsCardRepository.findByGpuManufacturerInAndGpuSeriesInAndVramGbIn(gpuManufacturer,gpuSeries,vRamCapacity,pageable);
+        List<GraphicsCard> graphicsCardList = graphicsCardPage.getContent();
 
         List<GraphicsCardResponseDTO> dtos = graphicsCardList.stream().map(this::convertToDTO).toList();
 

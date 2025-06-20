@@ -1,6 +1,8 @@
 package com.tisitha.product_service.repo;
 
 import com.tisitha.product_service.model.Processor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,14 +19,15 @@ public interface ProcessorRepository extends JpaRepository<Processor, UUID> {
 
     List<Processor> findByNameContainingIgnoreCase(String text);
 
-    List<Processor> findByBrandInAndCpuSeriesInAndCpuSocketInAndCoreCountInAndThreadCountInAndBaseClockSpeedGHzInAndIntegratedGraphicsIn(
+    Page<Processor> findByBrandInAndCpuSeriesInAndCpuSocketInAndCoreCountInAndThreadCountInAndBaseClockSpeedGHzInAndIntegratedGraphicsIn(
             List<String> brand,
             List<String> cpuSeries,
             List<String> cpuSocket,
             List<String> coreCount,
             List<String> threadCount,
             List<String> baseClockSpeedGHz,
-            List<String> integratedGraphics
+            List<String> integratedGraphics,
+            Pageable pageable
     );
 
     @Query("SELECT DISTINCT c.brand FROM Processor c")

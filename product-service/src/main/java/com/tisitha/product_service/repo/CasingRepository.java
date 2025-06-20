@@ -1,6 +1,8 @@
 package com.tisitha.product_service.repo;
 
 import com.tisitha.product_service.model.Casing;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,7 +19,7 @@ public interface CasingRepository extends JpaRepository<Casing, UUID> {
 
     List<Casing> findByNameContainingIgnoreCase(String text);
 
-    List<Casing> findByBrandInAndCaseTypeInAndMaxGPULengthInAndIncludedFansIn(List<String> brand,List<String> caseType, List<String> maxGPULength, List<String> includedFans);
+    Page<Casing> findByBrandInAndCaseTypeInAndMaxGPULengthInAndIncludedFansIn(List<String> brand, List<String> caseType, List<String> maxGPULength, List<String> includedFans, Pageable pageable);
 
     @Query("SELECT DISTINCT c.caseType FROM Casing c")
     List<String> findDistinctCaseType();

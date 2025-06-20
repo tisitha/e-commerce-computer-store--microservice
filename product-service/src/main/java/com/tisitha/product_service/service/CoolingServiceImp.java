@@ -43,9 +43,6 @@ public class CoolingServiceImp implements CoolingService{
         Sort sort = dir.equalsIgnoreCase("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
 
-        Page<Cooling> coolingPage = coolingRepository.findAll(pageable);
-        List<Cooling> coolingList1 = coolingPage.getContent();
-
         if(brand.isEmpty()){
             brand = coolingRepository.findDistinctBrand();
         }
@@ -62,8 +59,8 @@ public class CoolingServiceImp implements CoolingService{
             rgbLighting = coolingRepository.findDistinctRgbLighting();
         }
 
-        List<Cooling> coolingList2 = coolingRepository.findByBrandInAndCoolingTypeInAndSocketCompatibilityInAndFanSizeInAndRgbLightingIn(brand,coolingType,socketCompatibility,fanSize,rgbLighting);
-        List<Cooling> coolingList = coolingList1.stream().filter(coolingList2::contains).toList();
+        Page<Cooling> coolingPage =  coolingRepository.findByBrandInAndCoolingTypeInAndSocketCompatibilityInAndFanSizeInAndRgbLightingIn(brand,coolingType,socketCompatibility,fanSize,rgbLighting,pageable);
+        List<Cooling> coolingList = coolingPage.getContent();
 
         List<CoolingResponseDTO> dtos = coolingList.stream().map(this::convertToDTO).toList();
 

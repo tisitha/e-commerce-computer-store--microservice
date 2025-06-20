@@ -47,9 +47,6 @@ public class LaptopServiceImp implements LaptopService{
         Sort sort = dir.equalsIgnoreCase("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
 
-        Page<Laptop> laptopPage = laptopRepository.findAll(pageable);
-        List<Laptop> laptopList1 = laptopPage.getContent();
-
         if(brand.isEmpty()){
             brand = laptopRepository.findDistinctBrand();
         }
@@ -78,8 +75,8 @@ public class LaptopServiceImp implements LaptopService{
             featuresIncluded = laptopRepository.findDistinctFeaturesIncluded();
         }
 
-        List<Laptop> laptopList2 = laptopRepository.findByBrandInAndProcessorBrandInAndProcessorSeriesInAndRamCapacityInAndStorageCapacityInAndDisplayResolutionInAndOperatingSystemInAndGraphicsCardTypeInAndFeaturesIncludedIn(brand,processorBrand,processorSeries,ramCapacity,storageCapacity,displayResolution,operatingSystem,graphicsCardType,featuresIncluded);
-        List<Laptop> laptopList = laptopList1.stream().filter(laptopList2::contains).toList();
+        Page<Laptop> laptopPage = laptopRepository.findByBrandInAndProcessorBrandInAndProcessorSeriesInAndRamCapacityInAndStorageCapacityInAndDisplayResolutionInAndOperatingSystemInAndGraphicsCardTypeInAndFeaturesIncludedIn(brand,processorBrand,processorSeries,ramCapacity,storageCapacity,displayResolution,operatingSystem,graphicsCardType,featuresIncluded,pageable);
+        List<Laptop> laptopList = laptopPage.getContent();
 
         List<LaptopResponseDTO> dtos = laptopList.stream().map(this::convertToDTO).toList();
 

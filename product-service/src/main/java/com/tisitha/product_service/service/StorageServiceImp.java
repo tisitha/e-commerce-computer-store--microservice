@@ -43,9 +43,6 @@ public class StorageServiceImp implements StorageService{
         Sort sort = dir.equalsIgnoreCase("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
 
-        Page<Storage> storagePage = storageRepository.findAll(pageable);
-        List<Storage> storageList1 = storagePage.getContent();
-
         if(brand.isEmpty()){
             brand = storageRepository.findDistinctBrand();
         }
@@ -62,8 +59,8 @@ public class StorageServiceImp implements StorageService{
             usageType = storageRepository.findDistinctUsageType();
         }
 
-        List<Storage> storageList2 = storageRepository.findByBrandInAndStorageTypeInAndCapacityGBInAndInterfaceTypeInAndUsageTypeIn(brand,storageType,capacityGB,interfaceType,usageType);
-        List<Storage> storageList = storageList1.stream().filter(storageList2::contains).toList();
+        Page<Storage> storagePage = storageRepository.findByBrandInAndStorageTypeInAndCapacityGBInAndInterfaceTypeInAndUsageTypeIn(brand,storageType,capacityGB,interfaceType,usageType,pageable);
+        List<Storage> storageList = storagePage.getContent();
 
         List<StorageResponseDTO> dtos = storageList.stream().map(this::convertToDTO).toList();
 

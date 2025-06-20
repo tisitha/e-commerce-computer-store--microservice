@@ -48,9 +48,6 @@ public class DesktopServiceImp implements DesktopService{
         Sort sort = dir.equalsIgnoreCase("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
 
-        Page<Desktop> desktopPage = desktopRepository.findAll(pageable);
-        List<Desktop> desktopList1 = desktopPage.getContent();
-
         if(brand.isEmpty()){
             brand = desktopRepository.findDistinctBrand();
         }
@@ -82,8 +79,8 @@ public class DesktopServiceImp implements DesktopService{
             operatingSystem = desktopRepository.findDistinctOperatingSystem();
         }
 
-        List<Desktop> desktopList2 = desktopRepository.findByBrandInAndProductTypeInAndProcessorBrandInAndProcessorSeriesInAndGpuManufacturerInAndGpuSeriesInAndRamCapacityInAndStorageTypeInAndStorageCapacityInAndOperatingSystemIn(brand,productType,processorBrand,processorSeries,gpuManufacturer,gpuSeries,ramCapacity,storageType,storageCapacity,operatingSystem);
-        List<Desktop> desktopList = desktopList1.stream().filter(desktopList2::contains).toList();
+        Page<Desktop> desktopPage = desktopRepository.findByBrandInAndProductTypeInAndProcessorBrandInAndProcessorSeriesInAndGpuManufacturerInAndGpuSeriesInAndRamCapacityInAndStorageTypeInAndStorageCapacityInAndOperatingSystemIn(brand,productType,processorBrand,processorSeries,gpuManufacturer,gpuSeries,ramCapacity,storageType,storageCapacity,operatingSystem,pageable);
+        List<Desktop> desktopList = desktopPage.getContent();
 
         List<DesktopResponseDTO> dtos = desktopList.stream().map(this::convertToDTO).toList();
 

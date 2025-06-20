@@ -43,9 +43,6 @@ public class PowerSupplyServiceImp implements PowerSupplyService{
         Sort sort = dir.equalsIgnoreCase("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
 
-        Page<PowerSupply> powerSupplyPage = powerSupplyRepository.findAll(pageable);
-        List<PowerSupply> powerSupplyList1 = powerSupplyPage.getContent();
-
         if(brand.isEmpty()){
             brand = powerSupplyRepository.findDistinctBrand();
         }
@@ -62,8 +59,8 @@ public class PowerSupplyServiceImp implements PowerSupplyService{
             modularityType = powerSupplyRepository.findDistinctModularityType();
         }
 
-        List<PowerSupply> powerSupplyList2 = powerSupplyRepository.findByBrandInAndWattageOutputInAndCertificationRatingInAndFormFactorInAndModularityTypeIn(brand,wattageOutput,certificationRating,formFactor,modularityType);
-        List<PowerSupply> powerSupplyList = powerSupplyList1.stream().filter(powerSupplyList2::contains).toList();
+        Page<PowerSupply> powerSupplyPage = powerSupplyRepository.findByBrandInAndWattageOutputInAndCertificationRatingInAndFormFactorInAndModularityTypeIn(brand,wattageOutput,certificationRating,formFactor,modularityType,pageable);
+        List<PowerSupply> powerSupplyList = powerSupplyPage.getContent();
 
         List<PowerSupplyResponseDTO> dtos = powerSupplyList.stream().map(this::convertToDTO).toList();
 

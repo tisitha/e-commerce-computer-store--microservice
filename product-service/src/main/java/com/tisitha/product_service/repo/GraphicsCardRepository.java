@@ -1,6 +1,8 @@
 package com.tisitha.product_service.repo;
 
 import com.tisitha.product_service.model.GraphicsCard;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,10 +19,11 @@ public interface GraphicsCardRepository extends JpaRepository<GraphicsCard, UUID
 
     List<GraphicsCard> findByNameContainingIgnoreCase(String text);
 
-    List<GraphicsCard> findByGpuManufacturerInAndGpuSeriesInAndVramGbIn(
+    Page<GraphicsCard> findByGpuManufacturerInAndGpuSeriesInAndVramGbIn(
             List<String> gpuManufacturer,
             List<String> gpuSeries,
-            List<String> vramGb
+            List<String> vramGb,
+            Pageable pageable
     );
 
     @Query("SELECT DISTINCT g.gpuManufacturer FROM GraphicsCard g")

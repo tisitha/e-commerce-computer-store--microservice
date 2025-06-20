@@ -46,9 +46,6 @@ public class MotherBoardServiceImp implements MotherBoardService{
         Sort sort = dir.equalsIgnoreCase("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
 
-        Page<MotherBoard> motherBoardPage = motherBoardRepository.findAll(pageable);
-        List<MotherBoard> motherBoardList1 = motherBoardPage.getContent();
-
         if(brand.isEmpty()){
             brand = motherBoardRepository.findDistinctBrand();
         }
@@ -74,8 +71,8 @@ public class MotherBoardServiceImp implements MotherBoardService{
             wirelessConnectivity = motherBoardRepository.findDistinctWirelessConnectivity();
         }
 
-        List<MotherBoard> motherBoardList2 = motherBoardRepository.findByBrandInAndCpuSocketInAndChipsetSeriesInAndFormFactorInAndRamTypeInAndPcieSlotVersionInAndM2SlotsInAndWirelessConnectivityIn(brand,cpuSocket,chipsetSeries,formFactor,ramType,pcieSlotVersion,m2Slots,wirelessConnectivity);
-        List<MotherBoard> motherBoardList = motherBoardList1.stream().filter(motherBoardList2::contains).toList();
+        Page<MotherBoard> motherBoardPage = motherBoardRepository.findByBrandInAndCpuSocketInAndChipsetSeriesInAndFormFactorInAndRamTypeInAndPcieSlotVersionInAndM2SlotsInAndWirelessConnectivityIn(brand,cpuSocket,chipsetSeries,formFactor,ramType,pcieSlotVersion,m2Slots,wirelessConnectivity,pageable);
+        List<MotherBoard> motherBoardList = motherBoardPage.getContent();
 
         List<MotherBoardResponseDTO> dtos = motherBoardList.stream().map(this::convertToDTO).toList();
 

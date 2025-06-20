@@ -1,6 +1,8 @@
 package com.tisitha.product_service.repo;
 
 import com.tisitha.product_service.model.Storage;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,12 +19,13 @@ public interface StorageRepository extends JpaRepository<Storage, UUID> {
 
     List<Storage> findByNameContainingIgnoreCase(String text);
 
-    List<Storage> findByBrandInAndStorageTypeInAndCapacityGBInAndInterfaceTypeInAndUsageTypeIn(
+    Page<Storage> findByBrandInAndStorageTypeInAndCapacityGBInAndInterfaceTypeInAndUsageTypeIn(
             List<String> brand,
             List<String> storageType,
             List<String> capacityGB,
             List<String> interfaceType,
-            List<String> usageType
+            List<String> usageType,
+            Pageable pageable
     );
 
     @Query("SELECT DISTINCT s.brand FROM Storage s")

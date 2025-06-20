@@ -1,6 +1,8 @@
 package com.tisitha.product_service.repo;
 
 import com.tisitha.product_service.model.Monitor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,14 +19,15 @@ public interface MonitorRepository extends JpaRepository<Monitor, UUID> {
 
     List<Monitor> findByNameContainingIgnoreCase(String text);
 
-    List<Monitor> findByBrandInAndDisplayResolutionInAndRefreshRateHzInAndResponseTimeMsInAndPanelTypeInAndAspectRatioInAndAdaptiveSyncTechnologyIn(
+    Page<Monitor> findByBrandInAndDisplayResolutionInAndRefreshRateHzInAndResponseTimeMsInAndPanelTypeInAndAspectRatioInAndAdaptiveSyncTechnologyIn(
             List<String> brand,
             List<String> displayResolution,
             List<String> refreshRateHz,
             List<String> responseTimeMs,
             List<String> panelType,
             List<String> aspectRatio,
-            List<String> adaptiveSyncTechnology
+            List<String> adaptiveSyncTechnology,
+            Pageable pageable
     );
 
     @Query("SELECT DISTINCT m.brand FROM Monitor m")

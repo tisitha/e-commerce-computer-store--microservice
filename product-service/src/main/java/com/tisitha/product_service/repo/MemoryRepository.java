@@ -1,6 +1,8 @@
 package com.tisitha.product_service.repo;
 
 import com.tisitha.product_service.model.Memory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,13 +19,14 @@ public interface MemoryRepository extends JpaRepository<Memory, UUID> {
 
     List<Memory> findByNameContainingIgnoreCase(String text);
 
-    List<Memory> findByMemoryTypeInAndCapacityGBInAndSpeedMHzInAndFormFactorInAndRgbLightingInAndBrandIn(
+    Page<Memory> findByMemoryTypeInAndCapacityGBInAndSpeedMHzInAndFormFactorInAndRgbLightingInAndBrandIn(
             List<String> memoryType,
             List<String> capacityGB,
             List<String> speedMHz,
             List<String> formFactor,
             List<String> rgbLighting,
-            List<String> brand
+            List<String> brand,
+            Pageable pageable
     );
 
     @Query("SELECT DISTINCT m.memoryType FROM Memory m")

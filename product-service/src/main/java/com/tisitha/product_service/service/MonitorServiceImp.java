@@ -45,9 +45,6 @@ public class MonitorServiceImp implements MonitorService{
         Sort sort = dir.equalsIgnoreCase("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
 
-        Page<Monitor> monitorPage = monitorRepository.findAll(pageable);
-        List<Monitor> monitorList1 = monitorPage.getContent();
-
         if(brand.isEmpty()){
             brand = monitorRepository.findDistinctBrand();
         }
@@ -70,8 +67,8 @@ public class MonitorServiceImp implements MonitorService{
             adaptiveSyncTechnology = monitorRepository.findDistinctAdaptiveSyncTechnology();
         }
 
-        List<Monitor> monitorList2 = monitorRepository.findByBrandInAndDisplayResolutionInAndRefreshRateHzInAndResponseTimeMsInAndPanelTypeInAndAspectRatioInAndAdaptiveSyncTechnologyIn(brand,displayResolution,refreshRateHz,responseTimeMs,panelType,aspectRatio,adaptiveSyncTechnology);
-        List<Monitor> monitorList = monitorList1.stream().filter(monitorList2::contains).toList();
+        Page<Monitor> monitorPage = monitorRepository.findByBrandInAndDisplayResolutionInAndRefreshRateHzInAndResponseTimeMsInAndPanelTypeInAndAspectRatioInAndAdaptiveSyncTechnologyIn(brand,displayResolution,refreshRateHz,responseTimeMs,panelType,aspectRatio,adaptiveSyncTechnology,pageable);
+        List<Monitor> monitorList = monitorPage.getContent();
 
         List<MonitorResponseDTO> dtos = monitorList.stream().map(this::convertToDTO).toList();
 

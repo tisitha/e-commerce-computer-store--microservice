@@ -1,6 +1,8 @@
 package com.tisitha.product_service.repo;
 
 import com.tisitha.product_service.model.Desktop;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,7 +19,7 @@ public interface DesktopRepository extends JpaRepository<Desktop, UUID> {
 
     List<Desktop> findByNameContainingIgnoreCase(String text);
 
-    List<Desktop> findByBrandInAndProductTypeInAndProcessorBrandInAndProcessorSeriesInAndGpuManufacturerInAndGpuSeriesInAndRamCapacityInAndStorageTypeInAndStorageCapacityInAndOperatingSystemIn(
+    Page<Desktop> findByBrandInAndProductTypeInAndProcessorBrandInAndProcessorSeriesInAndGpuManufacturerInAndGpuSeriesInAndRamCapacityInAndStorageTypeInAndStorageCapacityInAndOperatingSystemIn(
             List<String> brand,
             List<String> productType,
             List<String> processorBrand,
@@ -27,7 +29,8 @@ public interface DesktopRepository extends JpaRepository<Desktop, UUID> {
             List<String> ramCapacity,
             List<String> storageType,
             List<String> storageCapacity,
-            List<String> operatingSystem
+            List<String> operatingSystem,
+            Pageable pageable
     );
 
     @Query("SELECT DISTINCT p.brand FROM Desktop p")

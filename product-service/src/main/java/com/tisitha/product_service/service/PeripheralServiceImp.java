@@ -42,9 +42,6 @@ public class PeripheralServiceImp implements PeripheralService{
         Sort sort = dir.equalsIgnoreCase("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
 
-        Page<Peripheral> peripheralPage = peripheralRepository.findAll(pageable);
-        List<Peripheral> peripheralList1 = peripheralPage.getContent();
-
         if(brand.isEmpty()){
             brand = peripheralRepository.findDistinctBrand();
         }
@@ -58,9 +55,8 @@ public class PeripheralServiceImp implements PeripheralService{
             rgbLighting = peripheralRepository.findDistinctRgbLighting();
         }
 
-
-        List<Peripheral> peripheralList2 = peripheralRepository.findByBrandInAndPeripheralTypeInAndConnectivityTypeInAndRgbLightingIn(brand,peripheralType,connectivityType,rgbLighting);
-        List<Peripheral> peripheralList = peripheralList1.stream().filter(peripheralList2::contains).toList();
+        Page<Peripheral> peripheralPage = peripheralRepository.findByBrandInAndPeripheralTypeInAndConnectivityTypeInAndRgbLightingIn(brand,peripheralType,connectivityType,rgbLighting,pageable);
+        List<Peripheral> peripheralList = peripheralPage.getContent();
 
         List<PeripheralResponseDTO> dtos = peripheralList.stream().map(this::convertToDTO).toList();
 

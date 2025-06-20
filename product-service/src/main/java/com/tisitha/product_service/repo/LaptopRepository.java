@@ -1,6 +1,8 @@
 package com.tisitha.product_service.repo;
 
 import com.tisitha.product_service.model.Laptop;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,7 +19,7 @@ public interface LaptopRepository extends JpaRepository<Laptop, UUID> {
 
     List<Laptop> findByNameContainingIgnoreCase(String text);
 
-    List<Laptop> findByBrandInAndProcessorBrandInAndProcessorSeriesInAndRamCapacityInAndStorageCapacityInAndDisplayResolutionInAndOperatingSystemInAndGraphicsCardTypeInAndFeaturesIncludedIn(
+    Page<Laptop> findByBrandInAndProcessorBrandInAndProcessorSeriesInAndRamCapacityInAndStorageCapacityInAndDisplayResolutionInAndOperatingSystemInAndGraphicsCardTypeInAndFeaturesIncludedIn(
             List<String> brand,
             List<String> processorBrand,
             List<String> processorSeries,
@@ -26,7 +28,8 @@ public interface LaptopRepository extends JpaRepository<Laptop, UUID> {
             List<String> displayResolution,
             List<String> operatingSystem,
             List<String> graphicsCardType,
-            List<String> featuresIncluded
+            List<String> featuresIncluded,
+            Pageable pageable
     );
 
     @Query("SELECT DISTINCT l.brand FROM Laptop l")

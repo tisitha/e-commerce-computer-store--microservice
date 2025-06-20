@@ -1,6 +1,8 @@
 package com.tisitha.product_service.repo;
 
 import com.tisitha.product_service.model.Cooling;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -15,12 +17,13 @@ public interface CoolingRepository extends JpaRepository<Cooling, UUID> {
 
     List<Cooling> findAllByDealNot(int i);
 
-    List<Cooling> findByBrandInAndCoolingTypeInAndSocketCompatibilityInAndFanSizeInAndRgbLightingIn(
+    Page<Cooling> findByBrandInAndCoolingTypeInAndSocketCompatibilityInAndFanSizeInAndRgbLightingIn(
             List<String> brand,
             List<String> coolingType,
             List<String> socketCompatibility,
             List<String> fanSize,
-            List<String> rgbLighting
+            List<String> rgbLighting,
+            Pageable pageable
     );
 
     @Query("SELECT DISTINCT c.brand FROM Cooling c")

@@ -45,9 +45,6 @@ public class ProcessorServiceImp implements ProcessorService{
         Sort sort = dir.equalsIgnoreCase("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
 
-        Page<Processor> processorPage = processorRepository.findAll(pageable);
-        List<Processor> processorList1 = processorPage.getContent();
-
         if(brand.isEmpty()){
             brand = processorRepository.findDistinctBrand();
         }
@@ -70,8 +67,8 @@ public class ProcessorServiceImp implements ProcessorService{
             integratedGraphics = processorRepository.findDistinctIntegratedGraphics();
         }
 
-        List<Processor> processorList2 = processorRepository.findByBrandInAndCpuSeriesInAndCpuSocketInAndCoreCountInAndThreadCountInAndBaseClockSpeedGHzInAndIntegratedGraphicsIn(brand,cpuSeries,cpuSocket,coreCount,threadCount,baseClockSpeedGHz,integratedGraphics);
-        List<Processor> processorList = processorList1.stream().filter(processorList2::contains).toList();
+        Page<Processor> processorPage = processorRepository.findByBrandInAndCpuSeriesInAndCpuSocketInAndCoreCountInAndThreadCountInAndBaseClockSpeedGHzInAndIntegratedGraphicsIn(brand,cpuSeries,cpuSocket,coreCount,threadCount,baseClockSpeedGHz,integratedGraphics,pageable);
+        List<Processor> processorList = processorPage.getContent();
 
         List<ProcessorResponseDTO> dtos = processorList.stream().map(this::convertToDTO).toList();
 

@@ -44,9 +44,6 @@ public class MemoryServiceImp implements MemoryService{
         Sort sort = dir.equalsIgnoreCase("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
 
-        Page<Memory> memoryPage = memoryRepository.findAll(pageable);
-        List<Memory> memoryList1 = memoryPage.getContent();
-
         if(memoryType.isEmpty()){
             memoryType = memoryRepository.findDistinctMemoryType();
         }
@@ -66,8 +63,8 @@ public class MemoryServiceImp implements MemoryService{
             brand = memoryRepository.findDistinctBrand();
         }
 
-        List<Memory> memoryList2 = memoryRepository.findByMemoryTypeInAndCapacityGBInAndSpeedMHzInAndFormFactorInAndRgbLightingInAndBrandIn(memoryType,capacityGB,speedMHz,formFactor,rgbLighting,brand);
-        List<Memory> memoryList = memoryList1.stream().filter(memoryList2::contains).toList();
+        Page<Memory> memoryPage = memoryRepository.findByMemoryTypeInAndCapacityGBInAndSpeedMHzInAndFormFactorInAndRgbLightingInAndBrandIn(memoryType,capacityGB,speedMHz,formFactor,rgbLighting,brand,pageable);
+        List<Memory> memoryList = memoryPage.getContent();
 
         List<MemoryResponseDTO> dtos = memoryList.stream().map(this::convertToDTO).toList();
 

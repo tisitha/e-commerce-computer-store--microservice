@@ -41,9 +41,6 @@ public class SoftwareServiceImp implements SoftwareService{
         Sort sort = dir.equalsIgnoreCase("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
 
-        Page<Software> softwarePage = softwareRepository.findAll(pageable);
-        List<Software> softwareList1 = softwarePage.getContent();
-
         if(brand.isEmpty()){
             brand = softwareRepository.findDistinctBrand();
         }
@@ -54,8 +51,8 @@ public class SoftwareServiceImp implements SoftwareService{
             uses = softwareRepository.findDistinctUses();
         }
 
-        List<Software> softwareList2 = softwareRepository.findByBrandInAndYearsInAndUsesIn(brand,years,uses);
-        List<Software> softwareList = softwareList1.stream().filter(softwareList2::contains).toList();
+        Page<Software> softwarePage = softwareRepository.findByBrandInAndYearsInAndUsesIn(brand,years,uses,pageable);
+        List<Software> softwareList = softwarePage.getContent();
 
         List<SoftwareResponseDTO> dtos = softwareList.stream().map(this::convertToDTO).toList();
 

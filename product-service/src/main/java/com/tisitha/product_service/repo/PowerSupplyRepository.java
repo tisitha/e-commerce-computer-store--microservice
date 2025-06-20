@@ -1,6 +1,8 @@
 package com.tisitha.product_service.repo;
 
 import com.tisitha.product_service.model.PowerSupply;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,12 +19,13 @@ public interface PowerSupplyRepository extends JpaRepository<PowerSupply, UUID> 
 
     List<PowerSupply> findByNameContainingIgnoreCase(String text);
 
-    List<PowerSupply> findByBrandInAndWattageOutputInAndCertificationRatingInAndFormFactorInAndModularityTypeIn(
+    Page<PowerSupply> findByBrandInAndWattageOutputInAndCertificationRatingInAndFormFactorInAndModularityTypeIn(
             List<String> brand,
             List<String> wattageOutput,
             List<String> certificationRating,
             List<String> formFactor,
-            List<String> modularityType
+            List<String> modularityType,
+            Pageable pageable
     );
 
     @Query("SELECT DISTINCT p.brand FROM PowerSupply p")

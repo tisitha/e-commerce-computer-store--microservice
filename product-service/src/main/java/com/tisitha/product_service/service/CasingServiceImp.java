@@ -43,11 +43,8 @@ public class CasingServiceImp implements CasingService{
         Sort sort = dir.equalsIgnoreCase("asc")?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
 
-        Page<Casing> casingPage = casingRepository.findAll(pageable);
-        List<Casing> casingList1 = casingPage.getContent();
-
         if(brand.isEmpty()){
-            brand = casingRepository.findDistinctCaseType();
+            brand = casingRepository.findDistinctBrand();
         }
         if(caseType.isEmpty()){
             caseType = casingRepository.findDistinctCaseType();
@@ -58,9 +55,8 @@ public class CasingServiceImp implements CasingService{
         if(includedFans.isEmpty()){
             includedFans = casingRepository.findDistinctIncludedFans();
         }
-
-        List<Casing> casingList2 = casingRepository.findByBrandInAndCaseTypeInAndMaxGPULengthInAndIncludedFansIn(brand,caseType,maxGPULength,includedFans);
-        List<Casing> casingList = casingList1.stream().filter(casingList2::contains).toList();
+        Page<Casing> casingPage = casingRepository.findByBrandInAndCaseTypeInAndMaxGPULengthInAndIncludedFansIn(brand,caseType,maxGPULength,includedFans,pageable);
+        List<Casing> casingList = casingPage.getContent();
 
         List<CasingResponseDTO> dtos = casingList.stream().map(this::convertToDTO).toList();
 
