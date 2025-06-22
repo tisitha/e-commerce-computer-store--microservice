@@ -12,6 +12,8 @@ public interface OrderService {
 
     OrderResponseDTO getOrderData(OrderGetRequestDTO requestDTO);
 
+    OrderResponseDTO getOrdersByCustomer(UUID id,OrderGetRequestDTO requestDTO);
+
     void addOrder(List<CartItemRequestDTO> dtos);
 
     void deleteOrderData(UUID id);

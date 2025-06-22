@@ -37,6 +37,15 @@ public class OrderServiceImp implements OrderService{
     }
 
     @Override
+    public OrderResponseDTO getOrdersByCustomer(UUID id, OrderGetRequestDTO requestDTO) {
+        Sort sort = requestDTO.getDir().equalsIgnoreCase("asc")?Sort.by(requestDTO.getSortBy()).ascending():Sort.by(requestDTO.getSortBy()).descending();
+        Pageable pageable = PageRequest.of(requestDTO.getPageNumber(), requestDTO.getPageSize(),sort);
+
+        Page<Order> orderPage = orderRepository.findAllByCustomerId(id,pageable);
+        return new OrderResponseDTO(orderPage.stream().toList(),orderPage.getTotalElements(),orderPage.getTotalPages(),orderPage.isLast());
+    }
+
+    @Override
     public void addOrder(List<CartItemRequestDTO> dtos) {
         Order order = new Order();
         double cost = 0;
