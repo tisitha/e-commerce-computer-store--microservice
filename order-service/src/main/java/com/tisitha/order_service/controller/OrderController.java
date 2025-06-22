@@ -28,7 +28,7 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public ResponseEntity<OrderResponseDTO> getOrdersByCustomer(@PathVariable UUID id,@RequestBody OrderGetRequestDTO requestDTO){
-        return new ResponseEntity<>(orderService.getOrderData(requestDTO), HttpStatus.OK);
+        return new ResponseEntity<>(orderService.getOrdersByCustomer(id,requestDTO), HttpStatus.OK);
     }
 
     @PostMapping
