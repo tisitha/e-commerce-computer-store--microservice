@@ -66,13 +66,13 @@ public class AuthController {
                 :ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
-    @GetMapping("/validate-email/{email}")
-    public ResponseEntity<Boolean> validateTokenSubject(@RequestHeader("Authorization") String authHeader,@PathVariable String email){
+    @GetMapping("/validate-email/{id}")
+    public ResponseEntity<Boolean> validateTokenSubject(@RequestHeader("Authorization") String authHeader,@PathVariable UUID id){
 
         if(authHeader == null || !authHeader.startsWith("Bearer ")){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return authService.validateTokenSubject(authHeader.substring(7),email)
+        return authService.validateTokenSubject(authHeader.substring(7),id)
                 ?ResponseEntity.ok(true)
                 :ResponseEntity.ok(false);
     }

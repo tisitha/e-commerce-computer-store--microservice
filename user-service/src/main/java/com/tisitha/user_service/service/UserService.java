@@ -12,6 +12,8 @@ public interface UserService {
 
     Optional<User> findByEmail(String email);
 
+    String getEmailById(UUID id);
+
     void register(RegisterRequestDTO registerRequestDTO);
 
     void updatePassword(String email, String password);

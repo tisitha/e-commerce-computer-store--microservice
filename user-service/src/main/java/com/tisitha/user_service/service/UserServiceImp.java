@@ -32,6 +32,12 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public String getEmailById(UUID id) {
+        User user = userRepository.findById(id).orElseThrow(()->new UserNotFoundException("User not found"));
+        return user.getEmail();
+    }
+
+    @Override
     public void register(RegisterRequestDTO registerRequestDTO) {
         if(!registerRequestDTO.getPassword().equals(registerRequestDTO.getPasswordRepeat())){
             throw new PasswordsNotMatchingException("passwords not matching");

@@ -60,8 +60,9 @@ public class AuthServiceImp implements AuthService {
     }
 
     @Override
-    public boolean validateTokenSubject(String token, String expectedEmail) {
+    public boolean validateTokenSubject(String token, UUID customerId) {
         try{
+            String expectedEmail = userService.getEmailById(customerId);
             jwtUtil.validateTokenSubject(token,expectedEmail);
             return true;
         } catch (JwtException e) {

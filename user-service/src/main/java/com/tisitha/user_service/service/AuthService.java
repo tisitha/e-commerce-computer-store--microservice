@@ -18,7 +18,7 @@ public interface AuthService {
 
     boolean validateAdminToken(String token);
 
-    boolean validateTokenSubject(String token, String expectedEmail);
+    boolean validateTokenSubject(String token, UUID customerId);
 
     void updateUser(UUID id, UpdateUserDTO updateUserDTO);
 
