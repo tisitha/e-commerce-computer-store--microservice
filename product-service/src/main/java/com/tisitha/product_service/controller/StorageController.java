@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping
 public class StorageController {
 
     private final StorageService storageService;
@@ -22,13 +22,13 @@ public class StorageController {
         this.storageService = storageService;
     }
 
-    @GetMapping("/category/storages/get")
+    @GetMapping("/product/category/storages/get")
     public ResponseEntity<ProductPageSortDto<StorageResponseDTO>> getStorage(@RequestBody StorageGetRequestDTO dto){
         return new ResponseEntity<>(storageService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getStorageType(),dto.getCapacityGB(),dto.getInterfaceType(),dto.getUsageType()),
                 HttpStatus.OK);
     }
 
-    @GetMapping("/category/storages/filters")
+    @GetMapping("/product/category/storages/filters")
     public ResponseEntity<StorageFilterOptionsDTO> getStorageFilters(){
         return new ResponseEntity<>(storageService.getAvailableFilters(),
                 HttpStatus.OK);

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping
 public class LaptopController {
 
     private final LaptopService laptopService;
@@ -22,13 +22,13 @@ public class LaptopController {
         this.laptopService = laptopService;
     }
 
-    @GetMapping("/category/laptops/get")
+    @GetMapping("/product/category/laptops/get")
     public ResponseEntity<ProductPageSortDto<LaptopResponseDTO>> getLaptop(@RequestBody LaptopGetRequestDTO dto){
         return new ResponseEntity<>(laptopService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getProcessorBrand(),dto.getProcessorSeries(),dto.getRamCapacity(),dto.getStorageCapacity(),dto.getDisplayResolution(),dto.getOperatingSystem(),dto.getGraphicsCardType(),dto.getFeaturesIncluded()),
                 HttpStatus.OK);
     }
 
-    @GetMapping("/category/laptops/filters")
+    @GetMapping("/product/category/laptops/filters")
     public ResponseEntity<LaptopFilterOptionsDTO> getLaptopFilters(){
         return new ResponseEntity<>(laptopService.getAvailableFilters(),
                 HttpStatus.OK);

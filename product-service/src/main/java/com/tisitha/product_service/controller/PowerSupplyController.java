@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping
 public class PowerSupplyController {
 
     private final PowerSupplyService powerSupplyService;
@@ -22,13 +22,13 @@ public class PowerSupplyController {
         this.powerSupplyService = powerSupplyService;
     }
 
-    @GetMapping("/category/power/get")
+    @GetMapping("/product/category/power/get")
     public ResponseEntity<ProductPageSortDto<PowerSupplyResponseDTO>> getPowerSupply(@RequestBody PowerSupplyGetRequestDTO dto){
         return new ResponseEntity<>(powerSupplyService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getWattageOutput(),dto.getCertificationRating(),dto.getFormFactor(),dto.getModularityType()),
                 HttpStatus.OK);
     }
 
-    @GetMapping("/category/power/filters")
+    @GetMapping("/product/category/power/filters")
     public ResponseEntity<PowerSupplyFilterOptionsDTO> getPowerSupplyFilters(){
         return new ResponseEntity<>(powerSupplyService.getAvailableFilters(),
                 HttpStatus.OK);

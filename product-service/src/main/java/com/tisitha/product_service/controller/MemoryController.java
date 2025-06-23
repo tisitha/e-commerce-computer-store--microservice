@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping
 public class MemoryController {
 
     private final MemoryService memoryService;
@@ -22,13 +22,13 @@ public class MemoryController {
         this.memoryService = memoryService;
     }
 
-    @GetMapping("/category/memory/get")
+    @GetMapping("/product/category/memory/get")
     public ResponseEntity<ProductPageSortDto<MemoryResponseDTO>> getMemory(@RequestBody MemoryGetRequestDTO dto){
         return new ResponseEntity<>(memoryService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getMemoryType(),dto.getCapacityGB(),dto.getSpeedMHz(),dto.getFormFactor(),dto.getRgbLighting(),dto.getBrand()),
                 HttpStatus.OK);
     }
 
-    @GetMapping("/category/memory/filters")
+    @GetMapping("/product/category/memory/filters")
     public ResponseEntity<MemoryFilterOptionsDTO> getMemoryFilters(){
         return new ResponseEntity<>(memoryService.getAvailableFilters(),
                 HttpStatus.OK);

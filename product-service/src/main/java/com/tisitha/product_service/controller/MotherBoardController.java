@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping
 public class MotherBoardController {
 
     private final MotherBoardService motherBoardService;
@@ -22,13 +22,13 @@ public class MotherBoardController {
         this.motherBoardService = motherBoardService;
     }
 
-    @GetMapping("/category/mother-boards/get")
+    @GetMapping("/product/category/mother-boards/get")
     public ResponseEntity<ProductPageSortDto<MotherBoardResponseDTO>> getMotherBoard(@RequestBody MotherBoardGetRequestDTO dto){
         return new ResponseEntity<>(motherBoardService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getCpuSocket(),dto.getChipsetSeries(),dto.getFormFactor(),dto.getRamType(),dto.getPcieSlotVersion(),dto.getM2Slots(),dto.getWirelessConnectivity()),
                 HttpStatus.OK);
     }
 
-    @GetMapping("/category/mother-boards/filters")
+    @GetMapping("/product/category/mother-boards/filters")
     public ResponseEntity<MotherBoardFilterOptionsDTO> getMotherBoardFilters(){
         return new ResponseEntity<>(motherBoardService.getAvailableFilters(),
                 HttpStatus.OK);

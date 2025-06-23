@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping
 public class GraphicsCardController {
 
     private final GraphicsCardService graphicsCardService;
@@ -22,13 +22,13 @@ public class GraphicsCardController {
         this.graphicsCardService = graphicsCardService;
     }
 
-    @GetMapping("/category/graphics-cards/get")
+    @GetMapping("/product/category/graphics-cards/get")
     public ResponseEntity<ProductPageSortDto<GraphicsCardResponseDTO>> getGraphicCard(@RequestBody GraphicsCardGetRequestDTO dto){
         return new ResponseEntity<>(graphicsCardService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getGpuManufacturer(),dto.getGpuSeries(),dto.getVramGb()),
                 HttpStatus.OK);
     }
 
-    @GetMapping("/category/graphics-cards/filters")
+    @GetMapping("/product/category/graphics-cards/filters")
     public ResponseEntity<GraphicsCardFilterOptionsDTO> getGraphicCardFilters(){
         return new ResponseEntity<>(graphicsCardService.getAvailableFilters(),
                 HttpStatus.OK);

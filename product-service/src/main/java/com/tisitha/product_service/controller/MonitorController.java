@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping
 public class MonitorController {
 
     private final MonitorService monitorService;
@@ -22,13 +22,13 @@ public class MonitorController {
         this.monitorService = monitorService;
     }
 
-    @GetMapping("/category/monitors/get")
+    @GetMapping("/product/category/monitors/get")
     public ResponseEntity<ProductPageSortDto<MonitorResponseDTO>> getMonitor(@RequestBody MonitorGetRequestDTO dto){
         return new ResponseEntity<>(monitorService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getDisplayResolution(),dto.getRefreshRateHz(),dto.getResponseTimeMs(),dto.getPanelType(),dto.getAspectRatio(),dto.getAdaptiveSyncTechnology()),
                 HttpStatus.OK);
     }
 
-    @GetMapping("/category/monitors/filters")
+    @GetMapping("/product/category/monitors/filters")
     public ResponseEntity<MonitorFilterOptionsDTO> getMonitorFilters(){
         return new ResponseEntity<>(monitorService.getAvailableFilters(),
                 HttpStatus.OK);

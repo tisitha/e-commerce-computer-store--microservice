@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping
 public class PeripheralController {
 
     private final PeripheralService peripheralService;
@@ -22,13 +22,13 @@ public class PeripheralController {
         this.peripheralService = peripheralService;
     }
 
-    @GetMapping("/category/peripherals/get")
+    @GetMapping("/product/category/peripherals/get")
     public ResponseEntity<ProductPageSortDto<PeripheralResponseDTO>> getPeripheral(@RequestBody PeripheralGetRequestDTO dto){
         return new ResponseEntity<>(peripheralService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getPeripheralType(),dto.getConnectivityType(),dto.getRgbLighting()),
                 HttpStatus.OK);
     }
 
-    @GetMapping("/category/peripherals/filters")
+    @GetMapping("/product/category/peripherals/filters")
     public ResponseEntity<PeripheralFilterOptionsDTO> getPeripheralFilters(){
         return new ResponseEntity<>(peripheralService.getAvailableFilters(),
                 HttpStatus.OK);

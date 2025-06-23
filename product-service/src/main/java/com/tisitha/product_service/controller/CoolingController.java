@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping
 public class CoolingController {
 
     private final CoolingService coolingService;
@@ -22,13 +22,13 @@ public class CoolingController {
         this.coolingService = coolingService;
     }
 
-    @GetMapping("/category/cooling/get")
+    @GetMapping("/product/category/cooling/get")
     public ResponseEntity<ProductPageSortDto<CoolingResponseDTO>> getCooling(@RequestBody CoolingGetRequestDTO dto){
         return new ResponseEntity<>(coolingService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getCoolingType(),dto.getSocketCompatibility(),dto.getFanSize(),dto.getRgbLighting()),
                 HttpStatus.OK);
     }
 
-    @GetMapping("/category/cooling/filters")
+    @GetMapping("/product/category/cooling/filters")
     public ResponseEntity<CoolingFilterOptionsDTO> getCoolingFilters(){
         return new ResponseEntity<>(coolingService.getAvailableFilters(),
                 HttpStatus.OK);

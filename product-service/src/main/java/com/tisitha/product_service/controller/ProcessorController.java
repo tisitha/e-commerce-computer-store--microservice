@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping
 public class ProcessorController {
 
     private final ProcessorService processorService;
@@ -22,13 +22,13 @@ public class ProcessorController {
         this.processorService = processorService;
     }
 
-    @GetMapping("/category/processors/get")
+    @GetMapping("/product/category/processors/get")
     public ResponseEntity<ProductPageSortDto<ProcessorResponseDTO>> getProcessor(@RequestBody ProcessorGetRequestDTO dto){
         return new ResponseEntity<>(processorService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getCpuSeries(),dto.getCpuSocket(),dto.getCoreCount(),dto.getThreadCount(),dto.getBaseClockSpeedGHz(),dto.getIntegratedGraphics()),
                 HttpStatus.OK);
     }
 
-    @GetMapping("/category/processors/filters")
+    @GetMapping("/product/category/processors/filters")
     public ResponseEntity<ProcessorFilterOptionsDTO> getProcessorFilters(){
         return new ResponseEntity<>(processorService.getAvailableFilters(),
                 HttpStatus.OK);

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping
 public class DesktopController {
 
     private final DesktopService desktopService;
@@ -22,13 +22,13 @@ public class DesktopController {
         this.desktopService = desktopService;
     }
 
-    @GetMapping("/category/desktops/get")
+    @GetMapping("/product/category/desktops/get")
     public ResponseEntity<ProductPageSortDto<DesktopResponseDTO>> getDesktop(@RequestBody DesktopGetRequestDTO dto){
         return new ResponseEntity<>(desktopService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getProductType(),dto.getProcessorBrand(),dto.getProcessorSeries(),dto.getGpuManufacturer(),dto.getGpuSeries(),dto.getRamCapacity(),dto.getStorageType(),dto.getStorageCapacity(),dto.getOperatingSystem()),
                 HttpStatus.OK);
     }
 
-    @GetMapping("/category/desktops/filters")
+    @GetMapping("/product/category/desktops/filters")
     public ResponseEntity<DesktopFilterOptionsDTO> getDesktopFilters(){
         return new ResponseEntity<>(desktopService.getAvailableFilters(),
                 HttpStatus.OK);

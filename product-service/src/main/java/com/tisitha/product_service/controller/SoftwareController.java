@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping
 public class SoftwareController {
 
     private final SoftwareService softwareService;
@@ -22,13 +22,13 @@ public class SoftwareController {
         this.softwareService = softwareService;
     }
 
-    @GetMapping("/category/software/get")
+    @GetMapping("/product/category/software/get")
     public ResponseEntity<ProductPageSortDto<SoftwareResponseDTO>> getSoftware(@RequestBody SoftwareGetRequestDTO dto){
         return new ResponseEntity<>(softwareService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getYears(),dto.getUses()),
                 HttpStatus.OK);
     }
 
-    @GetMapping("/category/software/filters")
+    @GetMapping("/product/category/software/filters")
     public ResponseEntity<SoftwareFilterOptionsDTO> getSoftwareFilters(){
         return new ResponseEntity<>(softwareService.getAvailableFilters(),
                 HttpStatus.OK);

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping
 public class CasingController {
 
     private final CasingService casingService;
@@ -22,13 +22,13 @@ public class CasingController {
         this.casingService = casingService;
     }
 
-    @GetMapping("/category/casings/get")
+    @GetMapping("/product/category/casings/get")
     public ResponseEntity<ProductPageSortDto<CasingResponseDTO>> getCasing(@RequestBody CasingGetRequestDTO dto){
         return new ResponseEntity<>(casingService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getCaseType(),dto.getMaxGPULength(),dto.getIncludedFans()),
                 HttpStatus.OK);
     }
 
-    @GetMapping("/category/casings/filters")
+    @GetMapping("/product/category/casings/filters")
     public ResponseEntity<CasingFilterOptionsDTO> getCasingFilters(){
         return new ResponseEntity<>(casingService.getAvailableFilters(),
                 HttpStatus.OK);
