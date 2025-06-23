@@ -29,8 +29,8 @@ public class InventoryController {
     }
 
     @PutMapping("update-quantity/{id}")
-    public ResponseEntity<InventoryDTO> updateQuantity(@PathVariable UUID id,@RequestParam Integer quantity){
-        return new ResponseEntity<>(inventoryService.updateQuantity(id,quantity), HttpStatus.CREATED);
+    public ResponseEntity<InventoryDTO> updateQuantity(@PathVariable UUID id,@RequestParam Integer quantity,@RequestParam String productName){
+        return new ResponseEntity<>(inventoryService.updateQuantity(id,quantity,productName), HttpStatus.CREATED);
     }
 
     @DeleteMapping("delete-quantity/{id}")

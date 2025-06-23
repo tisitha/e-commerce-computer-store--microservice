@@ -11,7 +11,7 @@ public interface InventoryService {
 
     InventoryDTO addQuantity(UUID productId,Integer quantity);
 
-    InventoryDTO updateQuantity(UUID productId,Integer quantity);
+    InventoryDTO updateQuantity(UUID productId,Integer quantity, String productName);
 
     void deleteFromInventory(UUID productId);
 }
