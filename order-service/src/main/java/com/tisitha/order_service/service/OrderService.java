@@ -14,7 +14,7 @@ public interface OrderService {
 
     OrderResponseDTO getOrdersByCustomer(UUID id,OrderGetRequestDTO requestDTO);
 
-    void addOrder(List<CartItemRequestDTO> dtos);
+    void addOrder(String authHeader,List<CartItemRequestDTO> dtos);
 
     void deleteOrderData(UUID id);
 }

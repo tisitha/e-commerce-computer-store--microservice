@@ -32,8 +32,8 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> addOrders(@RequestBody List<CartItemRequestDTO> dtos){
-        orderService.addOrder(dtos);
+    public ResponseEntity<Void> addOrders(@RequestHeader("Authorization") String authHeader,@RequestBody List<CartItemRequestDTO> dtos){
+        orderService.addOrder(authHeader,dtos);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

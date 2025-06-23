@@ -9,7 +9,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ItemNotFoundException.class)
-    public ProblemDetail DataNotFoundExceptionHandler(ItemNotFoundException ex){
+    public ProblemDetail ItemNotFoundExceptionHandler(ItemNotFoundException ex){
         return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(UnauthorizeUserException.class)
+    public ProblemDetail UnauthorizeUserExceptionHandler(UnauthorizeUserException ex){
+        return ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, ex.getMessage());
+    }
+
+    @ExceptionHandler(EmptyOrderException.class)
+    public ProblemDetail EmptyOrderExceptionHandler(EmptyOrderException ex){
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 }

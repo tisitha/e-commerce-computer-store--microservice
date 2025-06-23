@@ -4,7 +4,10 @@ import com.tisitha.order_service.dto.CartItemRequestDTO;
 import com.tisitha.order_service.dto.InventoryDTO;
 import com.tisitha.order_service.dto.OrderGetRequestDTO;
 import com.tisitha.order_service.dto.OrderResponseDTO;
+import com.tisitha.order_service.exception.EmptyOrderException;
+import com.tisitha.order_service.exception.UnauthorizeUserException;
 import com.tisitha.order_service.feign.InventoryClient;
+import com.tisitha.order_service.feign.UserClient;
 import com.tisitha.order_service.model.Order;
 import com.tisitha.order_service.model.OrderItem;
 import com.tisitha.order_service.model.OrderState;
@@ -29,11 +32,13 @@ public class OrderServiceImp implements OrderService{
     private final OrderRepository orderRepository;
     private final KafkaJsonProducer kafkaJsonProducer;
     private final InventoryClient inventoryClient;
+    private final UserClient userClient;
 
-    public OrderServiceImp(OrderRepository orderRepository, KafkaJsonProducer kafkaJsonProducer, InventoryClient inventoryClient) {
+    public OrderServiceImp(OrderRepository orderRepository, KafkaJsonProducer kafkaJsonProducer, InventoryClient inventoryClient, UserClient userClient) {
         this.orderRepository = orderRepository;
         this.kafkaJsonProducer = kafkaJsonProducer;
         this.inventoryClient = inventoryClient;
+        this.userClient = userClient;
     }
 
     @Override
@@ -55,15 +60,18 @@ public class OrderServiceImp implements OrderService{
     }
 
     @Override
-    public void addOrder(List<CartItemRequestDTO> dtos) {
+    public void addOrder(String authHeader,List<CartItemRequestDTO> dtos) {
         Order order = new Order();
         double cost = 0;
-        UUID customerId = null;
+        if(dtos.isEmpty()){
+            throw new EmptyOrderException("cannot enter empty order");
+        }
+        UUID customerId = dtos.getFirst().getCustomerId();
+        if(Boolean.FALSE.equals(userClient.validateTokenSubject(authHeader, customerId).getBody())){
+            throw new UnauthorizeUserException("Unauthorize user request");
+        }
         List<OrderItem> orderItemList = new ArrayList<>();
         for(CartItemRequestDTO dto:dtos){
-            if(customerId==null){
-                customerId=dto.getCustomerId();
-            }
             int quantity = Objects.requireNonNull(inventoryClient.getQuantity(dto.getProductId()).getBody()).getQuantity();
             inventoryClient.updateQuantity(dto.getProductId(),quantity-dto.getQuantity(),dto.getTitle());
             OrderItem orderItem = new OrderItem(
