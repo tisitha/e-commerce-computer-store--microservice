@@ -55,6 +55,28 @@ public class AuthController {
                 :ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
+    @GetMapping("/validate-admin")
+    public ResponseEntity<Void> validateAdminToken(@RequestHeader("Authorization") String authHeader){
+
+        if(authHeader == null || !authHeader.startsWith("Bearer ")){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return authService.validateAdminToken(authHeader.substring(7))
+                ?ResponseEntity.ok().build()
+                :ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    @GetMapping("/validate-email/{email}")
+    public ResponseEntity<Boolean> validateToken(@RequestHeader("Authorization") String authHeader,@PathVariable String email){
+
+        if(authHeader == null || !authHeader.startsWith("Bearer ")){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return authService.validateTokenSubject(authHeader.substring(7),email)
+                ?ResponseEntity.ok(true)
+                :ResponseEntity.ok(false);
+    }
+
     @PutMapping("/user-update/{id}")
     public ResponseEntity<Void> updateUser(@PathVariable UUID id, @RequestBody UpdateUserDTO updateUserDTO) {
         try{

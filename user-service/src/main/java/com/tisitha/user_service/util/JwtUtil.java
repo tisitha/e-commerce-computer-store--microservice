@@ -1,5 +1,7 @@
 package com.tisitha.user_service.util;
 
+import com.tisitha.user_service.model.UserRole;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -39,7 +41,37 @@ public class JwtUtil {
                     .build()
                     .parseClaimsJws(token);
         } catch (JwtException e){
-            throw new JwtException("");
+            throw new JwtException("JWT validation failed: " + e.getMessage());
+        }
+    }
+
+    public void validateAdminToken(String token) {
+        try{
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            if(!claims.get("role").equals(UserRole.ROLE_ADMIN)){
+                throw new JwtException("Not an admin");
+            }
+        } catch (JwtException e){
+            throw new JwtException("JWT validation failed: " + e.getMessage());
+        }
+    }
+
+    public void validateTokenSubject(String token, String expectedEmail) {
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            if (!claims.getSubject().equals(expectedEmail)) {
+                throw new JwtException("Token does not match with user");
+            }
+        } catch (JwtException e) {
+            throw new JwtException("JWT validation failed: " + e.getMessage());
         }
     }
 }

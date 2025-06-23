@@ -16,6 +16,10 @@ public interface AuthService {
 
     boolean validateToken(String token) ;
 
+    boolean validateAdminToken(String token);
+
+    boolean validateTokenSubject(String token, String expectedEmail);
+
     void updateUser(UUID id, UpdateUserDTO updateUserDTO);
 
     void deleteUser(UUID id, PasswordDTO pass);

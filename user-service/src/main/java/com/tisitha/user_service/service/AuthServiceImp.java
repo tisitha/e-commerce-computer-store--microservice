@@ -50,6 +50,26 @@ public class AuthServiceImp implements AuthService {
     }
 
     @Override
+    public boolean validateAdminToken(String token) {
+        try{
+            jwtUtil.validateAdminToken(token);
+            return true;
+        } catch (JwtException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean validateTokenSubject(String token, String expectedEmail) {
+        try{
+            jwtUtil.validateTokenSubject(token,expectedEmail);
+            return true;
+        } catch (JwtException e) {
+            return false;
+        }
+    }
+
+    @Override
     public void updateUser(UUID id, UpdateUserDTO updateUserDTO) {
         userService.updateUser(id,updateUserDTO);
     }
