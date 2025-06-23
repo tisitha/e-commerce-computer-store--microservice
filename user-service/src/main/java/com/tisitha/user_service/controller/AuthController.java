@@ -67,7 +67,7 @@ public class AuthController {
     }
 
     @GetMapping("/validate-email/{email}")
-    public ResponseEntity<Boolean> validateToken(@RequestHeader("Authorization") String authHeader,@PathVariable String email){
+    public ResponseEntity<Boolean> validateTokenSubject(@RequestHeader("Authorization") String authHeader,@PathVariable String email){
 
         if(authHeader == null || !authHeader.startsWith("Bearer ")){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
