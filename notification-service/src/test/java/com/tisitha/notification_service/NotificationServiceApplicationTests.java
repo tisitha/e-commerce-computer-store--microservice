@@ -1,10 +1,10 @@
-package com.tisitha.nortification_service;
+package com.tisitha.notification_service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class NortificationServiceApplicationTests {
+class NotificationServiceApplicationTests {
 
 	@Test
 	void contextLoads() {

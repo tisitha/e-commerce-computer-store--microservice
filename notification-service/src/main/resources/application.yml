@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: notification-service
+
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: store
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: '*'
+
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+eureka:
+  instance:
+    prefer-ip-address: true
+
+  client:
+    service-url:
+      defaultZone: http://admin:password@localhost:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+
+server:
+  port: 8086
+
+mail:
+  email: ${MAIL_USERNAME}
+  admin:
+    email: ${MAIL_ADMIN}
