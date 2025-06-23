@@ -1,6 +1,7 @@
 package com.tisitha.inventory_service.service;
 
 import com.tisitha.inventory_service.dto.InventoryDTO;
+import com.tisitha.inventory_service.exception.DataNotFoundException;
 import com.tisitha.inventory_service.model.Inventory;
 import com.tisitha.inventory_service.payload.MailBody;
 import com.tisitha.inventory_service.producer.KafkaJsonProducer;
@@ -22,7 +23,7 @@ public class InventoryServiceImp implements InventoryService{
 
     @Override
     public InventoryDTO getQuantity(UUID productId) {
-        Inventory inventory = inventoryRepository.findByProductId(productId).orElseThrow(()->new RuntimeException("Not in inventory"));
+        Inventory inventory = inventoryRepository.findByProductId(productId).orElseThrow(()->new DataNotFoundException("Data of product id:"+productId+" not found"));
         return new InventoryDTO(inventory.getId(), inventory.getProductId(), inventory.getQuantity());
     }
 
@@ -37,7 +38,7 @@ public class InventoryServiceImp implements InventoryService{
 
     @Override
     public InventoryDTO updateQuantity(UUID productId, Integer quantity) {
-        Inventory inventory = inventoryRepository.findByProductId(productId).orElseThrow(()->new RuntimeException("Not in inventory"));
+        Inventory inventory = inventoryRepository.findByProductId(productId).orElseThrow(()->new DataNotFoundException("Data of product id:"+productId+" not found"));
         inventory.setQuantity(quantity);
         Inventory newInventory = inventoryRepository.save(inventory);
         if(newInventory.getQuantity()<=2){
@@ -52,7 +53,7 @@ public class InventoryServiceImp implements InventoryService{
     @Override
     public void deleteFromInventory(UUID productId) {
         if(!inventoryRepository.existsByProductId(productId)){
-            throw new RuntimeException("not exist by pid");
+            throw new DataNotFoundException("Data of product id:"+productId+" not found");
         }
         inventoryRepository.deleteByProductId(productId);
     }
