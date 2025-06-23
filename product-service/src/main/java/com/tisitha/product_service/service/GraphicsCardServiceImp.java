@@ -144,7 +144,7 @@ public class GraphicsCardServiceImp implements GraphicsCardService {
 
         GraphicsCard newGraphicsCard =  graphicsCardRepository.save(graphicsCard);
 
-        inventoryClient.updateQuantity(newGraphicsCard.getId(),dto.getQuantity());
+        inventoryClient.updateQuantity(newGraphicsCard.getId(),dto.getQuantity(), newGraphicsCard.getName());
 
         return convertToDTO(newGraphicsCard);
     }

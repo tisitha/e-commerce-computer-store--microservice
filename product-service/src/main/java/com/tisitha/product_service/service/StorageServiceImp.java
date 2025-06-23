@@ -158,7 +158,7 @@ public class StorageServiceImp implements StorageService{
 
         Storage newStorage =  storageRepository.save(storage);
 
-        inventoryClient.updateQuantity(newStorage.getId(),dto.getQuantity());
+        inventoryClient.updateQuantity(newStorage.getId(),dto.getQuantity(), newStorage.getName());
 
         return convertToDTO(newStorage);
     }

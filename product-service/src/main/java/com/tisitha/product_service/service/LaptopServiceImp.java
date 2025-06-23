@@ -186,7 +186,7 @@ public class LaptopServiceImp implements LaptopService{
 
         Laptop newLaptop =  laptopRepository.save(laptop);
 
-        inventoryClient.updateQuantity(newLaptop.getId(),dto.getQuantity());
+        inventoryClient.updateQuantity(newLaptop.getId(),dto.getQuantity(), newLaptop.getName());
 
         return convertToDTO(newLaptop);
     }

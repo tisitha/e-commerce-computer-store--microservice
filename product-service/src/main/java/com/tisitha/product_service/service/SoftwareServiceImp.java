@@ -144,7 +144,7 @@ public class SoftwareServiceImp implements SoftwareService{
 
         Software newSoftware =  softwareRepository.save(software);
 
-        inventoryClient.updateQuantity(newSoftware.getId(),dto.getQuantity());
+        inventoryClient.updateQuantity(newSoftware.getId(),dto.getQuantity(), newSoftware.getName());
 
         return convertToDTO(newSoftware);
     }

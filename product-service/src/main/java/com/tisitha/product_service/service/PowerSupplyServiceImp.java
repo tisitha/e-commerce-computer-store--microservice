@@ -158,7 +158,7 @@ public class PowerSupplyServiceImp implements PowerSupplyService{
 
         PowerSupply newPowerSupply =  powerSupplyRepository.save(powerSupply);
 
-        inventoryClient.updateQuantity(newPowerSupply.getId(),dto.getQuantity());
+        inventoryClient.updateQuantity(newPowerSupply.getId(),dto.getQuantity(), newPowerSupply.getName());
 
         return convertToDTO(newPowerSupply);
     }

@@ -172,7 +172,7 @@ public class ProcessorServiceImp implements ProcessorService{
 
         Processor newProcessor =  processorRepository.save(processor);
 
-        inventoryClient.updateQuantity(newProcessor.getId(),dto.getQuantity());
+        inventoryClient.updateQuantity(newProcessor.getId(),dto.getQuantity(), newProcessor.getName());
 
         return convertToDTO(newProcessor);
     }

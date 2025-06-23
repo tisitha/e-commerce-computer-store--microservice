@@ -172,7 +172,7 @@ public class MonitorServiceImp implements MonitorService{
 
         Monitor newMonitor =  monitorRepository.save(monitor);
 
-        inventoryClient.updateQuantity(newMonitor.getId(),dto.getQuantity());
+        inventoryClient.updateQuantity(newMonitor.getId(),dto.getQuantity(), newMonitor.getName());
 
         return convertToDTO(newMonitor);
     }

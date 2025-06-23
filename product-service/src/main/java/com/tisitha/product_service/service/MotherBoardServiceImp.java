@@ -179,7 +179,7 @@ public class MotherBoardServiceImp implements MotherBoardService{
 
         MotherBoard newMotherBoard =  motherBoardRepository.save(motherBoard);
 
-        inventoryClient.updateQuantity(newMotherBoard.getId(),dto.getQuantity());
+        inventoryClient.updateQuantity(newMotherBoard.getId(),dto.getQuantity(), newMotherBoard.getName());
 
         return convertToDTO(newMotherBoard);
     }

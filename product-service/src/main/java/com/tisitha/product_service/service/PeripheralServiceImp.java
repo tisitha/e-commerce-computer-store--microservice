@@ -151,7 +151,7 @@ public class PeripheralServiceImp implements PeripheralService{
 
         Peripheral newPeripheral =  peripheralRepository.save(peripheral);
 
-        inventoryClient.updateQuantity(newPeripheral.getId(),dto.getQuantity());
+        inventoryClient.updateQuantity(newPeripheral.getId(),dto.getQuantity(), newPeripheral.getName());
 
         return convertToDTO(newPeripheral);
     }

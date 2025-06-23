@@ -165,7 +165,7 @@ public class MemoryServiceImp implements MemoryService{
 
         Memory newMemory =  memoryRepository.save(memory);
 
-        inventoryClient.updateQuantity(newMemory.getId(),dto.getQuantity());
+        inventoryClient.updateQuantity(newMemory.getId(),dto.getQuantity(), newMemory.getName());
 
         return convertToDTO(newMemory);
     }

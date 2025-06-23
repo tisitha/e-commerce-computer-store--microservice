@@ -191,7 +191,7 @@ public class DesktopServiceImp implements DesktopService{
 
         Desktop newDesktop =  desktopRepository.save(desktop);
 
-        inventoryClient.updateQuantity(newDesktop.getId(),dto.getQuantity());
+        inventoryClient.updateQuantity(newDesktop.getId(),dto.getQuantity(), newDesktop.getName());
 
         return convertToDTO(newDesktop);
     }

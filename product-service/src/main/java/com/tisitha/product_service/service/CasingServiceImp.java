@@ -150,7 +150,7 @@ public class CasingServiceImp implements CasingService{
 
         Casing newCasing =  casingRepository.save(casing);
 
-        inventoryClient.updateQuantity(newCasing.getId(),dto.getQuantity());
+        inventoryClient.updateQuantity(newCasing.getId(),dto.getQuantity(), newCasing.getName());
 
         return convertToDTO(newCasing);
     }

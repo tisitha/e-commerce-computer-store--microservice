@@ -158,7 +158,7 @@ public class CoolingServiceImp implements CoolingService{
 
         Cooling newCooling =  coolingRepository.save(cooling);
 
-        inventoryClient.updateQuantity(newCooling.getId(),dto.getQuantity());
+        inventoryClient.updateQuantity(newCooling.getId(),dto.getQuantity(), newCooling.getName());
 
         return convertToDTO(newCooling);
     }

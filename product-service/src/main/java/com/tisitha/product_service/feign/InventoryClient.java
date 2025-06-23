@@ -17,7 +17,7 @@ public interface InventoryClient {
     public ResponseEntity<InventoryDTO> addQuantity(@PathVariable UUID id,@RequestParam Integer quantity);
 
     @PutMapping("inventory/update-quantity/{id}")
-    public ResponseEntity<InventoryDTO> updateQuantity(@PathVariable UUID id,@RequestParam Integer quantity);
+    public ResponseEntity<InventoryDTO> updateQuantity(@PathVariable UUID id,@RequestParam Integer quantity,@RequestParam String productName);
 
     @DeleteMapping("inventory/delete-quantity/{id}")
     public ResponseEntity<Void> deleteQuantity(@PathVariable UUID id);
