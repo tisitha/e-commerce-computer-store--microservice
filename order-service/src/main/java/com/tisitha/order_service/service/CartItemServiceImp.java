@@ -2,6 +2,7 @@ package com.tisitha.order_service.service;
 
 import com.tisitha.order_service.dto.CartItemRequestDTO;
 import com.tisitha.order_service.dto.CartItemResponseDTO;
+import com.tisitha.order_service.exception.ItemNotFoundException;
 import com.tisitha.order_service.model.CartItem;
 import com.tisitha.order_service.repository.CartItemRepository;
 import org.springframework.stereotype.Service;
@@ -58,7 +59,7 @@ public class CartItemServiceImp implements CartItemService{
 
     @Override
     public void updateCartItem(UUID id, Integer quantity) {
-        CartItem item = cartItemRepository.findById(id).orElseThrow(()->new RuntimeException("not found"));
+        CartItem item = cartItemRepository.findById(id).orElseThrow(()->new ItemNotFoundException("Item not found"));
         item.setQuantity(quantity);
         cartItemRepository.save(item);
     }
