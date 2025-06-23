@@ -6,6 +6,8 @@ import com.tisitha.order_service.dto.OrderResponseDTO;
 import com.tisitha.order_service.model.Order;
 import com.tisitha.order_service.model.OrderItem;
 import com.tisitha.order_service.model.OrderState;
+import com.tisitha.order_service.payload.MailBody;
+import com.tisitha.order_service.producer.KafkaJsonProducer;
 import com.tisitha.order_service.repository.OrderRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,9 +24,11 @@ import java.util.UUID;
 public class OrderServiceImp implements OrderService{
 
     private final OrderRepository orderRepository;
+    private final KafkaJsonProducer kafkaJsonProducer;
 
-    public OrderServiceImp(OrderRepository orderRepository) {
+    public OrderServiceImp(OrderRepository orderRepository, KafkaJsonProducer kafkaJsonProducer) {
         this.orderRepository = orderRepository;
+        this.kafkaJsonProducer = kafkaJsonProducer;
     }
 
     @Override
@@ -75,6 +79,10 @@ public class OrderServiceImp implements OrderService{
         order.setDateTime(LocalDateTime.now());
         order.setOrderState(OrderState.PROCESSING);
         order.setCost(cost);
+        kafkaJsonProducer.sendJson(MailBody.builder()
+                        .subject("New Order")
+                        .text(order.toString())
+                        .build());
         orderRepository.save(order);
     }
 
