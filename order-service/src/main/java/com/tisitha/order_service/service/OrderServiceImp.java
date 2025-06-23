@@ -1,8 +1,10 @@
 package com.tisitha.order_service.service;
 
 import com.tisitha.order_service.dto.CartItemRequestDTO;
+import com.tisitha.order_service.dto.InventoryDTO;
 import com.tisitha.order_service.dto.OrderGetRequestDTO;
 import com.tisitha.order_service.dto.OrderResponseDTO;
+import com.tisitha.order_service.feign.InventoryClient;
 import com.tisitha.order_service.model.Order;
 import com.tisitha.order_service.model.OrderItem;
 import com.tisitha.order_service.model.OrderState;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -25,10 +28,12 @@ public class OrderServiceImp implements OrderService{
 
     private final OrderRepository orderRepository;
     private final KafkaJsonProducer kafkaJsonProducer;
+    private final InventoryClient inventoryClient;
 
-    public OrderServiceImp(OrderRepository orderRepository, KafkaJsonProducer kafkaJsonProducer) {
+    public OrderServiceImp(OrderRepository orderRepository, KafkaJsonProducer kafkaJsonProducer, InventoryClient inventoryClient) {
         this.orderRepository = orderRepository;
         this.kafkaJsonProducer = kafkaJsonProducer;
+        this.inventoryClient = inventoryClient;
     }
 
     @Override
@@ -59,6 +64,8 @@ public class OrderServiceImp implements OrderService{
             if(customerId==null){
                 customerId=dto.getCustomerId();
             }
+            int quantity = Objects.requireNonNull(inventoryClient.getQuantity(dto.getProductId()).getBody()).getQuantity();
+            inventoryClient.updateQuantity(dto.getProductId(),quantity-dto.getQuantity(),dto.getTitle());
             OrderItem orderItem = new OrderItem(
                     dto.getProductId(),
                     dto.getTitle(),
