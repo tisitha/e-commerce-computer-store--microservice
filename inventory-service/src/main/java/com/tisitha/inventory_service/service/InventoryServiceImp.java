@@ -2,6 +2,8 @@ package com.tisitha.inventory_service.service;
 
 import com.tisitha.inventory_service.dto.InventoryDTO;
 import com.tisitha.inventory_service.model.Inventory;
+import com.tisitha.inventory_service.payload.MailBody;
+import com.tisitha.inventory_service.producer.KafkaJsonProducer;
 import com.tisitha.inventory_service.repository.InventoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +13,11 @@ import java.util.UUID;
 public class InventoryServiceImp implements InventoryService{
 
     private final InventoryRepository inventoryRepository;
+    private final KafkaJsonProducer kafkaJsonProducer;
 
-    public InventoryServiceImp(InventoryRepository inventoryRepository) {
+    public InventoryServiceImp(InventoryRepository inventoryRepository, KafkaJsonProducer kafkaJsonProducer) {
         this.inventoryRepository = inventoryRepository;
+        this.kafkaJsonProducer = kafkaJsonProducer;
     }
 
     @Override
@@ -36,6 +40,12 @@ public class InventoryServiceImp implements InventoryService{
         Inventory inventory = inventoryRepository.findByProductId(productId).orElseThrow(()->new RuntimeException("Not in inventory"));
         inventory.setQuantity(quantity);
         Inventory newInventory = inventoryRepository.save(inventory);
+        if(newInventory.getQuantity()<=2){
+            kafkaJsonProducer.sendJson(MailBody.builder()
+                    .subject("Low Stock Alert")
+                    .text(newInventory.getProductId()+" is low on stock ("+newInventory.getQuantity()+")")
+                    .build());
+        }
         return new InventoryDTO(newInventory.getId(),newInventory.getProductId(),newInventory.getQuantity());
     }
 
