@@ -2,6 +2,10 @@ package com.tisitha.user_service.service;
 
 import com.tisitha.user_service.dto.ChangePassword;
 import com.tisitha.user_service.dto.MailBody;
+import com.tisitha.user_service.exception.OtpExpiredException;
+import com.tisitha.user_service.exception.OtpInvalidException;
+import com.tisitha.user_service.exception.PasswordsNotMatchingException;
+import com.tisitha.user_service.exception.UserNotFoundException;
 import com.tisitha.user_service.model.ForgotPassword;
 import com.tisitha.user_service.model.User;
 import com.tisitha.user_service.repository.ForgotPasswordRepository;
@@ -32,7 +36,7 @@ public class ForgotPasswordServiceImp implements ForgotPasswordService{
 
     @Override
     public void verifyEmail(String email){
-        User user = userService.findByEmail(email).orElseThrow(()->new RuntimeException("Email not found"));
+        User user = userService.findByEmail(email).orElseThrow(()->new UserNotFoundException("User(email:"+email+") is invalid"));
         forgotPasswordRepository.deleteByUserId(user.getId());
         int otp = otpGenerator();
         MailBody mailbody = MailBody.builder()
@@ -55,29 +59,29 @@ public class ForgotPasswordServiceImp implements ForgotPasswordService{
 
     @Override
     public void verifyOtp(Integer otp,String email){
-        User user = userService.findByEmail(email).orElseThrow(()->new RuntimeException("cannot find email"));
+        User user = userService.findByEmail(email).orElseThrow(()->new UserNotFoundException("User(email:"+email+") is invalid"));
 
-        ForgotPassword fp = forgotPasswordRepository.findByOtpAndUser(otp,user).orElseThrow(()->new RuntimeException("Invalid OTP and email"+email));
+        ForgotPassword fp = forgotPasswordRepository.findByOtpAndUser(otp,user).orElseThrow(()->new OtpInvalidException("OTP is invalid"));
 
         if (fp.getExpirationTime().before(Date.from(Instant.now()))){
             forgotPasswordRepository.deleteById(fp.getFpId());
-            throw new RuntimeException("OTP expired");
+            throw new OtpExpiredException("Otp expired");
         }
     }
 
     @Override
     public void changePasswordHandler(ChangePassword changePassword, Integer otp, String email){
-        User user = userService.findByEmail(email).orElseThrow(()->new RuntimeException("email not found"));
+        User user = userService.findByEmail(email).orElseThrow(()->new UserNotFoundException("User(email:"+email+") is invalid"));
 
-        ForgotPassword fp = forgotPasswordRepository.findByOtpAndUser(otp,user).orElseThrow(()->new RuntimeException("Invalid OTP and email"+email));
+        ForgotPassword fp = forgotPasswordRepository.findByOtpAndUser(otp,user).orElseThrow(()->new OtpInvalidException("OTP is invalid"));
 
         if (fp.getExpirationTime().before(Date.from(Instant.now()))){
             forgotPasswordRepository.deleteById(fp.getFpId());
-            throw new RuntimeException("Otp expired");
+            throw new OtpExpiredException("Otp expired");
         }
 
         if(!Objects.equals(changePassword.password(),changePassword.repeatPassword())){
-            throw new RuntimeException("Please enter the password again");
+            throw new PasswordsNotMatchingException("Passwords not matching");
         }
 
         String encodedPassword = passwordEncoder.encode(changePassword.password());
