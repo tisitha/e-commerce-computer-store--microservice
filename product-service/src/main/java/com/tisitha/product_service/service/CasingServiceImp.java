@@ -1,10 +1,10 @@
 package com.tisitha.product_service.service;
 
-
 import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.casing.CasingFilterOptionsDTO;
 import com.tisitha.product_service.dto.casing.CasingRequestDTO;
 import com.tisitha.product_service.dto.casing.CasingResponseDTO;
+import com.tisitha.product_service.exception.ProductNotFoundException;
 import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.Casing;
 import com.tisitha.product_service.repo.CasingRepository;
@@ -129,13 +129,13 @@ public class CasingServiceImp implements CasingService{
 
     @Override
     public CasingResponseDTO getProduct(UUID id) {
-        Casing casing = casingRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        Casing casing = casingRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
         return convertToDTO(casing);
     }
 
     @Override
     public CasingResponseDTO updateProduct(UUID id, CasingRequestDTO dto) {
-        Casing casing = casingRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        Casing casing = casingRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
 
         casing.setName(dto.getName());
         casing.setImgUrl(dto.getImgUrl());
@@ -162,7 +162,7 @@ public class CasingServiceImp implements CasingService{
             inventoryClient.deleteQuantity(id);
         }
         else {
-            throw new RuntimeException("Invalid Product");
+            throw new ProductNotFoundException("Product id:"+id+" is invalid");
         }
     }
 

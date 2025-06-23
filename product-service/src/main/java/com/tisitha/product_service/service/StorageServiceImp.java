@@ -1,10 +1,10 @@
 package com.tisitha.product_service.service;
 
-
 import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.storage.StorageFilterOptionsDTO;
 import com.tisitha.product_service.dto.storage.StorageRequestDTO;
 import com.tisitha.product_service.dto.storage.StorageResponseDTO;
+import com.tisitha.product_service.exception.ProductNotFoundException;
 import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.Storage;
 import com.tisitha.product_service.repo.StorageRepository;
@@ -135,13 +135,13 @@ public class StorageServiceImp implements StorageService{
 
     @Override
     public StorageResponseDTO getProduct(UUID id) {
-        Storage storage = storageRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        Storage storage = storageRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
         return convertToDTO(storage);
     }
 
     @Override
     public StorageResponseDTO updateProduct(UUID id, StorageRequestDTO dto) {
-        Storage storage = storageRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        Storage storage = storageRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
 
         storage.setName(dto.getName());
         storage.setImgUrl(dto.getImgUrl());
@@ -170,7 +170,7 @@ public class StorageServiceImp implements StorageService{
             inventoryClient.deleteQuantity(id);
         }
         else {
-            throw new RuntimeException("Invalid Product");
+            throw new ProductNotFoundException("Product id:"+id+" is invalid");
         }
     }
 

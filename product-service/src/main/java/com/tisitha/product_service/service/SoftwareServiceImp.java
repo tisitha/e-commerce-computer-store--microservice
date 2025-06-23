@@ -1,10 +1,10 @@
 package com.tisitha.product_service.service;
 
-
 import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.software.SoftwareFilterOptionsDTO;
 import com.tisitha.product_service.dto.software.SoftwareRequestDTO;
 import com.tisitha.product_service.dto.software.SoftwareResponseDTO;
+import com.tisitha.product_service.exception.ProductNotFoundException;
 import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.Software;
 import com.tisitha.product_service.repo.SoftwareRepository;
@@ -123,13 +123,13 @@ public class SoftwareServiceImp implements SoftwareService{
 
     @Override
     public SoftwareResponseDTO getProduct(UUID id) {
-        Software software = softwareRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        Software software = softwareRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
         return convertToDTO(software);
     }
 
     @Override
     public SoftwareResponseDTO updateProduct(UUID id, SoftwareRequestDTO dto) {
-        Software software = softwareRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        Software software = softwareRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
 
         software.setName(dto.getName());
         software.setImgUrl(dto.getImgUrl());
@@ -156,7 +156,7 @@ public class SoftwareServiceImp implements SoftwareService{
             inventoryClient.deleteQuantity(id);
         }
         else {
-            throw new RuntimeException("Invalid Product");
+            throw new ProductNotFoundException("Product id:"+id+" is invalid");
         }
     }
 

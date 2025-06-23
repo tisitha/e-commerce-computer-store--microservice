@@ -1,10 +1,10 @@
 package com.tisitha.product_service.service;
 
-
 import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.motherBoard.MotherBoardFilterOptionsDTO;
 import com.tisitha.product_service.dto.motherBoard.MotherBoardRequestDTO;
 import com.tisitha.product_service.dto.motherBoard.MotherBoardResponseDTO;
+import com.tisitha.product_service.exception.ProductNotFoundException;
 import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.MotherBoard;
 import com.tisitha.product_service.repo.MotherBoardRepository;
@@ -153,13 +153,13 @@ public class MotherBoardServiceImp implements MotherBoardService{
 
     @Override
     public MotherBoardResponseDTO getProduct(UUID id) {
-        MotherBoard motherBoard = motherBoardRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        MotherBoard motherBoard = motherBoardRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
         return convertToDTO(motherBoard);
     }
 
     @Override
     public MotherBoardResponseDTO updateProduct(UUID id, MotherBoardRequestDTO dto) {
-        MotherBoard motherBoard = motherBoardRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        MotherBoard motherBoard = motherBoardRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
 
         motherBoard.setName(dto.getName());
         motherBoard.setImgUrl(dto.getImgUrl());
@@ -191,7 +191,7 @@ public class MotherBoardServiceImp implements MotherBoardService{
             inventoryClient.deleteQuantity(id);
         }
         else {
-            throw new RuntimeException("Invalid Product");
+            throw new ProductNotFoundException("Product id:"+id+" is invalid");
         }
     }
 

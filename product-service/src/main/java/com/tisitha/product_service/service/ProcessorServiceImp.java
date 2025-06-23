@@ -1,10 +1,10 @@
 package com.tisitha.product_service.service;
 
-
 import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.processor.ProcessorFilterOptionsDTO;
 import com.tisitha.product_service.dto.processor.ProcessorRequestDTO;
 import com.tisitha.product_service.dto.processor.ProcessorResponseDTO;
+import com.tisitha.product_service.exception.ProductNotFoundException;
 import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.Processor;
 import com.tisitha.product_service.repo.ProcessorRepository;
@@ -147,13 +147,13 @@ public class ProcessorServiceImp implements ProcessorService{
 
     @Override
     public ProcessorResponseDTO getProduct(UUID id) {
-        Processor processor = processorRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        Processor processor = processorRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
         return convertToDTO(processor);
     }
 
     @Override
     public ProcessorResponseDTO updateProduct(UUID id, ProcessorRequestDTO dto) {
-        Processor processor = processorRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        Processor processor = processorRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
 
         processor.setName(dto.getName());
         processor.setImgUrl(dto.getImgUrl());
@@ -184,7 +184,7 @@ public class ProcessorServiceImp implements ProcessorService{
             inventoryClient.deleteQuantity(id);
         }
         else {
-            throw new RuntimeException("Invalid Product");
+            throw new ProductNotFoundException("Product id:"+id+" is invalid");
         }
     }
 

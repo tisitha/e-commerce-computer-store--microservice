@@ -1,10 +1,10 @@
 package com.tisitha.product_service.service;
 
-
 import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.graphicsCard.GraphicsCardFilterOptionsDTO;
 import com.tisitha.product_service.dto.graphicsCard.GraphicsCardRequestDTO;
 import com.tisitha.product_service.dto.graphicsCard.GraphicsCardResponseDTO;
+import com.tisitha.product_service.exception.ProductNotFoundException;
 import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.GraphicsCard;
 import com.tisitha.product_service.repo.GraphicsCardRepository;
@@ -123,13 +123,13 @@ public class GraphicsCardServiceImp implements GraphicsCardService {
 
     @Override
     public GraphicsCardResponseDTO getProduct(UUID id) {
-        GraphicsCard graphicsCard = graphicsCardRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        GraphicsCard graphicsCard = graphicsCardRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
         return convertToDTO(graphicsCard);
     }
 
     @Override
     public GraphicsCardResponseDTO updateProduct(UUID id, GraphicsCardRequestDTO dto) {
-        GraphicsCard graphicsCard = graphicsCardRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        GraphicsCard graphicsCard = graphicsCardRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
 
         graphicsCard.setName(dto.getName());
         graphicsCard.setImgUrl(dto.getImgUrl());
@@ -156,7 +156,7 @@ public class GraphicsCardServiceImp implements GraphicsCardService {
             inventoryClient.deleteQuantity(id);
         }
         else {
-            throw new RuntimeException("Invalid Product");
+            throw new ProductNotFoundException("Product id:"+id+" is invalid");
         }
     }
 

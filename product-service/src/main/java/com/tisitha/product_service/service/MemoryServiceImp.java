@@ -1,10 +1,10 @@
 package com.tisitha.product_service.service;
 
-
 import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.memory.MemoryFilterOptionsDTO;
 import com.tisitha.product_service.dto.memory.MemoryRequestDTO;
 import com.tisitha.product_service.dto.memory.MemoryResponseDTO;
+import com.tisitha.product_service.exception.ProductNotFoundException;
 import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.Memory;
 import com.tisitha.product_service.repo.MemoryRepository;
@@ -141,13 +141,13 @@ public class MemoryServiceImp implements MemoryService{
 
     @Override
     public MemoryResponseDTO getProduct(UUID id) {
-        Memory memory = memoryRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        Memory memory = memoryRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
         return convertToDTO(memory);
     }
 
     @Override
     public MemoryResponseDTO updateProduct(UUID id, MemoryRequestDTO dto) {
-        Memory memory = memoryRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        Memory memory = memoryRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
 
         memory.setName(dto.getName());
         memory.setImgUrl(dto.getImgUrl());
@@ -177,7 +177,7 @@ public class MemoryServiceImp implements MemoryService{
             inventoryClient.deleteQuantity(id);
         }
         else {
-            throw new RuntimeException("Invalid Product");
+            throw new ProductNotFoundException("Product id:"+id+" is invalid");
         }
     }
 

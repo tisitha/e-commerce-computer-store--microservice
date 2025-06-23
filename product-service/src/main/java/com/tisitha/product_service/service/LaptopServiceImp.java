@@ -1,10 +1,10 @@
 package com.tisitha.product_service.service;
 
-
 import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.laptop.LaptopFilterOptionsDTO;
 import com.tisitha.product_service.dto.laptop.LaptopRequestDTO;
 import com.tisitha.product_service.dto.laptop.LaptopResponseDTO;
+import com.tisitha.product_service.exception.ProductNotFoundException;
 import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.Laptop;
 import com.tisitha.product_service.repo.LaptopRepository;
@@ -159,13 +159,13 @@ public class LaptopServiceImp implements LaptopService{
 
     @Override
     public LaptopResponseDTO getProduct(UUID id) {
-        Laptop laptop = laptopRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        Laptop laptop = laptopRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
         return convertToDTO(laptop);
     }
 
     @Override
     public LaptopResponseDTO updateProduct(UUID id, LaptopRequestDTO dto) {
-        Laptop laptop = laptopRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        Laptop laptop = laptopRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
 
         laptop.setName(dto.getName());
         laptop.setImgUrl(dto.getImgUrl());
@@ -198,7 +198,7 @@ public class LaptopServiceImp implements LaptopService{
             inventoryClient.deleteQuantity(id);
         }
         else {
-            throw new RuntimeException("Invalid Product");
+            throw new ProductNotFoundException("Product id:"+id+" is invalid");
         }
     }
 

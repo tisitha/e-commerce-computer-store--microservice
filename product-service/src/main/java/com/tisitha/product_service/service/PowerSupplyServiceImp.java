@@ -1,10 +1,10 @@
 package com.tisitha.product_service.service;
 
-
 import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.powerSupply.PowerSupplyFilterOptionsDTO;
 import com.tisitha.product_service.dto.powerSupply.PowerSupplyRequestDTO;
 import com.tisitha.product_service.dto.powerSupply.PowerSupplyResponseDTO;
+import com.tisitha.product_service.exception.ProductNotFoundException;
 import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.PowerSupply;
 import com.tisitha.product_service.repo.PowerSupplyRepository;
@@ -135,13 +135,13 @@ public class PowerSupplyServiceImp implements PowerSupplyService{
 
     @Override
     public PowerSupplyResponseDTO getProduct(UUID id) {
-        PowerSupply powerSupply = powerSupplyRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        PowerSupply powerSupply = powerSupplyRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
         return convertToDTO(powerSupply);
     }
 
     @Override
     public PowerSupplyResponseDTO updateProduct(UUID id, PowerSupplyRequestDTO dto) {
-        PowerSupply powerSupply = powerSupplyRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        PowerSupply powerSupply = powerSupplyRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
 
         powerSupply.setName(dto.getName());
         powerSupply.setImgUrl(dto.getImgUrl());
@@ -170,7 +170,7 @@ public class PowerSupplyServiceImp implements PowerSupplyService{
             inventoryClient.deleteQuantity(id);
         }
         else {
-            throw new RuntimeException("Invalid Product");
+            throw new ProductNotFoundException("Product id:"+id+" is invalid");
         }
     }
 

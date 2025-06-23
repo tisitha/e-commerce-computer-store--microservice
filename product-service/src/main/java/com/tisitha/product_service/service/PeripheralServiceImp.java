@@ -1,10 +1,10 @@
 package com.tisitha.product_service.service;
 
-
 import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.peripheral.PeripheralFilterOptionsDTO;
 import com.tisitha.product_service.dto.peripheral.PeripheralRequestDTO;
 import com.tisitha.product_service.dto.peripheral.PeripheralResponseDTO;
+import com.tisitha.product_service.exception.ProductNotFoundException;
 import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.Peripheral;
 import com.tisitha.product_service.repo.PeripheralRepository;
@@ -129,13 +129,13 @@ public class PeripheralServiceImp implements PeripheralService{
 
     @Override
     public PeripheralResponseDTO getProduct(UUID id) {
-        Peripheral peripheral = peripheralRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        Peripheral peripheral = peripheralRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
         return convertToDTO(peripheral);
     }
 
     @Override
     public PeripheralResponseDTO updateProduct(UUID id, PeripheralRequestDTO dto) {
-        Peripheral peripheral = peripheralRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        Peripheral peripheral = peripheralRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
 
         peripheral.setName(dto.getName());
         peripheral.setImgUrl(dto.getImgUrl());
@@ -163,7 +163,7 @@ public class PeripheralServiceImp implements PeripheralService{
             inventoryClient.deleteQuantity(id);
         }
         else {
-            throw new RuntimeException("Invalid Product");
+            throw new ProductNotFoundException("Product id:"+id+" is invalid");
         }
     }
 

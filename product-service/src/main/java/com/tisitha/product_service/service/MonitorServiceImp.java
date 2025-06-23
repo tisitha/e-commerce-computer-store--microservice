@@ -1,10 +1,10 @@
 package com.tisitha.product_service.service;
 
-
 import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.monitor.MonitorFilterOptionsDTO;
 import com.tisitha.product_service.dto.monitor.MonitorRequestDTO;
 import com.tisitha.product_service.dto.monitor.MonitorResponseDTO;
+import com.tisitha.product_service.exception.ProductNotFoundException;
 import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.Monitor;
 import com.tisitha.product_service.repo.MonitorRepository;
@@ -147,13 +147,13 @@ public class MonitorServiceImp implements MonitorService{
 
     @Override
     public MonitorResponseDTO getProduct(UUID id) {
-        Monitor monitor = monitorRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        Monitor monitor = monitorRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
         return convertToDTO(monitor);
     }
 
     @Override
     public MonitorResponseDTO updateProduct(UUID id, MonitorRequestDTO dto) {
-        Monitor monitor = monitorRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        Monitor monitor = monitorRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
 
         monitor.setName(dto.getName());
         monitor.setImgUrl(dto.getImgUrl());
@@ -184,7 +184,7 @@ public class MonitorServiceImp implements MonitorService{
             inventoryClient.deleteQuantity(id);
         }
         else {
-            throw new RuntimeException("Invalid Product");
+            throw new ProductNotFoundException("Product id:"+id+" is invalid");
         }
     }
 

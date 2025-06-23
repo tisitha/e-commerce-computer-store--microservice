@@ -1,10 +1,10 @@
 package com.tisitha.product_service.service;
 
-
 import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.cooling.CoolingFilterOptionsDTO;
 import com.tisitha.product_service.dto.cooling.CoolingRequestDTO;
 import com.tisitha.product_service.dto.cooling.CoolingResponseDTO;
+import com.tisitha.product_service.exception.ProductNotFoundException;
 import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.Cooling;
 import com.tisitha.product_service.repo.CoolingRepository;
@@ -135,13 +135,13 @@ public class CoolingServiceImp implements CoolingService{
 
     @Override
     public CoolingResponseDTO getProduct(UUID id) {
-        Cooling cooling = coolingRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        Cooling cooling = coolingRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
         return convertToDTO(cooling);
     }
 
     @Override
     public CoolingResponseDTO updateProduct(UUID id, CoolingRequestDTO dto) {
-        Cooling cooling = coolingRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        Cooling cooling = coolingRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
 
         cooling.setName(dto.getName());
         cooling.setImgUrl(dto.getImgUrl());
@@ -170,7 +170,7 @@ public class CoolingServiceImp implements CoolingService{
             inventoryClient.deleteQuantity(id);
         }
         else {
-            throw new RuntimeException("Invalid Product");
+            throw new ProductNotFoundException("Product id:"+id+" is invalid");
         }
     }
 

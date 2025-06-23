@@ -1,10 +1,10 @@
 package com.tisitha.product_service.service;
 
-
 import com.tisitha.product_service.dto.ProductPageSortDto;
 import com.tisitha.product_service.dto.desktop.DesktopFilterOptionsDTO;
 import com.tisitha.product_service.dto.desktop.DesktopRequestDTO;
 import com.tisitha.product_service.dto.desktop.DesktopResponseDTO;
+import com.tisitha.product_service.exception.ProductNotFoundException;
 import com.tisitha.product_service.feign.InventoryClient;
 import com.tisitha.product_service.model.Desktop;
 import com.tisitha.product_service.repo.DesktopRepository;
@@ -164,13 +164,13 @@ public class DesktopServiceImp implements DesktopService{
 
     @Override
     public DesktopResponseDTO getProduct(UUID id) {
-        Desktop desktop = desktopRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        Desktop desktop = desktopRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
         return convertToDTO(desktop);
     }
 
     @Override
     public DesktopResponseDTO updateProduct(UUID id, DesktopRequestDTO dto) {
-        Desktop desktop = desktopRepository.findById(id).orElseThrow(()->new RuntimeException("Invalid Product"));
+        Desktop desktop = desktopRepository.findById(id).orElseThrow(()->new ProductNotFoundException("Product id:"+id+" is invalid"));
 
         desktop.setName(dto.getName());
         desktop.setImgUrl(dto.getImgUrl());
@@ -203,7 +203,7 @@ public class DesktopServiceImp implements DesktopService{
             inventoryClient.deleteQuantity(id);
         }
         else {
-            throw new RuntimeException("Invalid Product");
+            throw new ProductNotFoundException("Product id:"+id+" is invalid");
         }
     }
 
