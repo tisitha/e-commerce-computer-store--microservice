@@ -22,7 +22,15 @@ spring:
               predicates:
                 - Path=/product/**
               filters:
+                - StripPrefix=0
+
+            - id: product-service-admin-route
+              uri: lb://PRODUCT-SERVICE
+              predicates:
+                - Path=/admin/**
+              filters:
                 - JwtValidation
+                - AdminValidation
                 - StripPrefix=0
 
             - id: inventory-service-route
