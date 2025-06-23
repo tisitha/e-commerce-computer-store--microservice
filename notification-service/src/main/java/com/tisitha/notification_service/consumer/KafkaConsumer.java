@@ -15,7 +15,7 @@ public class KafkaConsumer {
         this.emailService = emailService;
     }
 
-    @KafkaListener(topics = "notification",groupId = "myGroup")
+    @KafkaListener(topics = "notification",groupId = "store")
     public void consumeJsonMsg(MailBody mailBody){
         emailService.sendSimpleMessage(mailBody);
     }
