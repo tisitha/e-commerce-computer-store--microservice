@@ -6,6 +6,7 @@ import com.tisitha.product_service.dto.motherBoard.MotherBoardGetRequestDTO;
 import com.tisitha.product_service.dto.motherBoard.MotherBoardRequestDTO;
 import com.tisitha.product_service.dto.motherBoard.MotherBoardResponseDTO;
 import com.tisitha.product_service.service.MotherBoardService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,31 +23,36 @@ public class MotherBoardController {
         this.motherBoardService = motherBoardService;
     }
 
+    @Operation(summary = "Get product data category=mother-boards")
     @GetMapping("/product/category/mother-boards/get")
     public ResponseEntity<ProductPageSortDto<MotherBoardResponseDTO>> getMotherBoard(@RequestBody MotherBoardGetRequestDTO dto){
         return new ResponseEntity<>(motherBoardService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getCpuSocket(),dto.getChipsetSeries(),dto.getFormFactor(),dto.getRamType(),dto.getPcieSlotVersion(),dto.getM2Slots(),dto.getWirelessConnectivity()),
                 HttpStatus.OK);
     }
 
+    @Operation(summary = "Get filter options for mother-boards")
     @GetMapping("/product/category/mother-boards/filters")
     public ResponseEntity<MotherBoardFilterOptionsDTO> getMotherBoardFilters(){
         return new ResponseEntity<>(motherBoardService.getAvailableFilters(),
                 HttpStatus.OK);
     }
 
+    @Operation(summary = "Add product data category=mother-boards")
     @PostMapping("/admin/category/mother-boards/add")
     public ResponseEntity<MotherBoardResponseDTO> add(@RequestBody MotherBoardRequestDTO dto){
         return new ResponseEntity<>(motherBoardService.add(dto),
                 HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Update product data category=mother-boards")
     @PutMapping("/admin/category/mother-boards/update/{id}")
     public ResponseEntity<MotherBoardResponseDTO> update(@PathVariable UUID id, @RequestBody MotherBoardRequestDTO dto){
         return new ResponseEntity<>(motherBoardService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
 
-    @PutMapping("/admin/category/mother-boards/delete/{id}")
+    @Operation(summary = "Delete product data category=mother-boards")
+    @DeleteMapping("/admin/category/mother-boards/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
         motherBoardService.deleteProduct(id);
         return ResponseEntity.ok().build();

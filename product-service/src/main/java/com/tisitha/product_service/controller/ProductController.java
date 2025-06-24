@@ -1,6 +1,7 @@
 package com.tisitha.product_service.controller;
 
 import com.tisitha.product_service.service.*;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,7 @@ public class ProductController {
     private final SoftwareService softwareService;
     private final StorageService storageService;
 
+    @Operation(summary = "Get newly added products")
     @GetMapping("/get-new")
     public ResponseEntity<List<Object>> getNew(){
         List<Object> dto = new ArrayList<>();
@@ -49,6 +51,7 @@ public class ProductController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @Operation(summary = "Get top picking products")
     @GetMapping("/get-top-picks")
     public ResponseEntity<List<Object>> getTop(){
         List<Object> dto = new ArrayList<>();
@@ -68,6 +71,7 @@ public class ProductController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @Operation(summary = "Get discount products")
     @GetMapping("/get-deals")
     public ResponseEntity<List<Object>> getDeals(){
         List<Object> dto = new ArrayList<>();

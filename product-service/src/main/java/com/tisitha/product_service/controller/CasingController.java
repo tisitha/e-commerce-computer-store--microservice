@@ -6,6 +6,7 @@ import com.tisitha.product_service.dto.casing.CasingGetRequestDTO;
 import com.tisitha.product_service.dto.casing.CasingRequestDTO;
 import com.tisitha.product_service.dto.casing.CasingResponseDTO;
 import com.tisitha.product_service.service.CasingService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,31 +23,36 @@ public class CasingController {
         this.casingService = casingService;
     }
 
+    @Operation(summary = "Get product data category=casings")
     @GetMapping("/product/category/casings/get")
     public ResponseEntity<ProductPageSortDto<CasingResponseDTO>> getCasing(@RequestBody CasingGetRequestDTO dto){
         return new ResponseEntity<>(casingService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getCaseType(),dto.getMaxGPULength(),dto.getIncludedFans()),
                 HttpStatus.OK);
     }
 
+    @Operation(summary = "Get filter options for casings")
     @GetMapping("/product/category/casings/filters")
     public ResponseEntity<CasingFilterOptionsDTO> getCasingFilters(){
         return new ResponseEntity<>(casingService.getAvailableFilters(),
                 HttpStatus.OK);
     }
 
+    @Operation(summary = "Add product data category=casings")
     @PostMapping("/admin/category/casings/add")
     public ResponseEntity<CasingResponseDTO> add(@RequestBody CasingRequestDTO dto){
         return new ResponseEntity<>(casingService.add(dto),
                 HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Update product data category=casings")
     @PutMapping("/admin/category/casings/update/{id}")
     public ResponseEntity<CasingResponseDTO> update(@PathVariable UUID id, @RequestBody CasingRequestDTO dto){
         return new ResponseEntity<>(casingService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
 
-    @PutMapping("/admin/category/casings/delete/{id}")
+    @Operation(summary = "Delete product data category=casings")
+    @DeleteMapping("/admin/category/casings/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
         casingService.deleteProduct(id);
         return ResponseEntity.ok().build();

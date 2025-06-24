@@ -6,6 +6,7 @@ import com.tisitha.product_service.dto.peripheral.PeripheralGetRequestDTO;
 import com.tisitha.product_service.dto.peripheral.PeripheralRequestDTO;
 import com.tisitha.product_service.dto.peripheral.PeripheralResponseDTO;
 import com.tisitha.product_service.service.PeripheralService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,31 +23,36 @@ public class PeripheralController {
         this.peripheralService = peripheralService;
     }
 
+    @Operation(summary = "Get product data category=peripherals")
     @GetMapping("/product/category/peripherals/get")
     public ResponseEntity<ProductPageSortDto<PeripheralResponseDTO>> getPeripheral(@RequestBody PeripheralGetRequestDTO dto){
         return new ResponseEntity<>(peripheralService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getPeripheralType(),dto.getConnectivityType(),dto.getRgbLighting()),
                 HttpStatus.OK);
     }
 
+    @Operation(summary = "Get filter options for peripherals")
     @GetMapping("/product/category/peripherals/filters")
     public ResponseEntity<PeripheralFilterOptionsDTO> getPeripheralFilters(){
         return new ResponseEntity<>(peripheralService.getAvailableFilters(),
                 HttpStatus.OK);
     }
 
+    @Operation(summary = "Add product data category=peripherals")
     @PostMapping("/admin/category/peripherals/add")
     public ResponseEntity<PeripheralResponseDTO> add(@RequestBody PeripheralRequestDTO dto){
         return new ResponseEntity<>(peripheralService.add(dto),
                 HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Update product data category=peripherals")
     @PutMapping("/admin/category/peripherals/update/{id}")
     public ResponseEntity<PeripheralResponseDTO> update(@PathVariable UUID id, @RequestBody PeripheralRequestDTO dto){
         return new ResponseEntity<>(peripheralService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
 
-    @PutMapping("/admin/category/peripherals/delete/{id}")
+    @Operation(summary = "Delete product data category=peripherals")
+    @DeleteMapping("/admin/category/peripherals/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
         peripheralService.deleteProduct(id);
         return ResponseEntity.ok().build();
