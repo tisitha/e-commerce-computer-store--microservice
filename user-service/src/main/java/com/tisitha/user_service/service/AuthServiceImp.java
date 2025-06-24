@@ -1,9 +1,8 @@
 package com.tisitha.user_service.service;
 
-import com.tisitha.user_service.dto.LoginRequestDTO;
-import com.tisitha.user_service.dto.PasswordDTO;
-import com.tisitha.user_service.dto.RegisterRequestDTO;
-import com.tisitha.user_service.dto.UpdateUserDTO;
+import com.tisitha.user_service.dto.*;
+import com.tisitha.user_service.exception.PasswordIncorrectException;
+import com.tisitha.user_service.model.User;
 import com.tisitha.user_service.util.JwtUtil;
 import io.jsonwebtoken.JwtException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,12 +25,23 @@ public class AuthServiceImp implements AuthService {
     }
 
     @Override
-    public Optional<String> authenticate(LoginRequestDTO loginRequestDTO){
+    public LoginResponseDTO authenticate(LoginRequestDTO loginRequestDTO){
 
-        return userService
-                .findByEmail(loginRequestDTO.getEmail())
+        Optional<User> userOptional = userService.findByEmail(loginRequestDTO.getEmail());
+        if(userOptional.isEmpty()){
+            throw new PasswordIncorrectException("Email or password incorrect");
+        }
+        String uid = userOptional.get().getId().toString();
+
+        Optional<String> tokenOptional = userOptional
                 .filter(u->passwordEncoder.matches(loginRequestDTO.getPassword(),u.getPassword()))
                 .map(u->jwtUtil.generateToken(u.getEmail(),u.getRole().toString()));
+
+        if(tokenOptional.isEmpty()){
+            throw new PasswordIncorrectException("Email or password incorrect");
+        }
+
+        return new LoginResponseDTO(tokenOptional.get(),userOptional.get().getEmail(),uid,userOptional.get().getRole().toString());
     }
 
     @Override

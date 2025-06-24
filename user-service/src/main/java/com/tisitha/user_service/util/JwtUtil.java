@@ -52,7 +52,8 @@ public class JwtUtil {
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
-            if(!claims.get("role").equals(UserRole.ROLE_ADMIN)){
+            String role = claims.get("role", String.class);
+            if (role == null || !role.equals(UserRole.ROLE_ADMIN.toString())) {
                 throw new JwtException("Not an admin");
             }
         } catch (JwtException e){

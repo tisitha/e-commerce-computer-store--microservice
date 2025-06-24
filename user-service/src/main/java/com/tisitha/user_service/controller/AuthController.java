@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -25,15 +24,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO){
 
-        Optional<String> tokenOptional = authService.authenticate(loginRequestDTO);
+        return new ResponseEntity<>(authService.authenticate(loginRequestDTO),HttpStatus.OK);
 
-        if(tokenOptional.isEmpty()){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        String token = tokenOptional.get();
-
-        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     @PostMapping("/register")
