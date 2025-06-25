@@ -38,7 +38,6 @@ spring:
               predicates:
                 - Path=/inventory/**
               filters:
-                - JwtValidation
                 - StripPrefix=0
 
             - id: order-service-route
@@ -48,6 +47,34 @@ spring:
               filters:
                 - JwtValidation
                 - StripPrefix=0
+
+            - id: api-docs-user-route
+              uri: lb://USER-SERVICE
+              predicates:
+                - Path=/api-docs/auth
+              filters:
+                - RewritePath=/api-docs/auth,/v3/api-docs
+
+            - id: api-docs-product-route
+              uri: lb://PRODUCT-SERVICE
+              predicates:
+                - Path=/api-docs/product
+              filters:
+                - RewritePath=/api-docs/product,/v3/api-docs
+
+            - id: api-docs-inventory-route
+              uri: lb://INVENTORY-SERVICE
+              predicates:
+                - Path=/api-docs/inventory
+              filters:
+                - RewritePath=/api-docs/inventory,/v3/api-docs
+
+            - id: api-docs-order-route
+              uri: lb://ORDER-SERVICE
+              predicates:
+                - Path=/api-docs/order
+              filters:
+                - RewritePath=/api-docs/order,/v3/api-docs
 
 eureka:
   instance:
