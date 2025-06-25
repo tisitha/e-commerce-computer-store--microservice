@@ -38,21 +38,21 @@ public class PowerSupplyController {
     }
 
     @Operation(summary = "Add product data category=power")
-    @PostMapping("/admin/category/power/add")
+    @PostMapping("/admin/product/category/power/add")
     public ResponseEntity<PowerSupplyResponseDTO> add(@RequestBody PowerSupplyRequestDTO dto){
         return new ResponseEntity<>(powerSupplyService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=power")
-    @PutMapping("/admin/category/power/update/{id}")
+    @PutMapping("/admin/product/category/power/update/{id}")
     public ResponseEntity<PowerSupplyResponseDTO> update(@PathVariable UUID id, @RequestBody PowerSupplyRequestDTO dto){
         return new ResponseEntity<>(powerSupplyService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Delete product data category=power")
-    @DeleteMapping("/admin/category/power/delete/{id}")
+    @DeleteMapping("/admin/product/category/power/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
         powerSupplyService.deleteProduct(id);
         return ResponseEntity.ok().build();

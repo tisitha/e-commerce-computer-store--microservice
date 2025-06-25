@@ -38,21 +38,21 @@ public class ProcessorController {
     }
 
     @Operation(summary = "Add product data category=processors")
-    @PostMapping("/admin/category/processors/add")
+    @PostMapping("/admin/product/category/processors/add")
     public ResponseEntity<ProcessorResponseDTO> add(@RequestBody ProcessorRequestDTO dto){
         return new ResponseEntity<>(processorService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=processors")
-    @PutMapping("/admin/category/processors/update/{id}")
+    @PutMapping("/admin/product/category/processors/update/{id}")
     public ResponseEntity<ProcessorResponseDTO> update(@PathVariable UUID id, @RequestBody ProcessorRequestDTO dto){
         return new ResponseEntity<>(processorService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Delete product data category=processors")
-    @DeleteMapping("/admin/category/processors/delete/{id}")
+    @DeleteMapping("/admin/product/category/processors/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
         processorService.deleteProduct(id);
         return ResponseEntity.ok().build();

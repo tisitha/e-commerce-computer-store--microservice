@@ -38,21 +38,21 @@ public class CoolingController {
     }
 
     @Operation(summary = "Add product data category=cooling")
-    @PostMapping("/admin/category/cooling/add")
+    @PostMapping("/admin/product/category/cooling/add")
     public ResponseEntity<CoolingResponseDTO> add(@RequestBody CoolingRequestDTO dto){
         return new ResponseEntity<>(coolingService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=cooling")
-    @PutMapping("/admin/category/cooling/update/{id}")
+    @PutMapping("/admin/product/category/cooling/update/{id}")
     public ResponseEntity<CoolingResponseDTO> update(@PathVariable UUID id, @RequestBody CoolingRequestDTO dto){
         return new ResponseEntity<>(coolingService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Delete product data category=cooling")
-    @DeleteMapping("/admin/category/cooling/delete/{id}")
+    @DeleteMapping("/admin/product/category/cooling/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
         coolingService.deleteProduct(id);
         return ResponseEntity.ok().build();

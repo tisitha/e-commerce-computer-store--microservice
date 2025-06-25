@@ -38,21 +38,21 @@ public class CasingController {
     }
 
     @Operation(summary = "Add product data category=casings")
-    @PostMapping("/admin/category/casings/add")
+    @PostMapping("/admin/product/category/casings/add")
     public ResponseEntity<CasingResponseDTO> add(@RequestBody CasingRequestDTO dto){
         return new ResponseEntity<>(casingService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=casings")
-    @PutMapping("/admin/category/casings/update/{id}")
+    @PutMapping("/admin/product/category/casings/update/{id}")
     public ResponseEntity<CasingResponseDTO> update(@PathVariable UUID id, @RequestBody CasingRequestDTO dto){
         return new ResponseEntity<>(casingService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Delete product data category=casings")
-    @DeleteMapping("/admin/category/casings/delete/{id}")
+    @DeleteMapping("/admin/product/category/casings/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
         casingService.deleteProduct(id);
         return ResponseEntity.ok().build();

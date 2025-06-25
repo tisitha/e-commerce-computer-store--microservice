@@ -38,21 +38,21 @@ public class DesktopController {
     }
 
     @Operation(summary = "Add product data category=desktops")
-    @PostMapping("/admin/category/desktops/add")
+    @PostMapping("/admin/product/category/desktops/add")
     public ResponseEntity<DesktopResponseDTO> add(@RequestBody DesktopRequestDTO dto){
         return new ResponseEntity<>(desktopService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=desktops")
-    @PutMapping("/admin/category/desktops/update/{id}")
+    @PutMapping("/admin/product/category/desktops/update/{id}")
     public ResponseEntity<DesktopResponseDTO> update(@PathVariable UUID id, @RequestBody DesktopRequestDTO dto){
         return new ResponseEntity<>(desktopService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Delete product data category=desktops")
-    @DeleteMapping("/admin/category/desktops/delete/{id}")
+    @DeleteMapping("/admin/product/category/desktops/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
         desktopService.deleteProduct(id);
         return ResponseEntity.ok().build();

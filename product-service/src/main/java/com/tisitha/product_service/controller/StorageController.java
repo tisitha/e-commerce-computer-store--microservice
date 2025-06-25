@@ -38,21 +38,21 @@ public class StorageController {
     }
 
     @Operation(summary = "Add product data category=storages")
-    @PostMapping("/admin/category/storages/add")
+    @PostMapping("/admin/product/category/storages/add")
     public ResponseEntity<StorageResponseDTO> add(@RequestBody StorageRequestDTO dto){
         return new ResponseEntity<>(storageService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=storages")
-    @PutMapping("/admin/category/storages/update/{id}")
+    @PutMapping("/admin/product/category/storages/update/{id}")
     public ResponseEntity<StorageResponseDTO> update(@PathVariable UUID id, @RequestBody StorageRequestDTO dto){
         return new ResponseEntity<>(storageService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Delete product data category=storages")
-    @DeleteMapping("/admin/category/storages/delete/{id}")
+    @DeleteMapping("/admin/product/category/storages/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
         storageService.deleteProduct(id);
         return ResponseEntity.ok().build();

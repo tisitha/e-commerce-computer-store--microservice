@@ -38,21 +38,21 @@ public class MonitorController {
     }
 
     @Operation(summary = "Add product data category=monitors")
-    @PostMapping("/admin/category/monitors/add")
+    @PostMapping("/admin/product/category/monitors/add")
     public ResponseEntity<MonitorResponseDTO> add(@RequestBody MonitorRequestDTO dto){
         return new ResponseEntity<>(monitorService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=monitors")
-    @PutMapping("/admin/category/monitors/update/{id}")
+    @PutMapping("/admin/product/category/monitors/update/{id}")
     public ResponseEntity<MonitorResponseDTO> update(@PathVariable UUID id, @RequestBody MonitorRequestDTO dto){
         return new ResponseEntity<>(monitorService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Delete product data category=monitors")
-    @DeleteMapping("/admin/category/monitors/delete/{id}")
+    @DeleteMapping("/admin/product/category/monitors/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
         monitorService.deleteProduct(id);
         return ResponseEntity.ok().build();

@@ -38,21 +38,21 @@ public class GraphicsCardController {
     }
 
     @Operation(summary = "Add product data category=graphics-cards")
-    @PostMapping("/admin/category/graphics-cards/add")
+    @PostMapping("/admin/product/category/graphics-cards/add")
     public ResponseEntity<GraphicsCardResponseDTO> add(@RequestBody GraphicsCardRequestDTO dto){
         return new ResponseEntity<>(graphicsCardService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=graphics-cards")
-    @PutMapping("/admin/category/graphic-cards/update/{id}")
+    @PutMapping("/admin/product/category/graphic-cards/update/{id}")
     public ResponseEntity<GraphicsCardResponseDTO> update(@PathVariable UUID id, @RequestBody GraphicsCardRequestDTO dto){
         return new ResponseEntity<>(graphicsCardService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Delete product data category=graphics-cards")
-    @DeleteMapping("/admin/category/graphic-cards/delete/{id}")
+    @DeleteMapping("/admin/product/category/graphic-cards/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
         graphicsCardService.deleteProduct(id);
         return ResponseEntity.ok().build();

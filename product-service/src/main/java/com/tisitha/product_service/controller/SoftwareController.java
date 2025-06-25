@@ -38,21 +38,21 @@ public class SoftwareController {
     }
 
     @Operation(summary = "Add product data category=software")
-    @PostMapping("/admin/category/software/add")
+    @PostMapping("/admin/product/category/software/add")
     public ResponseEntity<SoftwareResponseDTO> add(@RequestBody SoftwareRequestDTO dto){
         return new ResponseEntity<>(softwareService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=software")
-    @PutMapping("/admin/category/software/update/{id}")
+    @PutMapping("/admin/product/category/software/update/{id}")
     public ResponseEntity<SoftwareResponseDTO> update(@PathVariable UUID id, @RequestBody SoftwareRequestDTO dto){
         return new ResponseEntity<>(softwareService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Delete product data category=software")
-    @DeleteMapping("/admin/category/software/delete/{id}")
+    @DeleteMapping("/admin/product/category/software/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
         softwareService.deleteProduct(id);
         return ResponseEntity.ok().build();

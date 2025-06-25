@@ -11,15 +11,15 @@ import java.util.UUID;
 public interface InventoryClient {
 
     @GetMapping("inventory/get-quantity/{id}")
-    public ResponseEntity<InventoryDTO> getQuantity(@PathVariable UUID id);
+    ResponseEntity<InventoryDTO> getQuantity(@PathVariable UUID id);
 
     @PostMapping("inventory/add-quantity/{id}")
-    public ResponseEntity<InventoryDTO> addQuantity(@PathVariable UUID id,@RequestParam Integer quantity);
+    ResponseEntity<InventoryDTO> addQuantity(@PathVariable UUID id, @RequestParam Integer quantity);
 
     @PutMapping("inventory/update-quantity/{id}")
-    public ResponseEntity<InventoryDTO> updateQuantity(@PathVariable UUID id,@RequestParam Integer quantity,@RequestParam String productName);
+    ResponseEntity<InventoryDTO> updateQuantity(@PathVariable UUID id, @RequestParam Integer quantity, @RequestParam String productName);
 
     @DeleteMapping("inventory/delete-quantity/{id}")
-    public ResponseEntity<Void> deleteQuantity(@PathVariable UUID id);
+    ResponseEntity<Void> deleteQuantity(@PathVariable UUID id);
 
 }

@@ -38,21 +38,21 @@ public class MotherBoardController {
     }
 
     @Operation(summary = "Add product data category=mother-boards")
-    @PostMapping("/admin/category/mother-boards/add")
+    @PostMapping("/admin/product/category/mother-boards/add")
     public ResponseEntity<MotherBoardResponseDTO> add(@RequestBody MotherBoardRequestDTO dto){
         return new ResponseEntity<>(motherBoardService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=mother-boards")
-    @PutMapping("/admin/category/mother-boards/update/{id}")
+    @PutMapping("/admin/product/category/mother-boards/update/{id}")
     public ResponseEntity<MotherBoardResponseDTO> update(@PathVariable UUID id, @RequestBody MotherBoardRequestDTO dto){
         return new ResponseEntity<>(motherBoardService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Delete product data category=mother-boards")
-    @DeleteMapping("/admin/category/mother-boards/delete/{id}")
+    @DeleteMapping("/admin/product/category/mother-boards/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
         motherBoardService.deleteProduct(id);
         return ResponseEntity.ok().build();

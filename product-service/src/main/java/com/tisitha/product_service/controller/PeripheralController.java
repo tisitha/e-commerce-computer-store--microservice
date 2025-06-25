@@ -38,21 +38,21 @@ public class PeripheralController {
     }
 
     @Operation(summary = "Add product data category=peripherals")
-    @PostMapping("/admin/category/peripherals/add")
+    @PostMapping("/admin/product/category/peripherals/add")
     public ResponseEntity<PeripheralResponseDTO> add(@RequestBody PeripheralRequestDTO dto){
         return new ResponseEntity<>(peripheralService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=peripherals")
-    @PutMapping("/admin/category/peripherals/update/{id}")
+    @PutMapping("/admin/product/category/peripherals/update/{id}")
     public ResponseEntity<PeripheralResponseDTO> update(@PathVariable UUID id, @RequestBody PeripheralRequestDTO dto){
         return new ResponseEntity<>(peripheralService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Delete product data category=peripherals")
-    @DeleteMapping("/admin/category/peripherals/delete/{id}")
+    @DeleteMapping("/admin/product/category/peripherals/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
         peripheralService.deleteProduct(id);
         return ResponseEntity.ok().build();

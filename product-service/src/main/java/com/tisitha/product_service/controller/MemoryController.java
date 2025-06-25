@@ -38,21 +38,21 @@ public class MemoryController {
     }
 
     @Operation(summary = "Add product data category=memory")
-    @PostMapping("/admin/category/memory/add")
+    @PostMapping("/admin/product/category/memory/add")
     public ResponseEntity<MemoryResponseDTO> add(@RequestBody MemoryRequestDTO dto){
         return new ResponseEntity<>(memoryService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=memory")
-    @PutMapping("/admin/category/memory/update/{id}")
+    @PutMapping("/admin/product/category/memory/update/{id}")
     public ResponseEntity<MemoryResponseDTO> update(@PathVariable UUID id, @RequestBody MemoryRequestDTO dto){
         return new ResponseEntity<>(memoryService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Delete product data category=memory")
-    @DeleteMapping("/admin/category/memory/delete/{id}")
+    @DeleteMapping("/admin/product/category/memory/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
         memoryService.deleteProduct(id);
         return ResponseEntity.ok().build();
