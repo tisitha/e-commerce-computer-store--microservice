@@ -9,6 +9,7 @@ import com.tisitha.user_service.exception.PasswordsNotMatchingException;
 import com.tisitha.user_service.exception.UserNotFoundException;
 import com.tisitha.user_service.model.User;
 import com.tisitha.user_service.model.UserRole;
+import com.tisitha.user_service.repository.ForgotPasswordRepository;
 import com.tisitha.user_service.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,10 +22,12 @@ public class UserServiceImp implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ForgotPasswordRepository forgotPasswordRepository;
 
-    public UserServiceImp(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImp(UserRepository userRepository, PasswordEncoder passwordEncoder, ForgotPasswordRepository forgotPasswordRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.forgotPasswordRepository = forgotPasswordRepository;
     }
 
     @Override
@@ -97,6 +100,7 @@ public class UserServiceImp implements UserService {
         if(!passwordEncoder.matches(pass.password(), user.getPassword())){
             throw new PasswordIncorrectException("Incorrect password");
         }
+        forgotPasswordRepository.deleteByUserId(id);
         userRepository.deleteById(id);
     }
 
