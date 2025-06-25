@@ -9,6 +9,6 @@ import java.util.UUID;
 @FeignClient(name = "USER-SERVICE")
 public interface UserClient {
 
-    @GetMapping("/validate-email/{email}")
-    public ResponseEntity<Boolean> validateTokenSubject(@RequestHeader("Authorization") String authHeader,@PathVariable UUID id);
+    @GetMapping("/validate-user/{id}")
+    ResponseEntity<Boolean> validateTokenSubject(@RequestHeader("Authorization") String authHeader, @PathVariable UUID id);
 }
