@@ -42,7 +42,7 @@ public class CartItemController {
 
     @Operation(summary = "Update the quantity of a cart item")
     @PutMapping("/update")
-    public ResponseEntity<?> updateCartItem(@RequestParam("uid") UUID id, @RequestParam Integer quantity) {
+    public ResponseEntity<?> updateCartItem(@RequestParam("id") UUID id, @RequestParam Integer quantity) {
         cartItemService.updateCartItem(id, quantity);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

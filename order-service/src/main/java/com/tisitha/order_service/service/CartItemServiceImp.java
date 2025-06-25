@@ -40,16 +40,22 @@ public class CartItemServiceImp implements CartItemService{
 
     @Override
     public CartItemResponseDTO addCart(CartItemRequestDTO dto) {
-        CartItem items = new CartItem();
-        items.setProductId(dto.getProductId());
-        items.setTitle(dto.getTitle());
-        items.setImgUrl(dto.getImgUrl());
-        items.setPrice(dto.getPrice());
-        items.setDeal(dto.getDeal());
-        items.setQuantity(dto.getQuantity());
-        items.setCustomerId(dto.getCustomerId());
-        CartItem newItems = cartItemRepository.save(items);
-        return itemToDto(newItems);
+        if(dto.getQuantity()==0){
+            return null;
+        }
+        CartItem item = cartItemRepository.findByProductIdAndCustomerId(dto.getProductId(),dto.getCustomerId());
+        if(item==null){
+            item = new CartItem();
+        }
+        item.setProductId(dto.getProductId());
+        item.setTitle(dto.getTitle());
+        item.setImgUrl(dto.getImgUrl());
+        item.setPrice(dto.getPrice());
+        item.setDeal(dto.getDeal());
+        item.setQuantity(item.getQuantity()+dto.getQuantity());
+        item.setCustomerId(dto.getCustomerId());
+        CartItem newItem = cartItemRepository.save(item);
+        return itemToDto(newItem);
     }
 
     @Override

@@ -22,4 +22,9 @@ public class GlobalExceptionHandler {
     public ProblemDetail EmptyOrderExceptionHandler(EmptyOrderException ex){
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
+
+    @ExceptionHandler(StockOutException.class)
+    public ProblemDetail StockOutExceptionHandler(StockOutException ex){
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
 }
