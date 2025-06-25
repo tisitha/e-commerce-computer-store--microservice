@@ -4,7 +4,6 @@ import com.tisitha.user_service.dto.*;
 import com.tisitha.user_service.service.AuthService;
 import com.tisitha.user_service.service.ForgotPasswordService;
 import io.swagger.v3.oas.annotations.Operation;
-import org.hibernate.sql.ast.tree.expression.Summarization;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
