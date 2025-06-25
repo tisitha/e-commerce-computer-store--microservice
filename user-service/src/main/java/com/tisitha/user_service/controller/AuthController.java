@@ -3,6 +3,8 @@ package com.tisitha.user_service.controller;
 import com.tisitha.user_service.dto.*;
 import com.tisitha.user_service.service.AuthService;
 import com.tisitha.user_service.service.ForgotPasswordService;
+import io.swagger.v3.oas.annotations.Operation;
+import org.hibernate.sql.ast.tree.expression.Summarization;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ public class AuthController {
         this.forgotPasswordService = forgotPasswordService;
     }
 
+    @Operation(summary = "Generate token and user details on login")
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO){
 
@@ -28,6 +31,7 @@ public class AuthController {
 
     }
 
+    @Operation(summary = "Register new user")
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequestDTO registerRequestDTO){
 
@@ -36,6 +40,7 @@ public class AuthController {
 
     }
 
+    @Operation(summary = "Check validity of token")
     @GetMapping("/validate")
     public ResponseEntity<Void> validateToken(@RequestHeader("Authorization") String authHeader){
 
@@ -47,6 +52,7 @@ public class AuthController {
                 :ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
+    @Operation(summary = "Check user-role=admin")
     @GetMapping("/validate-admin")
     public ResponseEntity<Void> validateAdminToken(@RequestHeader("Authorization") String authHeader){
 
@@ -58,6 +64,7 @@ public class AuthController {
                 :ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
+    @Operation(summary = "Check token and userID match")
     @GetMapping("/validate-email/{id}")
     public ResponseEntity<Boolean> validateTokenSubject(@RequestHeader("Authorization") String authHeader,@PathVariable UUID id){
 
@@ -69,6 +76,7 @@ public class AuthController {
                 :ResponseEntity.ok(false);
     }
 
+    @Operation(summary = "Update user details")
     @PutMapping("/user-update/{id}")
     public ResponseEntity<Void> updateUser(@PathVariable UUID id, @RequestBody UpdateUserDTO updateUserDTO) {
         try{
@@ -79,6 +87,7 @@ public class AuthController {
         }
     }
 
+    @Operation(summary = "Delete user")
     @DeleteMapping("/user-delete/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable UUID id, @RequestBody PasswordDTO pass) {
         try{
@@ -89,6 +98,7 @@ public class AuthController {
         }
     }
 
+    @Operation(summary = "Send OTP code to user's email for password reset")
     @PostMapping("/verifymail/{email}")
     public ResponseEntity<Void> verifyEmail(@PathVariable String email){
         try{
@@ -99,6 +109,8 @@ public class AuthController {
         }
 
     }
+
+    @Operation(summary = "Check validity of OTP for password reset")
     @PostMapping("/varifyotp/{otp}/{email}")
     public ResponseEntity<Void> verifyOtp(@PathVariable Integer otp,@PathVariable String email){
         try{
@@ -109,6 +121,7 @@ public class AuthController {
         }
     }
 
+    @Operation(summary = "Add the new password")
     @PostMapping("/changepassword/{otp}/{email}")
     public ResponseEntity<String> changePasswordHandler(@RequestBody ChangePassword changePassword, @PathVariable Integer otp, @PathVariable String email){
         try{
