@@ -39,11 +39,14 @@ public class InventoryServiceImp implements InventoryService{
     @Override
     public InventoryDTO updateQuantity(UUID productId, Integer quantity, String productName) {
         Inventory inventory = inventoryRepository.findByProductId(productId).orElseThrow(()->new DataNotFoundException("Data of product id:"+productId+" not found"));
+        if(quantity<0){
+            quantity=0;
+        }
         inventory.setQuantity(quantity);
         Inventory newInventory = inventoryRepository.save(inventory);
-        if(newInventory.getQuantity()<=2){
+        if(newInventory.getQuantity()<=1){
             kafkaJsonProducer.sendJson(MailBody.builder()
-                    .subject("Low Stock Alert")
+                    .subject("Low Stock Alert"+" ("+newInventory.getProductId()+")")
                     .text(productName+" ("+newInventory.getProductId()+") is low on stock ("+newInventory.getQuantity()+")")
                     .build());
         }
