@@ -82,6 +82,9 @@ public class UserServiceImp implements UserService {
         }
         user.setEmail(updateUserDTO.getEmail());
         if(!updateUserDTO.getPassword().isEmpty()){
+            if(updateUserDTO.getPassword().length()<8){
+                throw new PasswordsNotMatchingException("new password must be at least 8 characters long");
+            }
             user.setPassword(passwordEncoder.encode(updateUserDTO.getPassword()));
         }
         user.setFirstName(updateUserDTO.getFirstName());

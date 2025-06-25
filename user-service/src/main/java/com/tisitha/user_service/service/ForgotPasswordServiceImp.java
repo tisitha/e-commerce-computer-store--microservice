@@ -84,6 +84,10 @@ public class ForgotPasswordServiceImp implements ForgotPasswordService{
             throw new PasswordsNotMatchingException("Passwords not matching");
         }
 
+        if(changePassword.password().length()<8){
+            throw new PasswordsNotMatchingException("new password must be at least 8 characters long");
+        }
+
         String encodedPassword = passwordEncoder.encode(changePassword.password());
         userService.updatePassword(email,encodedPassword);
 
