@@ -27,7 +27,7 @@ spring:
             - id: product-service-admin-route
               uri: lb://PRODUCT-SERVICE
               predicates:
-                - Path=/admin/**
+                - Path=/admin/product/**
               filters:
                 - JwtValidation
                 - AdminValidation
@@ -46,6 +46,15 @@ spring:
                 - Path=/cart/** , /order/**
               filters:
                 - JwtValidation
+                - StripPrefix=0
+
+            - id: order-service-admin-route
+              uri: lb://ORDER-SERVICE
+              predicates:
+                - Path=/admin/order/**
+              filters:
+                - JwtValidation
+                - AdminValidation
                 - StripPrefix=0
 
             - id: api-docs-user-route
