@@ -7,6 +7,7 @@ import com.tisitha.product_service.dto.motherBoard.MotherBoardRequestDTO;
 import com.tisitha.product_service.dto.motherBoard.MotherBoardResponseDTO;
 import com.tisitha.product_service.service.MotherBoardService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class MotherBoardController {
 
     @Operation(summary = "Get product data category=mother-boards")
     @GetMapping("/product/category/mother-boards/get")
-    public ResponseEntity<ProductPageSortDto<MotherBoardResponseDTO>> getMotherBoard(@RequestBody MotherBoardGetRequestDTO dto){
+    public ResponseEntity<ProductPageSortDto<MotherBoardResponseDTO>> getMotherBoard(@Valid @RequestBody MotherBoardGetRequestDTO dto){
         return new ResponseEntity<>(motherBoardService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getCpuSocket(),dto.getChipsetSeries(),dto.getFormFactor(),dto.getRamType(),dto.getPcieSlotVersion(),dto.getM2Slots(),dto.getWirelessConnectivity()),
                 HttpStatus.OK);
     }
@@ -39,14 +40,14 @@ public class MotherBoardController {
 
     @Operation(summary = "Add product data category=mother-boards")
     @PostMapping("/admin/product/category/mother-boards/add")
-    public ResponseEntity<MotherBoardResponseDTO> add(@RequestBody MotherBoardRequestDTO dto){
+    public ResponseEntity<MotherBoardResponseDTO> add(@Valid @RequestBody MotherBoardRequestDTO dto){
         return new ResponseEntity<>(motherBoardService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=mother-boards")
     @PutMapping("/admin/product/category/mother-boards/update/{id}")
-    public ResponseEntity<MotherBoardResponseDTO> update(@PathVariable UUID id, @RequestBody MotherBoardRequestDTO dto){
+    public ResponseEntity<MotherBoardResponseDTO> update(@PathVariable UUID id,@Valid @RequestBody MotherBoardRequestDTO dto){
         return new ResponseEntity<>(motherBoardService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }

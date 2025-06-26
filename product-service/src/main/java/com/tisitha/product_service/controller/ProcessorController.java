@@ -7,6 +7,7 @@ import com.tisitha.product_service.dto.processor.ProcessorRequestDTO;
 import com.tisitha.product_service.dto.processor.ProcessorResponseDTO;
 import com.tisitha.product_service.service.ProcessorService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class ProcessorController {
 
     @Operation(summary = "Get product data category=processors")
     @GetMapping("/product/category/processors/get")
-    public ResponseEntity<ProductPageSortDto<ProcessorResponseDTO>> getProcessor(@RequestBody ProcessorGetRequestDTO dto){
+    public ResponseEntity<ProductPageSortDto<ProcessorResponseDTO>> getProcessor(@Valid @RequestBody ProcessorGetRequestDTO dto){
         return new ResponseEntity<>(processorService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getCpuSeries(),dto.getCpuSocket(),dto.getCoreCount(),dto.getThreadCount(),dto.getBaseClockSpeedGHz(),dto.getIntegratedGraphics()),
                 HttpStatus.OK);
     }
@@ -39,14 +40,14 @@ public class ProcessorController {
 
     @Operation(summary = "Add product data category=processors")
     @PostMapping("/admin/product/category/processors/add")
-    public ResponseEntity<ProcessorResponseDTO> add(@RequestBody ProcessorRequestDTO dto){
+    public ResponseEntity<ProcessorResponseDTO> add(@Valid @RequestBody ProcessorRequestDTO dto){
         return new ResponseEntity<>(processorService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=processors")
     @PutMapping("/admin/product/category/processors/update/{id}")
-    public ResponseEntity<ProcessorResponseDTO> update(@PathVariable UUID id, @RequestBody ProcessorRequestDTO dto){
+    public ResponseEntity<ProcessorResponseDTO> update(@PathVariable UUID id,@Valid @RequestBody ProcessorRequestDTO dto){
         return new ResponseEntity<>(processorService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }

@@ -7,6 +7,7 @@ import com.tisitha.product_service.dto.monitor.MonitorRequestDTO;
 import com.tisitha.product_service.dto.monitor.MonitorResponseDTO;
 import com.tisitha.product_service.service.MonitorService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class MonitorController {
 
     @Operation(summary = "Get product data category=monitors")
     @GetMapping("/product/category/monitors/get")
-    public ResponseEntity<ProductPageSortDto<MonitorResponseDTO>> getMonitor(@RequestBody MonitorGetRequestDTO dto){
+    public ResponseEntity<ProductPageSortDto<MonitorResponseDTO>> getMonitor(@Valid @RequestBody MonitorGetRequestDTO dto){
         return new ResponseEntity<>(monitorService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getDisplayResolution(),dto.getRefreshRateHz(),dto.getResponseTimeMs(),dto.getPanelType(),dto.getAspectRatio(),dto.getAdaptiveSyncTechnology()),
                 HttpStatus.OK);
     }
@@ -39,14 +40,14 @@ public class MonitorController {
 
     @Operation(summary = "Add product data category=monitors")
     @PostMapping("/admin/product/category/monitors/add")
-    public ResponseEntity<MonitorResponseDTO> add(@RequestBody MonitorRequestDTO dto){
+    public ResponseEntity<MonitorResponseDTO> add(@Valid @RequestBody MonitorRequestDTO dto){
         return new ResponseEntity<>(monitorService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=monitors")
     @PutMapping("/admin/product/category/monitors/update/{id}")
-    public ResponseEntity<MonitorResponseDTO> update(@PathVariable UUID id, @RequestBody MonitorRequestDTO dto){
+    public ResponseEntity<MonitorResponseDTO> update(@PathVariable UUID id,@Valid @RequestBody MonitorRequestDTO dto){
         return new ResponseEntity<>(monitorService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }

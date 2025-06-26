@@ -7,6 +7,7 @@ import com.tisitha.product_service.dto.cooling.CoolingRequestDTO;
 import com.tisitha.product_service.dto.cooling.CoolingResponseDTO;
 import com.tisitha.product_service.service.CoolingService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class CoolingController {
 
     @Operation(summary = "Get product data category=cooling")
     @GetMapping("/product/category/cooling/get")
-    public ResponseEntity<ProductPageSortDto<CoolingResponseDTO>> getCooling(@RequestBody CoolingGetRequestDTO dto){
+    public ResponseEntity<ProductPageSortDto<CoolingResponseDTO>> getCooling(@Valid @RequestBody CoolingGetRequestDTO dto){
         return new ResponseEntity<>(coolingService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getCoolingType(),dto.getSocketCompatibility(),dto.getFanSize(),dto.getRgbLighting()),
                 HttpStatus.OK);
     }
@@ -39,14 +40,14 @@ public class CoolingController {
 
     @Operation(summary = "Add product data category=cooling")
     @PostMapping("/admin/product/category/cooling/add")
-    public ResponseEntity<CoolingResponseDTO> add(@RequestBody CoolingRequestDTO dto){
+    public ResponseEntity<CoolingResponseDTO> add(@Valid @RequestBody CoolingRequestDTO dto){
         return new ResponseEntity<>(coolingService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=cooling")
     @PutMapping("/admin/product/category/cooling/update/{id}")
-    public ResponseEntity<CoolingResponseDTO> update(@PathVariable UUID id, @RequestBody CoolingRequestDTO dto){
+    public ResponseEntity<CoolingResponseDTO> update(@PathVariable UUID id,@Valid @RequestBody CoolingRequestDTO dto){
         return new ResponseEntity<>(coolingService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }

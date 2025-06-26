@@ -7,6 +7,7 @@ import com.tisitha.product_service.dto.laptop.LaptopRequestDTO;
 import com.tisitha.product_service.dto.laptop.LaptopResponseDTO;
 import com.tisitha.product_service.service.LaptopService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class LaptopController {
 
     @Operation(summary = "Get product data category=laptops")
     @GetMapping("/product/category/laptops/get")
-    public ResponseEntity<ProductPageSortDto<LaptopResponseDTO>> getLaptop(@RequestBody LaptopGetRequestDTO dto){
+    public ResponseEntity<ProductPageSortDto<LaptopResponseDTO>> getLaptop(@Valid @RequestBody LaptopGetRequestDTO dto){
         return new ResponseEntity<>(laptopService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getProcessorBrand(),dto.getProcessorSeries(),dto.getRamCapacity(),dto.getStorageCapacity(),dto.getDisplayResolution(),dto.getOperatingSystem(),dto.getGraphicsCardType(),dto.getFeaturesIncluded()),
                 HttpStatus.OK);
     }
@@ -39,14 +40,14 @@ public class LaptopController {
 
     @Operation(summary = "Add product data category=laptops")
     @PostMapping("/admin/product/category/laptops/add")
-    public ResponseEntity<LaptopResponseDTO> add(@RequestBody LaptopRequestDTO dto){
+    public ResponseEntity<LaptopResponseDTO> add(@Valid @RequestBody LaptopRequestDTO dto){
         return new ResponseEntity<>(laptopService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=laptops")
     @PutMapping("/admin/product/category/laptops/update/{id}")
-    public ResponseEntity<LaptopResponseDTO> update(@PathVariable UUID id, @RequestBody LaptopRequestDTO dto){
+    public ResponseEntity<LaptopResponseDTO> update(@PathVariable UUID id,@Valid @RequestBody LaptopRequestDTO dto){
         return new ResponseEntity<>(laptopService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }

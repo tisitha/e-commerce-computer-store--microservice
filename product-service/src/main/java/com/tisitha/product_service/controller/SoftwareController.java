@@ -7,6 +7,7 @@ import com.tisitha.product_service.dto.software.SoftwareRequestDTO;
 import com.tisitha.product_service.dto.software.SoftwareResponseDTO;
 import com.tisitha.product_service.service.SoftwareService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class SoftwareController {
 
     @Operation(summary = "Get product data category=software")
     @GetMapping("/product/category/software/get")
-    public ResponseEntity<ProductPageSortDto<SoftwareResponseDTO>> getSoftware(@RequestBody SoftwareGetRequestDTO dto){
+    public ResponseEntity<ProductPageSortDto<SoftwareResponseDTO>> getSoftware(@Valid @RequestBody SoftwareGetRequestDTO dto){
         return new ResponseEntity<>(softwareService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getYears(),dto.getUses()),
                 HttpStatus.OK);
     }
@@ -39,14 +40,14 @@ public class SoftwareController {
 
     @Operation(summary = "Add product data category=software")
     @PostMapping("/admin/product/category/software/add")
-    public ResponseEntity<SoftwareResponseDTO> add(@RequestBody SoftwareRequestDTO dto){
+    public ResponseEntity<SoftwareResponseDTO> add(@Valid @RequestBody SoftwareRequestDTO dto){
         return new ResponseEntity<>(softwareService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=software")
     @PutMapping("/admin/product/category/software/update/{id}")
-    public ResponseEntity<SoftwareResponseDTO> update(@PathVariable UUID id, @RequestBody SoftwareRequestDTO dto){
+    public ResponseEntity<SoftwareResponseDTO> update(@PathVariable UUID id,@Valid @RequestBody SoftwareRequestDTO dto){
         return new ResponseEntity<>(softwareService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }

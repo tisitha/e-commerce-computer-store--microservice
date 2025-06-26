@@ -7,6 +7,7 @@ import com.tisitha.product_service.dto.peripheral.PeripheralRequestDTO;
 import com.tisitha.product_service.dto.peripheral.PeripheralResponseDTO;
 import com.tisitha.product_service.service.PeripheralService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class PeripheralController {
 
     @Operation(summary = "Get product data category=peripherals")
     @GetMapping("/product/category/peripherals/get")
-    public ResponseEntity<ProductPageSortDto<PeripheralResponseDTO>> getPeripheral(@RequestBody PeripheralGetRequestDTO dto){
+    public ResponseEntity<ProductPageSortDto<PeripheralResponseDTO>> getPeripheral(@Valid @RequestBody PeripheralGetRequestDTO dto){
         return new ResponseEntity<>(peripheralService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getPeripheralType(),dto.getConnectivityType(),dto.getRgbLighting()),
                 HttpStatus.OK);
     }
@@ -39,14 +40,14 @@ public class PeripheralController {
 
     @Operation(summary = "Add product data category=peripherals")
     @PostMapping("/admin/product/category/peripherals/add")
-    public ResponseEntity<PeripheralResponseDTO> add(@RequestBody PeripheralRequestDTO dto){
+    public ResponseEntity<PeripheralResponseDTO> add(@Valid @RequestBody PeripheralRequestDTO dto){
         return new ResponseEntity<>(peripheralService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=peripherals")
     @PutMapping("/admin/product/category/peripherals/update/{id}")
-    public ResponseEntity<PeripheralResponseDTO> update(@PathVariable UUID id, @RequestBody PeripheralRequestDTO dto){
+    public ResponseEntity<PeripheralResponseDTO> update(@PathVariable UUID id,@Valid @RequestBody PeripheralRequestDTO dto){
         return new ResponseEntity<>(peripheralService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }

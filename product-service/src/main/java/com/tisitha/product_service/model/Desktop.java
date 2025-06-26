@@ -1,9 +1,6 @@
 package com.tisitha.product_service.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,22 +17,54 @@ public class Desktop {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String imgUrl;
+
+    @Column(nullable = false)
     private String description;
+
+    @Column(nullable = false)
     private double price;
+
+    @Column(nullable = false)
     private boolean latest;
+
+    @Column(nullable = false)
     private boolean top;
+
+    @Column(nullable = false)
     private double deal;
 
+    @Column(nullable = false)
     private String brand;
+
+    @Column(nullable = false)
     private String productType;
+
+    @Column(nullable = false)
     private String processorBrand;
+
+    @Column(nullable = false)
     private String processorSeries;
+
+    @Column(nullable = false)
     private String gpuManufacturer;
+
+    @Column(nullable = false)
     private String gpuSeries;
+
+    @Column(nullable = false)
     private String ramCapacity;
+
+    @Column(nullable = false)
     private String storageType;
+
+    @Column(nullable = false)
     private String storageCapacity;
+
+    @Column(nullable = false)
     private String operatingSystem;
 }

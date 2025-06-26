@@ -7,6 +7,7 @@ import com.tisitha.product_service.dto.casing.CasingRequestDTO;
 import com.tisitha.product_service.dto.casing.CasingResponseDTO;
 import com.tisitha.product_service.service.CasingService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class CasingController {
 
     @Operation(summary = "Get product data category=casings")
     @GetMapping("/product/category/casings/get")
-    public ResponseEntity<ProductPageSortDto<CasingResponseDTO>> getCasing(@RequestBody CasingGetRequestDTO dto){
+    public ResponseEntity<ProductPageSortDto<CasingResponseDTO>> getCasing(@Valid @RequestBody CasingGetRequestDTO dto){
         return new ResponseEntity<>(casingService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getCaseType(),dto.getMaxGPULength(),dto.getIncludedFans()),
                 HttpStatus.OK);
     }
@@ -39,14 +40,14 @@ public class CasingController {
 
     @Operation(summary = "Add product data category=casings")
     @PostMapping("/admin/product/category/casings/add")
-    public ResponseEntity<CasingResponseDTO> add(@RequestBody CasingRequestDTO dto){
+    public ResponseEntity<CasingResponseDTO> add(@Valid @RequestBody CasingRequestDTO dto){
         return new ResponseEntity<>(casingService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=casings")
     @PutMapping("/admin/product/category/casings/update/{id}")
-    public ResponseEntity<CasingResponseDTO> update(@PathVariable UUID id, @RequestBody CasingRequestDTO dto){
+    public ResponseEntity<CasingResponseDTO> update(@PathVariable UUID id,@Valid @RequestBody CasingRequestDTO dto){
         return new ResponseEntity<>(casingService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }

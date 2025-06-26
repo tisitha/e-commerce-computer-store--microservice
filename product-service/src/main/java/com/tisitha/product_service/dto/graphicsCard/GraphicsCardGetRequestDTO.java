@@ -1,17 +1,31 @@
 package com.tisitha.product_service.dto.graphicsCard;
 
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
 public class GraphicsCardGetRequestDTO {
+
+    @NotNull
+    @PositiveOrZero
     private Integer pageNumber;
+
+    @NotNull
+    @Min(1)
     private Integer pageSize;
+
+    @Size(max = 50)
     private String sortBy;
+
+    @Pattern(regexp = "asc|desc", flags = Pattern.Flag.CASE_INSENSITIVE)
     private String dir;
-    private List<String> gpuManufacturer;
-    private List<String> gpuSeries;
-    private List<String> vramGb;
+
+    private List<@Size(max = 50) String> gpuManufacturer;
+
+    private List<@Size(max = 50) String> gpuSeries;
+
+    private List<@Size(max = 50) String> vramGb;
 
 }

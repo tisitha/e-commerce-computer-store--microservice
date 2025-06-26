@@ -7,6 +7,7 @@ import com.tisitha.product_service.dto.memory.MemoryRequestDTO;
 import com.tisitha.product_service.dto.memory.MemoryResponseDTO;
 import com.tisitha.product_service.service.MemoryService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class MemoryController {
 
     @Operation(summary = "Get product data category=memory")
     @GetMapping("/product/category/memory/get")
-    public ResponseEntity<ProductPageSortDto<MemoryResponseDTO>> getMemory(@RequestBody MemoryGetRequestDTO dto){
+    public ResponseEntity<ProductPageSortDto<MemoryResponseDTO>> getMemory(@Valid @RequestBody MemoryGetRequestDTO dto){
         return new ResponseEntity<>(memoryService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getMemoryType(),dto.getCapacityGB(),dto.getSpeedMHz(),dto.getFormFactor(),dto.getRgbLighting(),dto.getBrand()),
                 HttpStatus.OK);
     }
@@ -39,14 +40,14 @@ public class MemoryController {
 
     @Operation(summary = "Add product data category=memory")
     @PostMapping("/admin/product/category/memory/add")
-    public ResponseEntity<MemoryResponseDTO> add(@RequestBody MemoryRequestDTO dto){
+    public ResponseEntity<MemoryResponseDTO> add(@Valid @RequestBody MemoryRequestDTO dto){
         return new ResponseEntity<>(memoryService.add(dto),
                 HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product data category=memory")
     @PutMapping("/admin/product/category/memory/update/{id}")
-    public ResponseEntity<MemoryResponseDTO> update(@PathVariable UUID id, @RequestBody MemoryRequestDTO dto){
+    public ResponseEntity<MemoryResponseDTO> update(@PathVariable UUID id,@Valid @RequestBody MemoryRequestDTO dto){
         return new ResponseEntity<>(memoryService.updateProduct(id,dto),
                 HttpStatus.CREATED);
     }
