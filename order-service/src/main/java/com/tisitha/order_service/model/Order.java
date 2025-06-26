@@ -23,10 +23,19 @@ public class Order {
 
     @ElementCollection
     @CollectionTable(name = "order_item", joinColumns = @JoinColumn(name = "order_id"))
+    @Column(nullable = false)
     private List<OrderItem> items = new ArrayList<>();
+
+    @Column(nullable = false)
     private UUID customerId;
+
+    @Column(nullable = false)
     private LocalDateTime dateTime;
+
+    @Column(nullable = false)
     private Double cost;
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderState orderState;
 

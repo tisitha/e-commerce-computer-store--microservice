@@ -4,6 +4,7 @@ import com.tisitha.order_service.dto.CartItemRequestDTO;
 import com.tisitha.order_service.dto.CartItemResponseDTO;
 import com.tisitha.order_service.service.CartItemService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class CartItemController {
 
     @Operation(summary = "Add item to cart")
     @PostMapping("/add")
-    public ResponseEntity<CartItemResponseDTO> addCartItem(@RequestBody CartItemRequestDTO dto) {
+    public ResponseEntity<CartItemResponseDTO> addCartItem(@Valid @RequestBody CartItemRequestDTO dto) {
         return new ResponseEntity<>(cartItemService.addCart(dto), HttpStatus.CREATED);
     }
 

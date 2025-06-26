@@ -4,6 +4,7 @@ import com.tisitha.order_service.dto.OrderGetRequestDTO;
 import com.tisitha.order_service.dto.OrderResponseDTO;
 import com.tisitha.order_service.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +23,13 @@ public class OrderController {
 
     @Operation(summary = "Get all orders")
     @GetMapping("/admin/order")
-    public ResponseEntity<OrderResponseDTO> getOrders(@RequestBody OrderGetRequestDTO requestDTO){
+    public ResponseEntity<OrderResponseDTO> getOrders(@Valid @RequestBody OrderGetRequestDTO requestDTO){
         return new ResponseEntity<>(orderService.getOrderData(requestDTO), HttpStatus.OK);
     }
 
     @Operation(summary = "Get orders of a user")
     @GetMapping("/order/{id}")
-    public ResponseEntity<OrderResponseDTO> getOrdersByCustomer(@PathVariable UUID id,@RequestBody OrderGetRequestDTO requestDTO){
+    public ResponseEntity<OrderResponseDTO> getOrdersByCustomer(@PathVariable UUID id,@Valid @RequestBody OrderGetRequestDTO requestDTO){
         return new ResponseEntity<>(orderService.getOrdersByCustomer(id,requestDTO), HttpStatus.OK);
     }
 
