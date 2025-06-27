@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -123,7 +124,8 @@ public class MotherBoardServiceImp implements MotherBoardService{
                 motherBoard.getRamType(),
                 motherBoard.getPcieSlotVersion(),
                 motherBoard.getM2Slots(),
-                motherBoard.getWirelessConnectivity()
+                motherBoard.getWirelessConnectivity(),
+                Objects.requireNonNull(inventoryClient.getQuantity(motherBoard.getId()).getBody()).getQuantity()
         );
     }
 

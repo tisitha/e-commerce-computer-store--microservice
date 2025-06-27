@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -93,7 +94,8 @@ public class GraphicsCardServiceImp implements GraphicsCardService {
                 graphicsCard.getDeal(),
                 graphicsCard.getGpuManufacturer(),
                 graphicsCard.getGpuSeries(),
-                graphicsCard.getVramGb()
+                graphicsCard.getVramGb(),
+                Objects.requireNonNull(inventoryClient.getQuantity(graphicsCard.getId()).getBody()).getQuantity()
         );
     }
 

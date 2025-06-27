@@ -23,4 +23,6 @@ public class PeripheralResponseDTO {
     private String peripheralType;
     private String connectivityType;
     private String rgbLighting;
+
+    private Integer quantity;
 }

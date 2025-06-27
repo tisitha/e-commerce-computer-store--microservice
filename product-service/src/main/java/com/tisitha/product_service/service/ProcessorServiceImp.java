@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -117,7 +118,8 @@ public class ProcessorServiceImp implements ProcessorService{
                 processor.getCoreCount(),
                 processor.getThreadCount(),
                 processor.getBaseClockSpeedGHz(),
-                processor.getIntegratedGraphics()
+                processor.getIntegratedGraphics(),
+                Objects.requireNonNull(inventoryClient.getQuantity(processor.getId()).getBody()).getQuantity()
         );
     }
 

@@ -26,4 +26,6 @@ public class ProcessorResponseDTO {
     private String threadCount;
     private String baseClockSpeedGHz;
     private String integratedGraphics;
+
+    private Integer quantity;
 }

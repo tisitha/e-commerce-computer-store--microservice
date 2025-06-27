@@ -28,4 +28,6 @@ public class LaptopResponseDTO {
     private String operatingSystem;
     private String graphicsCardType;
     private String featuresIncluded;
+
+    private Integer quantity;
 }

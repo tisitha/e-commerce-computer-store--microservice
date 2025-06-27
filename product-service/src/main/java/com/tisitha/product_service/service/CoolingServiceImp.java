@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -105,7 +106,8 @@ public class CoolingServiceImp implements CoolingService{
                 cooling.getCoolingType(),
                 cooling.getSocketCompatibility(),
                 cooling.getFanSize(),
-                cooling.getRgbLighting()
+                cooling.getRgbLighting(),
+                Objects.requireNonNull(inventoryClient.getQuantity(cooling.getId()).getBody()).getQuantity()
         );
     }
 

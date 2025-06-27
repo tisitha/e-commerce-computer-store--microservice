@@ -26,4 +26,6 @@ public class MonitorResponseDTO {
     private String panelType;
     private String aspectRatio;
     private String adaptiveSyncTechnology;
+
+    private Integer quantity;
 }

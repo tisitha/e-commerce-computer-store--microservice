@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -134,7 +135,8 @@ public class DesktopServiceImp implements DesktopService{
                 desktop.getRamCapacity(),
                 desktop.getStorageType(),
                 desktop.getStorageCapacity(),
-                desktop.getOperatingSystem()
+                desktop.getOperatingSystem(),
+                Objects.requireNonNull(inventoryClient.getQuantity(desktop.getId()).getBody()).getQuantity()
         );
     }
 

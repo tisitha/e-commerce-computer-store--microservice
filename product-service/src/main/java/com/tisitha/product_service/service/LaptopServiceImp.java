@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -129,7 +130,8 @@ public class LaptopServiceImp implements LaptopService{
                 laptop.getDisplayResolution(),
                 laptop.getOperatingSystem(),
                 laptop.getGraphicsCardType(),
-                laptop.getFeaturesIncluded()
+                laptop.getFeaturesIncluded(),
+                Objects.requireNonNull(inventoryClient.getQuantity(laptop.getId()).getBody()).getQuantity()
         );
     }
 

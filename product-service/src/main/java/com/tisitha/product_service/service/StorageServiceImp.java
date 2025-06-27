@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -105,7 +106,8 @@ public class StorageServiceImp implements StorageService{
                 storage.getStorageType(),
                 storage.getCapacityGB(),
                 storage.getInterfaceType(),
-                storage.getUsageType()
+                storage.getUsageType(),
+                Objects.requireNonNull(inventoryClient.getQuantity(storage.getId()).getBody()).getQuantity()
         );
     }
 

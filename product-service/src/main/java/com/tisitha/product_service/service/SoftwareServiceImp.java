@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -93,7 +94,8 @@ public class SoftwareServiceImp implements SoftwareService{
                 software.getDeal(),
                 software.getBrand(),
                 software.getYears(),
-                software.getUses()
+                software.getUses(),
+                Objects.requireNonNull(inventoryClient.getQuantity(software.getId()).getBody()).getQuantity()
         );
     }
 

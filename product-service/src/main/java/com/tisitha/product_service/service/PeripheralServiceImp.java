@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -99,7 +100,8 @@ public class PeripheralServiceImp implements PeripheralService{
                 peripheral.getBrand(),
                 peripheral.getPeripheralType(),
                 peripheral.getConnectivityType(),
-                peripheral.getRgbLighting()
+                peripheral.getRgbLighting(),
+                Objects.requireNonNull(inventoryClient.getQuantity(peripheral.getId()).getBody()).getQuantity()
         );
     }
 

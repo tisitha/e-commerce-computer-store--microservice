@@ -23,4 +23,6 @@ public class CasingResponseDTO {
     private String caseType;
     private String maxGPULength;
     private String includedFans;
+
+    private Integer quantity;
 }

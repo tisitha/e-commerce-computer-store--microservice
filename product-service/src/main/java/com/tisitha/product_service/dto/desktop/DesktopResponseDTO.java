@@ -29,4 +29,6 @@ public class DesktopResponseDTO {
     private String storageType;
     private String storageCapacity;
     private String operatingSystem;
+
+    private Integer quantity;
 }

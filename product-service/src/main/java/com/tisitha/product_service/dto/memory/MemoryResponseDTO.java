@@ -25,4 +25,6 @@ public class MemoryResponseDTO {
     private String formFactor;
     private String rgbLighting;
     private String brand;
+
+    private Integer quantity;
 }

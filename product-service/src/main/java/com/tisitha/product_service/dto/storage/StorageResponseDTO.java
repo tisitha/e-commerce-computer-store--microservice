@@ -24,4 +24,6 @@ public class StorageResponseDTO {
     private String capacityGB;
     private String interfaceType;
     private String usageType;
+
+    private Integer quantity;
 }

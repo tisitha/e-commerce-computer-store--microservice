@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -86,7 +87,7 @@ public class CasingServiceImp implements CasingService{
         return convertToDTO(newCasing);
     }
 
-    CasingResponseDTO convertToDTO(Casing casing ){
+    CasingResponseDTO convertToDTO(Casing casing){
         return new CasingResponseDTO(
                 casing.getId(),
                 casing.getName(),
@@ -99,7 +100,8 @@ public class CasingServiceImp implements CasingService{
                 casing.getBrand(),
                 casing.getCaseType(),
                 casing.getMaxGPULength(),
-                casing.getIncludedFans()
+                casing.getIncludedFans(),
+                Objects.requireNonNull(inventoryClient.getQuantity(casing.getId()).getBody()).getQuantity()
         );
     }
 

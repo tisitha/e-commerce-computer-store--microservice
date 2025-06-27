@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -117,7 +118,8 @@ public class MonitorServiceImp implements MonitorService{
                 monitor.getResponseTimeMs(),
                 monitor.getPanelType(),
                 monitor.getAspectRatio(),
-                monitor.getAdaptiveSyncTechnology()
+                monitor.getAdaptiveSyncTechnology(),
+                Objects.requireNonNull(inventoryClient.getQuantity(monitor.getId()).getBody()).getQuantity()
         );
     }
 

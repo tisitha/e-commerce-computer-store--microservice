@@ -22,4 +22,6 @@ public class SoftwareResponseDTO {
     private String brand;
     private String years;
     private String uses;
+
+    private Integer quantity;
 }

@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -105,7 +106,8 @@ public class PowerSupplyServiceImp implements PowerSupplyService{
                 powerSupply.getWattageOutput(),
                 powerSupply.getCertificationRating(),
                 powerSupply.getFormFactor(),
-                powerSupply.getModularityType()
+                powerSupply.getModularityType(),
+                Objects.requireNonNull(inventoryClient.getQuantity(powerSupply.getId()).getBody()).getQuantity()
         );
     }
 

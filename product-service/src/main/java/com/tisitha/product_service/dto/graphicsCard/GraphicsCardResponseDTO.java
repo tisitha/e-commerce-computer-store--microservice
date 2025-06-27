@@ -22,4 +22,6 @@ public class GraphicsCardResponseDTO {
     private String gpuManufacturer;
     private String gpuSeries;
     private String vramGb;
+
+    private Integer quantity;
 }

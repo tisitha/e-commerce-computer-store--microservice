@@ -27,4 +27,6 @@ public class MotherBoardResponseDTO {
     private String pcieSlotVersion;
     private String m2Slots;
     private String wirelessConnectivity;
+
+    private Integer quantity;
 }

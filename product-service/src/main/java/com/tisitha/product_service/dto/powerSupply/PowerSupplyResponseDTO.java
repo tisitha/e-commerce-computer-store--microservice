@@ -24,4 +24,6 @@ public class PowerSupplyResponseDTO {
     private String certificationRating;
     private String formFactor;
     private String modularityType;
+
+    private Integer quantity;
 }

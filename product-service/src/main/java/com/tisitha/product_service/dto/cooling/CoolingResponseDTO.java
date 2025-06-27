@@ -24,4 +24,6 @@ public class CoolingResponseDTO {
     private String socketCompatibility;
     private String fanSize;
     private String rgbLighting;
+
+    private Integer quantity;
 }
