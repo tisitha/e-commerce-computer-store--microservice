@@ -33,11 +33,13 @@ spring:
                 - AdminValidation
                 - StripPrefix=0
 
-            - id: inventory-service-route
+            - id: inventory-service-admin-route
               uri: lb://INVENTORY-SERVICE
               predicates:
                 - Path=/inventory/**
               filters:
+                - JwtValidation
+                - AdminValidation
                 - StripPrefix=0
 
             - id: order-service-route
