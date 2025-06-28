@@ -28,15 +28,15 @@ public class OrderController {
     }
 
     @Operation(summary = "Get orders of a user")
-    @GetMapping("/order/{id}")
-    public ResponseEntity<OrderResponseDTO> getOrdersByCustomer(@RequestHeader("Authorization") String authHeader,@PathVariable UUID id,@Valid @RequestBody OrderGetRequestDTO requestDTO){
-        return new ResponseEntity<>(orderService.getOrdersByCustomer(authHeader,id,requestDTO), HttpStatus.OK);
+    @GetMapping("/order/get")
+    public ResponseEntity<OrderResponseDTO> getOrdersByCustomer(@RequestHeader("X-User-Id") String userIdHeader,@Valid @RequestBody OrderGetRequestDTO requestDTO){
+        return new ResponseEntity<>(orderService.getOrdersByCustomer(userIdHeader,requestDTO), HttpStatus.OK);
     }
 
     @Operation(summary = "Add new order")
-    @PostMapping("/order/{cid}")
-    public ResponseEntity<Void> addOrders(@RequestHeader("Authorization") String authHeader,@PathVariable UUID cid){
-        orderService.addOrder(authHeader,cid);
+    @PostMapping("/order/add")
+    public ResponseEntity<Void> addOrders(@RequestHeader("X-User-Id") String userIdHeader){
+        orderService.addOrder(userIdHeader);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

@@ -3,6 +3,7 @@ package com.tisitha.api_gateway;
 import com.tisitha.api_gateway.dto.UserIdResponse;
 import org.apache.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.data.jdbc.JdbcDatabaseDialect;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpStatus;

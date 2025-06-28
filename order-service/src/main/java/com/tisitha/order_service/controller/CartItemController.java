@@ -23,28 +23,28 @@ public class CartItemController {
     }
 
     @Operation(summary = "Get cart items of a user")
-    @GetMapping("/user/{id}")
-    public ResponseEntity<List<CartItemResponseDTO>> getCartItems(@RequestHeader("Authorization") String authHeader,@PathVariable("id") UUID id) {
-        return new ResponseEntity<>(cartItemService.getCartItems(authHeader,id), HttpStatus.OK);
+    @GetMapping("/user/get")
+    public ResponseEntity<List<CartItemResponseDTO>> getCartItems(@RequestHeader("X-User-Id") String userId) {
+        return new ResponseEntity<>(cartItemService.getCartItems(userId), HttpStatus.OK);
     }
 
     @Operation(summary = "Add item to cart")
     @PostMapping("/add")
-    public ResponseEntity<CartItemResponseDTO> addCartItem(@RequestHeader("Authorization") String authHeader,@Valid @RequestBody CartItemRequestDTO dto) {
-        return new ResponseEntity<>(cartItemService.addCart(authHeader,dto), HttpStatus.CREATED);
+    public ResponseEntity<CartItemResponseDTO> addCartItem(@RequestHeader("X-User-Id") String userIdHeader,@Valid @RequestBody CartItemRequestDTO dto) {
+        return new ResponseEntity<>(cartItemService.addCart(userIdHeader,dto), HttpStatus.CREATED);
     }
 
     @Operation(summary = "Delete item from cart")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCartItem(@RequestHeader("Authorization") String authHeader,@PathVariable("id") UUID id) {
-        cartItemService.deleteCartItem(authHeader, id);
+    public ResponseEntity<?> deleteCartItem(@RequestHeader("X-User-Id") String userIdHeader,@PathVariable("id") UUID id) {
+        cartItemService.deleteCartItem(userIdHeader, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Operation(summary = "Update the quantity of a cart item")
     @PutMapping("/update")
-    public ResponseEntity<?> updateCartItem(@RequestHeader("Authorization") String authHeader,@RequestParam("id") UUID id, @RequestParam Integer quantity) {
-        cartItemService.updateCartItem(authHeader,id, quantity);
+    public ResponseEntity<?> updateCartItem(@RequestHeader("X-User-Id") String userIdHeader,@RequestParam("id") UUID id, @RequestParam Integer quantity) {
+        cartItemService.updateCartItem(userIdHeader,id, quantity);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

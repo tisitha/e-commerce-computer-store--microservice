@@ -4,7 +4,6 @@ import com.tisitha.order_service.dto.CartItemRequestDTO;
 import com.tisitha.order_service.dto.CartItemResponseDTO;
 import com.tisitha.order_service.exception.ItemNotFoundException;
 import com.tisitha.order_service.exception.UnauthorizeUserException;
-import com.tisitha.order_service.feign.UserClient;
 import com.tisitha.order_service.model.CartItem;
 import com.tisitha.order_service.repository.CartItemRepository;
 import org.springframework.stereotype.Service;
@@ -16,19 +15,14 @@ import java.util.UUID;
 public class CartItemServiceImp implements CartItemService{
 
     private final CartItemRepository cartItemRepository;
-    private final UserClient userClient;
 
-    public CartItemServiceImp(CartItemRepository cartItemRepository, UserClient userClient) {
+    public CartItemServiceImp(CartItemRepository cartItemRepository) {
         this.cartItemRepository = cartItemRepository;
-        this.userClient = userClient;
     }
 
     @Override
-    public List<CartItemResponseDTO> getCartItems(String authHeader,UUID id) {
-        if(Boolean.FALSE.equals(userClient.validateTokenSubject(authHeader, id).getBody())){
-            throw new UnauthorizeUserException("Unauthorize user request");
-        }
-        List<CartItem> cartItems = cartItemRepository.findAllByCustomerId(id);
+    public List<CartItemResponseDTO> getCartItems(String userId) {
+        List<CartItem> cartItems = cartItemRepository.findAllByCustomerId(UUID.fromString(userId));
         return cartItems.stream().map(this::itemToDto).toList();
     }
 
@@ -46,8 +40,8 @@ public class CartItemServiceImp implements CartItemService{
     }
 
     @Override
-    public CartItemResponseDTO addCart(String authHeader,CartItemRequestDTO dto) {
-        if(Boolean.FALSE.equals(userClient.validateTokenSubject(authHeader, dto.getCustomerId()).getBody())){
+    public CartItemResponseDTO addCart(String userId,CartItemRequestDTO dto) {
+        if(!UUID.fromString(userId).equals(dto.getCustomerId())){
             throw new UnauthorizeUserException("Unauthorize user request");
         }
         if(dto.getQuantity()==0){
@@ -69,18 +63,18 @@ public class CartItemServiceImp implements CartItemService{
     }
 
     @Override
-    public void deleteCartItem(String authHeader,UUID id) {
+    public void deleteCartItem(String userId,UUID id) {
         CartItem ct = cartItemRepository.findById(id).orElseThrow(()->new ItemNotFoundException("Item of id:"+id+" not found"));
-        if(Boolean.FALSE.equals(userClient.validateTokenSubject(authHeader, ct.getCustomerId()).getBody())){
+        if(!UUID.fromString(userId).equals(ct.getCustomerId())){
             throw new UnauthorizeUserException("Unauthorize user request");
         }
         cartItemRepository.deleteById(id);
     }
 
     @Override
-    public void updateCartItem(String authHeader,UUID id, Integer quantity) {
+    public void updateCartItem(String userId,UUID id, Integer quantity) {
         CartItem item = cartItemRepository.findById(id).orElseThrow(()->new ItemNotFoundException("Item not found"));
-        if(Boolean.FALSE.equals(userClient.validateTokenSubject(authHeader, item.getCustomerId()).getBody())){
+        if(!UUID.fromString(userId).equals(item.getCustomerId())){
             throw new UnauthorizeUserException("Unauthorize user request");
         }
         item.setQuantity(quantity);

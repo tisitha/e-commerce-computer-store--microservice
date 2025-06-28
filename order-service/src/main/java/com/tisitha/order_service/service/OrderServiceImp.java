@@ -1,13 +1,13 @@
 package com.tisitha.order_service.service;
 
 import com.tisitha.order_service.dto.CartItemResponseDTO;
+import com.tisitha.order_service.dto.InventoryDTO;
 import com.tisitha.order_service.dto.OrderGetRequestDTO;
 import com.tisitha.order_service.dto.OrderResponseDTO;
 import com.tisitha.order_service.exception.EmptyOrderException;
+import com.tisitha.order_service.exception.ItemNotFoundException;
 import com.tisitha.order_service.exception.StockOutException;
-import com.tisitha.order_service.exception.UnauthorizeUserException;
 import com.tisitha.order_service.feign.InventoryClient;
-import com.tisitha.order_service.feign.UserClient;
 import com.tisitha.order_service.model.Order;
 import com.tisitha.order_service.model.OrderItem;
 import com.tisitha.order_service.model.OrderState;
@@ -19,6 +19,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -34,7 +36,6 @@ public class OrderServiceImp implements OrderService{
     private final OrderRepository orderRepository;
     private final KafkaJsonProducer kafkaJsonProducer;
     private final InventoryClient inventoryClient;
-    private final UserClient userClient;
     private final CartItemService cartItemService;
 
     @Override
@@ -47,32 +48,31 @@ public class OrderServiceImp implements OrderService{
     }
 
     @Override
-    public OrderResponseDTO getOrdersByCustomer(String authHeader,UUID id, OrderGetRequestDTO requestDTO) {
-        if(Boolean.FALSE.equals(userClient.validateTokenSubject(authHeader, id).getBody())){
-            throw new UnauthorizeUserException("Unauthorize user request");
-        }
+    public OrderResponseDTO getOrdersByCustomer(String userId, OrderGetRequestDTO requestDTO) {
         Sort sort = requestDTO.getDir().equalsIgnoreCase("asc")?Sort.by(requestDTO.getSortBy()).ascending():Sort.by(requestDTO.getSortBy()).descending();
         Pageable pageable = PageRequest.of(requestDTO.getPageNumber(), requestDTO.getPageSize(),sort);
 
-        Page<Order> orderPage = orderRepository.findAllByCustomerId(id,pageable);
+        Page<Order> orderPage = orderRepository.findAllByCustomerId(UUID.fromString(userId),pageable);
         return new OrderResponseDTO(orderPage.stream().toList(),orderPage.getTotalElements(),orderPage.getTotalPages(),orderPage.isLast());
     }
 
     @Override
-    public void addOrder(String authHeader,UUID cid) {
-        List<CartItemResponseDTO> dtos = cartItemService.getCartItems(authHeader,cid);
+    public void addOrder(String userId) {
+        List<CartItemResponseDTO> dtos = cartItemService.getCartItems(userId);
         Order order = new Order();
         double cost = 0;
         if(dtos.isEmpty()){
             throw new EmptyOrderException("cannot enter empty order");
         }
-        if(Boolean.FALSE.equals(userClient.validateTokenSubject(authHeader, cid).getBody())){
-            throw new UnauthorizeUserException("Unauthorize user request");
-        }
         List<OrderItem> orderItemList = new ArrayList<>();
         int quantity;
         for(CartItemResponseDTO dto:dtos){
-            quantity = Objects.requireNonNull(inventoryClient.getQuantity(dto.getProductId()).getBody()).getQuantity();
+            try{
+                quantity = inventoryClient.getQuantity(dto.getProductId()).getBody().getQuantity();
+            } catch (Exception e) {
+                cartItemService.deleteCartItem(userId,dto.getId());
+                throw new ItemNotFoundException("Item not exits in inventory (product id of" +dto.getProductId()+")");
+            }
             if (quantity < dto.getQuantity()) {
                 for(OrderItem i:orderItemList){
                     quantity = Objects.requireNonNull(inventoryClient.getQuantity(i.getProductId()).getBody()).getQuantity();
@@ -97,7 +97,7 @@ public class OrderServiceImp implements OrderService{
             }
         }
         order.setItems(orderItemList);
-        order.setCustomerId(cid);
+        order.setCustomerId(UUID.fromString(userId));
         order.setDateTime(LocalDateTime.now());
         order.setOrderState(OrderState.PROCESSING);
         order.setCost(cost);
@@ -113,7 +113,7 @@ public class OrderServiceImp implements OrderService{
                         .text(messageBody.toString())
                         .build());
         for(CartItemResponseDTO dto:dtos){
-            cartItemService.deleteCartItem(authHeader,dto.getId());
+            cartItemService.deleteCartItem(userId,dto.getId());
         }
     }
 

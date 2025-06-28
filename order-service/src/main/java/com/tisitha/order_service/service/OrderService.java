@@ -1,20 +1,18 @@
 package com.tisitha.order_service.service;
 
 
-import com.tisitha.order_service.dto.CartItemRequestDTO;
 import com.tisitha.order_service.dto.OrderGetRequestDTO;
 import com.tisitha.order_service.dto.OrderResponseDTO;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface OrderService {
 
     OrderResponseDTO getOrderData(OrderGetRequestDTO requestDTO);
 
-    OrderResponseDTO getOrdersByCustomer(String authHeader,UUID id,OrderGetRequestDTO requestDTO);
+    OrderResponseDTO getOrdersByCustomer(String userId,OrderGetRequestDTO requestDTO);
 
-    void addOrder(String authHeader,UUID cid);
+    void addOrder(String userId);
 
     void deleteOrderData(UUID id);
 }
