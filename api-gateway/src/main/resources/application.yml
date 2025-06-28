@@ -29,7 +29,6 @@ spring:
               predicates:
                 - Path=/admin/product/**
               filters:
-                - JwtValidation
                 - AdminValidation
                 - StripPrefix=0
 
@@ -38,7 +37,6 @@ spring:
               predicates:
                 - Path=/inventory/**
               filters:
-                - JwtValidation
                 - AdminValidation
                 - StripPrefix=0
 
@@ -55,7 +53,6 @@ spring:
               predicates:
                 - Path=/admin/order/**
               filters:
-                - JwtValidation
                 - AdminValidation
                 - StripPrefix=0
 
