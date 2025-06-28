@@ -1,7 +1,6 @@
 package com.tisitha.order_service.service;
 
 import com.tisitha.order_service.dto.CartItemResponseDTO;
-import com.tisitha.order_service.dto.InventoryDTO;
 import com.tisitha.order_service.dto.OrderGetRequestDTO;
 import com.tisitha.order_service.dto.OrderResponseDTO;
 import com.tisitha.order_service.exception.EmptyOrderException;
@@ -19,8 +18,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
