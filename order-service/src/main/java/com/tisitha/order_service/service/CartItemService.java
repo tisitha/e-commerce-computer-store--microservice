@@ -8,11 +8,11 @@ import java.util.UUID;
 
 public interface CartItemService {
 
-    List<CartItemResponseDTO> getCartItems(UUID id);
+    List<CartItemResponseDTO> getCartItems(String authHeader,UUID id);
 
-    CartItemResponseDTO addCart(CartItemRequestDTO dto);
+    CartItemResponseDTO addCart(String authHeader,CartItemRequestDTO dto);
 
-    void deleteCartItem(UUID id);
+    void deleteCartItem(String authHeader,UUID id);
 
-    void updateCartItem(UUID id, Integer quantity);
+    void updateCartItem(String authHeader,UUID id, Integer quantity);
 }

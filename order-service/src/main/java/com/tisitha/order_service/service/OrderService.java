@@ -12,7 +12,7 @@ public interface OrderService {
 
     OrderResponseDTO getOrderData(OrderGetRequestDTO requestDTO);
 
-    OrderResponseDTO getOrdersByCustomer(UUID id,OrderGetRequestDTO requestDTO);
+    OrderResponseDTO getOrdersByCustomer(String authHeader,UUID id,OrderGetRequestDTO requestDTO);
 
     void addOrder(String authHeader,UUID cid);
 

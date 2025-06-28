@@ -29,8 +29,8 @@ public class OrderController {
 
     @Operation(summary = "Get orders of a user")
     @GetMapping("/order/{id}")
-    public ResponseEntity<OrderResponseDTO> getOrdersByCustomer(@PathVariable UUID id,@Valid @RequestBody OrderGetRequestDTO requestDTO){
-        return new ResponseEntity<>(orderService.getOrdersByCustomer(id,requestDTO), HttpStatus.OK);
+    public ResponseEntity<OrderResponseDTO> getOrdersByCustomer(@RequestHeader("Authorization") String authHeader,@PathVariable UUID id,@Valid @RequestBody OrderGetRequestDTO requestDTO){
+        return new ResponseEntity<>(orderService.getOrdersByCustomer(authHeader,id,requestDTO), HttpStatus.OK);
     }
 
     @Operation(summary = "Add new order")

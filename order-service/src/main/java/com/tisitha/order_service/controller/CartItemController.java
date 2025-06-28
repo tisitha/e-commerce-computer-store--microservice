@@ -24,27 +24,27 @@ public class CartItemController {
 
     @Operation(summary = "Get cart items of a user")
     @GetMapping("/user/{id}")
-    public ResponseEntity<List<CartItemResponseDTO>> getCartItems(@PathVariable("id") UUID id) {
-        return new ResponseEntity<>(cartItemService.getCartItems(id), HttpStatus.OK);
+    public ResponseEntity<List<CartItemResponseDTO>> getCartItems(@RequestHeader("Authorization") String authHeader,@PathVariable("id") UUID id) {
+        return new ResponseEntity<>(cartItemService.getCartItems(authHeader,id), HttpStatus.OK);
     }
 
     @Operation(summary = "Add item to cart")
     @PostMapping("/add")
-    public ResponseEntity<CartItemResponseDTO> addCartItem(@Valid @RequestBody CartItemRequestDTO dto) {
-        return new ResponseEntity<>(cartItemService.addCart(dto), HttpStatus.CREATED);
+    public ResponseEntity<CartItemResponseDTO> addCartItem(@RequestHeader("Authorization") String authHeader,@Valid @RequestBody CartItemRequestDTO dto) {
+        return new ResponseEntity<>(cartItemService.addCart(authHeader,dto), HttpStatus.CREATED);
     }
 
     @Operation(summary = "Delete item from cart")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCartItem(@PathVariable("id") UUID id) {
-        cartItemService.deleteCartItem(id);
+    public ResponseEntity<?> deleteCartItem(@RequestHeader("Authorization") String authHeader,@PathVariable("id") UUID id) {
+        cartItemService.deleteCartItem(authHeader, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Operation(summary = "Update the quantity of a cart item")
     @PutMapping("/update")
-    public ResponseEntity<?> updateCartItem(@RequestParam("id") UUID id, @RequestParam Integer quantity) {
-        cartItemService.updateCartItem(id, quantity);
+    public ResponseEntity<?> updateCartItem(@RequestHeader("Authorization") String authHeader,@RequestParam("id") UUID id, @RequestParam Integer quantity) {
+        cartItemService.updateCartItem(authHeader,id, quantity);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

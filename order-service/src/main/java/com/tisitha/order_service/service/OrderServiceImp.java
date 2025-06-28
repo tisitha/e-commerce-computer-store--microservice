@@ -47,7 +47,10 @@ public class OrderServiceImp implements OrderService{
     }
 
     @Override
-    public OrderResponseDTO getOrdersByCustomer(UUID id, OrderGetRequestDTO requestDTO) {
+    public OrderResponseDTO getOrdersByCustomer(String authHeader,UUID id, OrderGetRequestDTO requestDTO) {
+        if(Boolean.FALSE.equals(userClient.validateTokenSubject(authHeader, id).getBody())){
+            throw new UnauthorizeUserException("Unauthorize user request");
+        }
         Sort sort = requestDTO.getDir().equalsIgnoreCase("asc")?Sort.by(requestDTO.getSortBy()).ascending():Sort.by(requestDTO.getSortBy()).descending();
         Pageable pageable = PageRequest.of(requestDTO.getPageNumber(), requestDTO.getPageSize(),sort);
 
@@ -57,7 +60,7 @@ public class OrderServiceImp implements OrderService{
 
     @Override
     public void addOrder(String authHeader,UUID cid) {
-        List<CartItemResponseDTO> dtos = cartItemService.getCartItems(cid);
+        List<CartItemResponseDTO> dtos = cartItemService.getCartItems(authHeader,cid);
         Order order = new Order();
         double cost = 0;
         if(dtos.isEmpty()){
@@ -105,11 +108,13 @@ public class OrderServiceImp implements OrderService{
         for(OrderItem i:newOrder.getItems()){
             messageBody.append(i.toString()).append("\n");
         }
-        System.out.println(messageBody);
         kafkaJsonProducer.sendJson(MailBody.builder()
                         .subject("New Order"+" (Order id:" + newOrder.getId()+")")
                         .text(messageBody.toString())
                         .build());
+        for(CartItemResponseDTO dto:dtos){
+            cartItemService.deleteCartItem(authHeader,dto.getId());
+        }
     }
 
     @Override
