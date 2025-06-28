@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class JwtUtil {
@@ -24,9 +25,9 @@ public class JwtUtil {
         this.secretKey = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(String email,String role){
+    public String generateToken(UUID id, String role){
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(id.toString())
                 .claim("role",role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis()+1000*60*60))
@@ -34,18 +35,20 @@ public class JwtUtil {
                 .compact();
     }
 
-    public void validateToken(String token) {
+    public String validateToken(String token) {
         try{
-            Jwts.parserBuilder()
+            Claims claims = Jwts.parserBuilder()
                     .setSigningKey(secretKey)
                     .build()
-                    .parseClaimsJws(token);
+                    .parseClaimsJws(token)
+                    .getBody();
+            return (claims.getSubject());
         } catch (JwtException e){
             throw new JwtException("JWT validation failed: " + e.getMessage());
         }
     }
 
-    public void validateAdminToken(String token) {
+    public String validateAdminToken(String token) {
         try{
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(secretKey)
@@ -56,6 +59,7 @@ public class JwtUtil {
             if (role == null || !role.equals(UserRole.ROLE_ADMIN.toString())) {
                 throw new JwtException("Not an admin");
             }
+            return (claims.getSubject());
         } catch (JwtException e){
             throw new JwtException("JWT validation failed: " + e.getMessage());
         }

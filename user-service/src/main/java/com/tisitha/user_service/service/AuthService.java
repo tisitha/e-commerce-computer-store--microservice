@@ -11,9 +11,9 @@ public interface AuthService {
 
     void register(RegisterRequestDTO registerRequestDTO);
 
-    boolean validateToken(String token) ;
+    UserIdResponse validateToken(String token) ;
 
-    boolean validateAdminToken(String token);
+    UserIdResponse validateAdminToken(String token);
 
     boolean validateTokenSubject(String token, UUID customerId);
 

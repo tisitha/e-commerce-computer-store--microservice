@@ -43,26 +43,21 @@ public class AuthController {
 
     @Operation(summary = "Check validity of token")
     @GetMapping("/validate")
-    public ResponseEntity<Void> validateToken(@RequestHeader("Authorization") String authHeader){
-
+    public ResponseEntity<UserIdResponse> validateToken(@RequestHeader("Authorization") String authHeader){
         if(authHeader == null || !authHeader.startsWith("Bearer ")){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return authService.validateToken(authHeader.substring(7))
-                ?ResponseEntity.ok().build()
-                :ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        return new ResponseEntity<>(authService.validateToken(authHeader.substring(7)),HttpStatus.OK);
     }
 
     @Operation(summary = "Check user-role=admin")
     @GetMapping("/validate-admin")
-    public ResponseEntity<Void> validateAdminToken(@RequestHeader("Authorization") String authHeader){
+    public ResponseEntity<UserIdResponse> validateAdminToken(@RequestHeader("Authorization") String authHeader){
 
         if(authHeader == null || !authHeader.startsWith("Bearer ")){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return authService.validateAdminToken(authHeader.substring(7))
-                ?ResponseEntity.ok().build()
-                :ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        return new ResponseEntity<>(authService.validateAdminToken(authHeader.substring(7)),HttpStatus.OK);
     }
 
     @Operation(summary = "Check token and userID match")

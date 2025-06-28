@@ -2,6 +2,7 @@ package com.tisitha.user_service.service;
 
 import com.tisitha.user_service.dto.*;
 import com.tisitha.user_service.exception.PasswordIncorrectException;
+import com.tisitha.user_service.exception.ValidateFailedException;
 import com.tisitha.user_service.model.User;
 import com.tisitha.user_service.util.JwtUtil;
 import io.jsonwebtoken.JwtException;
@@ -35,7 +36,7 @@ public class AuthServiceImp implements AuthService {
 
         Optional<String> tokenOptional = userOptional
                 .filter(u->passwordEncoder.matches(loginRequestDTO.getPassword(),u.getPassword()))
-                .map(u->jwtUtil.generateToken(u.getEmail(),u.getRole().toString()));
+                .map(u->jwtUtil.generateToken(u.getId(),u.getRole().toString()));
 
         if(tokenOptional.isEmpty()){
             throw new PasswordIncorrectException("Email or password incorrect");
@@ -50,22 +51,20 @@ public class AuthServiceImp implements AuthService {
     }
 
     @Override
-    public boolean validateToken(String token) {
+    public UserIdResponse validateToken(String token) {
         try{
-            jwtUtil.validateToken(token);
-            return true;
+            return new UserIdResponse(jwtUtil.validateToken(token));
         } catch (JwtException e) {
-            return false;
+            throw new ValidateFailedException("Token is invalid");
         }
     }
 
     @Override
-    public boolean validateAdminToken(String token) {
+    public UserIdResponse validateAdminToken(String token) {
         try{
-            jwtUtil.validateAdminToken(token);
-            return true;
+            return new UserIdResponse(jwtUtil.validateAdminToken(token));
         } catch (JwtException e) {
-            return false;
+            throw new ValidateFailedException("Token is invalid( not an admin )");
         }
     }
 
