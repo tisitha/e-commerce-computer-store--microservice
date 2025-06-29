@@ -9,3 +9,20 @@ eureka:
     fetch-registry: false
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      show-details: always
+
+  tracing:
+    sampling:
+      probability: 1.0
+
+    otlp:
+      tracing:
+        endpoint: http://localhost:9411/api/v2/spans
