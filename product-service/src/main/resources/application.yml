@@ -22,7 +22,7 @@ eureka:
 
   client:
     service-url:
-      defaultZone: http://admin:password@localhost:8761/eureka/
+      defaultZone: http://admin:password@eureka-server:8761/eureka/
     fetch-registry: true
     register-with-eureka: true
 
@@ -39,9 +39,10 @@ management:
     sampling:
       probability: 1.0
 
-    otlp:
-      tracing:
-        endpoint: http://localhost:9411/api/v2/spans
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans
+
 
 server:
   port: 8081

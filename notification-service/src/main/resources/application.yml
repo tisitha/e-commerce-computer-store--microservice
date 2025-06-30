@@ -4,7 +4,7 @@ spring:
 
   kafka:
     consumer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: kafka:9092
       group-id: store
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -30,12 +30,12 @@ eureka:
 
   client:
     service-url:
-      defaultZone: http://admin:password@localhost:8761/eureka/
+      defaultZone: http://admin:password@eureka-server:8761/eureka/
     fetch-registry: true
     register-with-eureka: true
 
 server:
-  port: 8086
+  port: 8085
 
 mail:
   email: ${MAIL_USERNAME}
@@ -55,6 +55,6 @@ management:
     sampling:
       probability: 1.0
 
-    otlp:
-      tracing:
-        endpoint: http://localhost:9411/api/v2/spans
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans

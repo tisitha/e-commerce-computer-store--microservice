@@ -4,7 +4,7 @@ spring:
 
   kafka:
     producer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: kafka:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
@@ -28,7 +28,7 @@ eureka:
 
   client:
     service-url:
-      defaultZone: http://admin:password@localhost:8761/eureka/
+      defaultZone: http://admin:password@eureka-server:8761/eureka/
     fetch-registry: true
     register-with-eureka: true
 
@@ -48,6 +48,6 @@ management:
     sampling:
       probability: 1.0
 
-    otlp:
-      tracing:
-        endpoint: http://localhost:9411/api/v2/spans
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans
