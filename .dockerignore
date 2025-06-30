@@ -1,0 +1,22 @@
+# Maven or Gradle build output
+target/
+build/
+
+# IDE junk
+*.iml
+.idea/
+.vscode/
+
+# Git
+.git/
+.gitignore
+
+# OS junk
+.DS_Store
+
+# Test and logs
+logs/
+*.log
+
+# Misc
+.env
