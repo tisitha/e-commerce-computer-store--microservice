@@ -24,7 +24,13 @@ public class DesktopController {
         this.desktopService = desktopService;
     }
 
-    @Operation(summary = "Get product data category=desktops")
+    @Operation(summary = "Get a product category=desktops")
+    @GetMapping("/product/category/desktops/item/{id}")
+    public ResponseEntity<DesktopResponseDTO> getProduct(@PathVariable UUID id){
+        return new ResponseEntity<>(desktopService.getProduct(id),HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get products of category=desktops")
     @GetMapping("/product/category/desktops/get")
     public ResponseEntity<ProductPageSortDto<DesktopResponseDTO>> getDesktop(@Valid @RequestBody DesktopGetRequestDTO dto){
         return new ResponseEntity<>(desktopService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getProductType(),dto.getProcessorBrand(),dto.getProcessorSeries(),dto.getGpuManufacturer(),dto.getGpuSeries(),dto.getRamCapacity(),dto.getStorageType(),dto.getStorageCapacity(),dto.getOperatingSystem()),

@@ -24,7 +24,13 @@ public class MemoryController {
         this.memoryService = memoryService;
     }
 
-    @Operation(summary = "Get product data category=memory")
+    @Operation(summary = "Get a product category=memory")
+    @GetMapping("/product/category/memory/item/{id}")
+    public ResponseEntity<MemoryResponseDTO> getProduct(@PathVariable UUID id){
+        return new ResponseEntity<>(memoryService.getProduct(id),HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get products of category=memory")
     @GetMapping("/product/category/memory/get")
     public ResponseEntity<ProductPageSortDto<MemoryResponseDTO>> getMemory(@Valid @RequestBody MemoryGetRequestDTO dto){
         return new ResponseEntity<>(memoryService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getMemoryType(),dto.getCapacityGB(),dto.getSpeedMHz(),dto.getFormFactor(),dto.getRgbLighting(),dto.getBrand()),

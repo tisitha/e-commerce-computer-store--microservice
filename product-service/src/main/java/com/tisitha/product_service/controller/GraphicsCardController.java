@@ -24,7 +24,13 @@ public class GraphicsCardController {
         this.graphicsCardService = graphicsCardService;
     }
 
-    @Operation(summary = "Get product data category=graphics-cards")
+    @Operation(summary = "Get a product category=graphics-cards")
+    @GetMapping("/product/category/graphics-cards/item/{id}")
+    public ResponseEntity<GraphicsCardResponseDTO> getProduct(@PathVariable UUID id){
+        return new ResponseEntity<>(graphicsCardService.getProduct(id),HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get products of category=graphics-cards")
     @GetMapping("/product/category/graphics-cards/get")
     public ResponseEntity<ProductPageSortDto<GraphicsCardResponseDTO>> getGraphicCard(@Valid @RequestBody GraphicsCardGetRequestDTO dto){
         return new ResponseEntity<>(graphicsCardService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getGpuManufacturer(),dto.getGpuSeries(),dto.getVramGb()),

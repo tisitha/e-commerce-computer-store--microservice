@@ -24,7 +24,13 @@ public class StorageController {
         this.storageService = storageService;
     }
 
-    @Operation(summary = "Get product data category=storages")
+    @Operation(summary = "Get a product category=storages")
+    @GetMapping("/product/category/storages/item/{id}")
+    public ResponseEntity<StorageResponseDTO> getProduct(@PathVariable UUID id){
+        return new ResponseEntity<>(storageService.getProduct(id),HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get products of category=storages")
     @GetMapping("/product/category/storages/get")
     public ResponseEntity<ProductPageSortDto<StorageResponseDTO>> getStorage(@Valid @RequestBody StorageGetRequestDTO dto){
         return new ResponseEntity<>(storageService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getStorageType(),dto.getCapacityGB(),dto.getInterfaceType(),dto.getUsageType()),

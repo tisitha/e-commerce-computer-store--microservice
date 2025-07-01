@@ -24,7 +24,13 @@ public class MotherBoardController {
         this.motherBoardService = motherBoardService;
     }
 
-    @Operation(summary = "Get product data category=mother-boards")
+    @Operation(summary = "Get a product category=mother-boards")
+    @GetMapping("/product/category/mother-boards/item/{id}")
+    public ResponseEntity<MotherBoardResponseDTO> getProduct(@PathVariable UUID id){
+        return new ResponseEntity<>(motherBoardService.getProduct(id),HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get products of category=mother-boards")
     @GetMapping("/product/category/mother-boards/get")
     public ResponseEntity<ProductPageSortDto<MotherBoardResponseDTO>> getMotherBoard(@Valid @RequestBody MotherBoardGetRequestDTO dto){
         return new ResponseEntity<>(motherBoardService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getCpuSocket(),dto.getChipsetSeries(),dto.getFormFactor(),dto.getRamType(),dto.getPcieSlotVersion(),dto.getM2Slots(),dto.getWirelessConnectivity()),

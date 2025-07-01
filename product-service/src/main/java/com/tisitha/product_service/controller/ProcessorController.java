@@ -24,7 +24,13 @@ public class ProcessorController {
         this.processorService = processorService;
     }
 
-    @Operation(summary = "Get product data category=processors")
+    @Operation(summary = "Get a product category=processors")
+    @GetMapping("/product/category/processors/item/{id}")
+    public ResponseEntity<ProcessorResponseDTO> getProduct(@PathVariable UUID id){
+        return new ResponseEntity<>(processorService.getProduct(id),HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get products of category=processors")
     @GetMapping("/product/category/processors/get")
     public ResponseEntity<ProductPageSortDto<ProcessorResponseDTO>> getProcessor(@Valid @RequestBody ProcessorGetRequestDTO dto){
         return new ResponseEntity<>(processorService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getCpuSeries(),dto.getCpuSocket(),dto.getCoreCount(),dto.getThreadCount(),dto.getBaseClockSpeedGHz(),dto.getIntegratedGraphics()),

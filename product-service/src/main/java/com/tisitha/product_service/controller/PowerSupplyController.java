@@ -24,7 +24,13 @@ public class PowerSupplyController {
         this.powerSupplyService = powerSupplyService;
     }
 
-    @Operation(summary = "Get product data category=power")
+    @Operation(summary = "Get a product category=power")
+    @GetMapping("/product/category/power/item/{id}")
+    public ResponseEntity<PowerSupplyResponseDTO> getProduct(@PathVariable UUID id){
+        return new ResponseEntity<>(powerSupplyService.getProduct(id),HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get products of category=power")
     @GetMapping("/product/category/power/get")
     public ResponseEntity<ProductPageSortDto<PowerSupplyResponseDTO>> getPowerSupply(@Valid @RequestBody PowerSupplyGetRequestDTO dto){
         return new ResponseEntity<>(powerSupplyService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getWattageOutput(),dto.getCertificationRating(),dto.getFormFactor(),dto.getModularityType()),

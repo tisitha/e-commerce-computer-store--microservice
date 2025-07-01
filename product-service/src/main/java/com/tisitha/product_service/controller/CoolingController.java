@@ -24,7 +24,13 @@ public class CoolingController {
         this.coolingService = coolingService;
     }
 
-    @Operation(summary = "Get product data category=cooling")
+    @Operation(summary = "Get a product category=cooling")
+    @GetMapping("/product/category/cooling/item/{id}")
+    public ResponseEntity<CoolingResponseDTO> getProduct(@PathVariable UUID id){
+        return new ResponseEntity<>(coolingService.getProduct(id),HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get products of category=cooling")
     @GetMapping("/product/category/cooling/get")
     public ResponseEntity<ProductPageSortDto<CoolingResponseDTO>> getCooling(@Valid @RequestBody CoolingGetRequestDTO dto){
         return new ResponseEntity<>(coolingService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getCoolingType(),dto.getSocketCompatibility(),dto.getFanSize(),dto.getRgbLighting()),

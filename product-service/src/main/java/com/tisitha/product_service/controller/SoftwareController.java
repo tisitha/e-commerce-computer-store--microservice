@@ -24,7 +24,13 @@ public class SoftwareController {
         this.softwareService = softwareService;
     }
 
-    @Operation(summary = "Get product data category=software")
+    @Operation(summary = "Get a product category=software")
+    @GetMapping("/product/category/software/item/{id}")
+    public ResponseEntity<SoftwareResponseDTO> getProduct(@PathVariable UUID id){
+        return new ResponseEntity<>(softwareService.getProduct(id),HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get products of category=software")
     @GetMapping("/product/category/software/get")
     public ResponseEntity<ProductPageSortDto<SoftwareResponseDTO>> getSoftware(@Valid @RequestBody SoftwareGetRequestDTO dto){
         return new ResponseEntity<>(softwareService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getYears(),dto.getUses()),

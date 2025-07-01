@@ -24,7 +24,13 @@ public class LaptopController {
         this.laptopService = laptopService;
     }
 
-    @Operation(summary = "Get product data category=laptops")
+    @Operation(summary = "Get a product category=laptops")
+    @GetMapping("/product/category/laptops/item/{id}")
+    public ResponseEntity<LaptopResponseDTO> getProduct(@PathVariable UUID id){
+        return new ResponseEntity<>(laptopService.getProduct(id),HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get products of category=laptops")
     @GetMapping("/product/category/laptops/get")
     public ResponseEntity<ProductPageSortDto<LaptopResponseDTO>> getLaptop(@Valid @RequestBody LaptopGetRequestDTO dto){
         return new ResponseEntity<>(laptopService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getProcessorBrand(),dto.getProcessorSeries(),dto.getRamCapacity(),dto.getStorageCapacity(),dto.getDisplayResolution(),dto.getOperatingSystem(),dto.getGraphicsCardType(),dto.getFeaturesIncluded()),

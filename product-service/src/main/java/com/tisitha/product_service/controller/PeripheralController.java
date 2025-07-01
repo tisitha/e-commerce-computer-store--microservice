@@ -24,7 +24,13 @@ public class PeripheralController {
         this.peripheralService = peripheralService;
     }
 
-    @Operation(summary = "Get product data category=peripherals")
+    @Operation(summary = "Get a product category=peripherals")
+    @GetMapping("/product/category/peripherals/item/{id}")
+    public ResponseEntity<PeripheralResponseDTO> getProduct(@PathVariable UUID id){
+        return new ResponseEntity<>(peripheralService.getProduct(id),HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get products of category=peripherals")
     @GetMapping("/product/category/peripherals/get")
     public ResponseEntity<ProductPageSortDto<PeripheralResponseDTO>> getPeripheral(@Valid @RequestBody PeripheralGetRequestDTO dto){
         return new ResponseEntity<>(peripheralService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getPeripheralType(),dto.getConnectivityType(),dto.getRgbLighting()),

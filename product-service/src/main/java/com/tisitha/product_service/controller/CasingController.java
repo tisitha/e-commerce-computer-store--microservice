@@ -24,7 +24,13 @@ public class CasingController {
         this.casingService = casingService;
     }
 
-    @Operation(summary = "Get product data category=casings")
+    @Operation(summary = "Get a product category=casings")
+    @GetMapping("/product/category/casings/item/{id}")
+    public ResponseEntity<CasingResponseDTO> getProduct(@PathVariable UUID id){
+        return new ResponseEntity<>(casingService.getProduct(id),HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get products of category=casings")
     @GetMapping("/product/category/casings/get")
     public ResponseEntity<ProductPageSortDto<CasingResponseDTO>> getCasing(@Valid @RequestBody CasingGetRequestDTO dto){
         return new ResponseEntity<>(casingService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getCaseType(),dto.getMaxGPULength(),dto.getIncludedFans()),

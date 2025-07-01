@@ -24,7 +24,13 @@ public class MonitorController {
         this.monitorService = monitorService;
     }
 
-    @Operation(summary = "Get product data category=monitors")
+    @Operation(summary = "Get a product category=monitors")
+    @GetMapping("/product/category/monitors/item/{id}")
+    public ResponseEntity<MonitorResponseDTO> getProduct(@PathVariable UUID id){
+        return new ResponseEntity<>(monitorService.getProduct(id),HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get products of category=monitors")
     @GetMapping("/product/category/monitors/get")
     public ResponseEntity<ProductPageSortDto<MonitorResponseDTO>> getMonitor(@Valid @RequestBody MonitorGetRequestDTO dto){
         return new ResponseEntity<>(monitorService.getAll(dto.getPageNumber(), dto.getPageSize(),dto.getSortBy(),dto.getDir(),dto.getBrand(),dto.getDisplayResolution(),dto.getRefreshRateHz(),dto.getResponseTimeMs(),dto.getPanelType(),dto.getAspectRatio(),dto.getAdaptiveSyncTechnology()),
