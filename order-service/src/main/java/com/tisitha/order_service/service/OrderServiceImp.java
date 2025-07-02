@@ -10,8 +10,7 @@ import com.tisitha.order_service.feign.InventoryClient;
 import com.tisitha.order_service.model.Order;
 import com.tisitha.order_service.model.OrderItem;
 import com.tisitha.order_service.model.OrderState;
-import com.tisitha.order_service.payload.MailBody;
-import com.tisitha.order_service.producer.KafkaJsonProducer;
+import com.tisitha.order_service.producer.KafkaProducer;
 import com.tisitha.order_service.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,7 +30,7 @@ import java.util.UUID;
 public class OrderServiceImp implements OrderService{
 
     private final OrderRepository orderRepository;
-    private final KafkaJsonProducer kafkaJsonProducer;
+    private final KafkaProducer kafkaProducer;
     private final InventoryClient inventoryClient;
     private final CartItemService cartItemService;
 
@@ -99,16 +98,16 @@ public class OrderServiceImp implements OrderService{
         order.setOrderState(OrderState.PROCESSING);
         order.setCost(cost);
         Order newOrder = orderRepository.save(order);
-        StringBuilder messageBody = new StringBuilder("Date and time:" + newOrder.getDateTime() + "\n" +
-                        "Total cost: Rs." + newOrder.getCost() + "\n" + "\n" +
-                        "Items:" + "\n");
+        StringBuilder messageBody =new StringBuilder()
+                .append("New Order Received\n")
+                .append("Order ID: ").append(newOrder.getId()).append("\n")
+                .append("Date & Time: ").append(newOrder.getDateTime()).append("\n")
+                .append("Total Cost: Rs. ").append(newOrder.getCost()).append("\n\n")
+                .append("Items:\n");
         for(OrderItem i:newOrder.getItems()){
             messageBody.append(i.toString()).append("\n");
         }
-        kafkaJsonProducer.sendJson(MailBody.builder()
-                        .subject("New Order"+" (Order id:" + newOrder.getId()+")")
-                        .text(messageBody.toString())
-                        .build());
+        kafkaProducer.send(messageBody.toString());
         for(CartItemResponseDTO dto:dtos){
             cartItemService.deleteCartItem(userId,dto.getId());
         }
