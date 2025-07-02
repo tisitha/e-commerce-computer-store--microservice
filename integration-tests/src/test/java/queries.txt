@@ -1,0 +1,61 @@
+///////////////////////////////////////////////////////////////////////////
+Add these queries to the database to ensure testing works correctly
+///////////////////////////////////////////////////////////////////////////
+
+INSERT INTO users (
+    id, address1, address2, contact_no, dob, email, first_name, last_name, password, role
+) VALUES
+(
+    UNHEX(REPLACE('74CB87CD-44B4-4CBD-8E6C-D177D22BF91A', '-', '')),
+    'no 1',
+    'road, city',
+    '+941234567',
+    '2000-01-01',
+    'admin@admin.com',
+    'admin',
+    'test',
+    '$2a$10$62RG65So29kVOoQmN0erbOkqPNnAwlY0omCTtVDsT601M86RZcrIa',
+    'ROLE_ADMIN'
+),
+(
+    UNHEX(REPLACE('FA29D06D-AD5E-4673-9A9D-E9D15FE8678C', '-', '')),
+    'no 1',
+    'road, city',
+    '+9412252267',
+    '2000-01-01',
+    'user@email.com',
+    'user',
+    'test',
+    '$2a$10$bwh/0sJKBCDHEylKYxEte.YnQ3zqTf0mtNHVT4NhYrBtuorTz7TOu',
+    'ROLE_USER'
+);
+
+///////////////////////////////////////////////////////////////////////////
+
+INSERT INTO casing (
+    id, brand, case_type, deal, description, img_url, included_fans,
+    latest, maxgpulength, name, price, top
+) VALUES (
+    UNHEX(REPLACE('5911913C-AB8F-4B4C-824E-BBF8338C3501', '-', '')),
+    'NovaTech',
+    'Mid Tower',
+    10,
+    'A mid-tower case with tempered glass panels and RGB lighting.',
+    'https://example.com/images/phantom-x7.jpg',
+    '5x 120mm RGB fans',
+    b'0',
+    '360mm',
+    'NovaTech phanthom-x8',
+    30000,
+    b'0'
+);
+
+///////////////////////////////////////////////////////////////////////////
+
+INSERT INTO inventory (
+    id, product_id, quantity
+) VALUES (
+    UNHEX(REPLACE('2ED0942F-4E7B-4000-80D9-2AB92A96E686', '-', '')),
+    UNHEX(REPLACE('5911913C-AB8F-4B4C-824E-BBF8338C3501', '-', '')),
+    60
+);
