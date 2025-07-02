@@ -1,5 +1,9 @@
 ///////////////////////////////////////////////////////////////////////////
-Add these queries to the database to ensure testing works correctly
+Add these queries to the database to ensure integration-test works correctly
+
+sample
+email = admin@admin.com
+password = adminpassword
 ///////////////////////////////////////////////////////////////////////////
 
 INSERT INTO users (
