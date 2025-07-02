@@ -1,6 +1,5 @@
 package com.tisitha.notification_service.consumer;
 
-
 import com.tisitha.notification_service.payload.MailBody;
 import com.tisitha.notification_service.service.EmailService;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -16,7 +15,10 @@ public class KafkaConsumer {
     }
 
     @KafkaListener(topics = "notification",groupId = "store")
-    public void consumeJsonMsg(MailBody mailBody){
-        emailService.sendSimpleMessage(mailBody);
+    public void consumeJsonMsg(String body){
+        emailService.sendSimpleMessage(MailBody.builder()
+                .subject("Notification - Computer store")
+                .text(body)
+                .build());
     }
 }
