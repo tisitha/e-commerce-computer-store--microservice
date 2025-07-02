@@ -1,6 +1,5 @@
 package com.tisitha.inventory_service.producer;
 
-import com.tisitha.inventory_service.payload.MailBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
@@ -10,12 +9,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class KafkaJsonProducer {
+public class KafkaProducer {
 
-    private final KafkaTemplate<String, MailBody> kafkaTemplate;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
-    public void sendJson(MailBody mailBody){
-        Message<MailBody> mailBodyMessage = MessageBuilder
+    public void send(String mailBody){
+        Message<String> mailBodyMessage = MessageBuilder
                 .withPayload(mailBody)
                 .setHeader(KafkaHeaders.TOPIC,"notification")
                 .build();

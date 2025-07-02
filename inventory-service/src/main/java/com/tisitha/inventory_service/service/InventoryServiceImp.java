@@ -3,8 +3,7 @@ package com.tisitha.inventory_service.service;
 import com.tisitha.inventory_service.dto.InventoryDTO;
 import com.tisitha.inventory_service.exception.DataNotFoundException;
 import com.tisitha.inventory_service.model.Inventory;
-import com.tisitha.inventory_service.payload.MailBody;
-import com.tisitha.inventory_service.producer.KafkaJsonProducer;
+import com.tisitha.inventory_service.producer.KafkaProducer;
 import com.tisitha.inventory_service.repository.InventoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +13,11 @@ import java.util.UUID;
 public class InventoryServiceImp implements InventoryService{
 
     private final InventoryRepository inventoryRepository;
-    private final KafkaJsonProducer kafkaJsonProducer;
+    private final KafkaProducer kafkaProducer;
 
-    public InventoryServiceImp(InventoryRepository inventoryRepository, KafkaJsonProducer kafkaJsonProducer) {
+    public InventoryServiceImp(InventoryRepository inventoryRepository, KafkaProducer kafkaProducer) {
         this.inventoryRepository = inventoryRepository;
-        this.kafkaJsonProducer = kafkaJsonProducer;
+        this.kafkaProducer = kafkaProducer;
     }
 
     @Override
@@ -45,10 +44,7 @@ public class InventoryServiceImp implements InventoryService{
         inventory.setQuantity(quantity);
         Inventory newInventory = inventoryRepository.save(inventory);
         if(newInventory.getQuantity()<=1){
-            kafkaJsonProducer.sendJson(MailBody.builder()
-                    .subject("Low Stock Alert"+" ("+newInventory.getProductId()+")")
-                    .text(productName+" ("+newInventory.getProductId()+") is low on stock ("+newInventory.getQuantity()+")")
-                    .build());
+            kafkaProducer.send("Low Stock Alert\nProduct: " + productName + " (ID: " + newInventory.getProductId() + ")\nCurrent Stock: " + newInventory.getQuantity());
         }
         return new InventoryDTO(newInventory.getId(),newInventory.getProductId(),newInventory.getQuantity());
     }
