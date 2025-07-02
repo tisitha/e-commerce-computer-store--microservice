@@ -27,8 +27,6 @@ services:
   product-service:
     build: ./product-service
     container_name: product-service
-    ports:
-      - "8081:8081"
     environment:
       - DB_URL=jdbc:mysql://mysql:3306/ecommerce
       - DB_USERNAME=ecommerce_user
@@ -41,8 +39,6 @@ services:
   inventory-service:
     build: ./inventory-service
     container_name: inventory-service
-    ports:
-      - "8082:8082"
     environment:
       - DB_URL=jdbc:mysql://mysql:3306/ecommerce
       - DB_USERNAME=ecommerce_user
@@ -55,8 +51,6 @@ services:
   order-service:
     build: ./order-service
     container_name: order-service
-    ports:
-      - "8083:8083"
     environment:
       - DB_URL=jdbc:mysql://mysql:3306/ecommerce
       - DB_USERNAME=ecommerce_user
@@ -69,8 +63,6 @@ services:
   user-service:
     build: ./user-service
     container_name: user-service
-    ports:
-      - "8084:8084"
     environment:
       - DB_URL=jdbc:mysql://mysql:3306/ecommerce
       - DB_USERNAME=ecommerce_user
@@ -88,8 +80,6 @@ services:
   notification-service:
     build: ./notification-service
     container_name: notification-service
-    ports:
-      - "8085:8085"
     environment:
       - MAIL_HOST=${MAIL_HOST}
       - MAIL_PORT=${MAIL_PORT}
