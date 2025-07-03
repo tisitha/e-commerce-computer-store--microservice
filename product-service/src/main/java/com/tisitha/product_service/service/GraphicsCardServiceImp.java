@@ -92,6 +92,7 @@ public class GraphicsCardServiceImp implements GraphicsCardService {
                 graphicsCard.isLatest(),
                 graphicsCard.isTop(),
                 graphicsCard.getDeal(),
+                graphicsCard.getCategory(),
                 graphicsCard.getGpuManufacturer(),
                 graphicsCard.getGpuSeries(),
                 graphicsCard.getVramGb(),

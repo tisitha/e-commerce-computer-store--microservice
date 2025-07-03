@@ -117,6 +117,7 @@ public class MotherBoardServiceImp implements MotherBoardService{
                 motherBoard.isLatest(),
                 motherBoard.isTop(),
                 motherBoard.getDeal(),
+                motherBoard.getCategory(),
                 motherBoard.getBrand(),
                 motherBoard.getCpuSocket(),
                 motherBoard.getChipsetSeries(),

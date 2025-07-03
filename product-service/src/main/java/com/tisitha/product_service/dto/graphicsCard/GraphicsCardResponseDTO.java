@@ -18,6 +18,7 @@ public class GraphicsCardResponseDTO {
     private boolean latest;
     private boolean top;
     private double deal;
+    private String category;
 
     private String gpuManufacturer;
     private String gpuSeries;

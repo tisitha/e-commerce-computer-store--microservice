@@ -92,6 +92,7 @@ public class SoftwareServiceImp implements SoftwareService{
                 software.isLatest(),
                 software.isTop(),
                 software.getDeal(),
+                software.getCategory(),
                 software.getBrand(),
                 software.getYears(),
                 software.getUses(),

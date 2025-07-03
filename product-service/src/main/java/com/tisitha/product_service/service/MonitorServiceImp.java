@@ -112,6 +112,7 @@ public class MonitorServiceImp implements MonitorService{
                 monitor.isLatest(),
                 monitor.isTop(),
                 monitor.getDeal(),
+                monitor.getCategory(),
                 monitor.getBrand(),
                 monitor.getDisplayResolution(),
                 monitor.getRefreshRateHz(),

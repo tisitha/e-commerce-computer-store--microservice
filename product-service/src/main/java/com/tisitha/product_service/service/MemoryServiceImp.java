@@ -107,6 +107,7 @@ public class MemoryServiceImp implements MemoryService{
                 memory.isLatest(),
                 memory.isTop(),
                 memory.getDeal(),
+                memory.getCategory(),
                 memory.getMemoryType(),
                 memory.getCapacityGB(),
                 memory.getSpeedMHz(),

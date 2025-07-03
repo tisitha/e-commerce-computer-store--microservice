@@ -97,6 +97,7 @@ public class CasingServiceImp implements CasingService{
                 casing.isLatest(),
                 casing.isTop(),
                 casing.getDeal(),
+                casing.getCategory(),
                 casing.getBrand(),
                 casing.getCaseType(),
                 casing.getMaxGPULength(),

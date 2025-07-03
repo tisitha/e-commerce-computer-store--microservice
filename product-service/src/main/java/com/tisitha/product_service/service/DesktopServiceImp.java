@@ -126,6 +126,7 @@ public class DesktopServiceImp implements DesktopService{
                 desktop.isLatest(),
                 desktop.isTop(),
                 desktop.getDeal(),
+                desktop.getCategory(),
                 desktop.getBrand(),
                 desktop.getProductType(),
                 desktop.getProcessorBrand(),

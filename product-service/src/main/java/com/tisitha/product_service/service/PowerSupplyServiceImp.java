@@ -102,6 +102,7 @@ public class PowerSupplyServiceImp implements PowerSupplyService{
                 powerSupply.isLatest(),
                 powerSupply.isTop(),
                 powerSupply.getDeal(),
+                powerSupply.getCategory(),
                 powerSupply.getBrand(),
                 powerSupply.getWattageOutput(),
                 powerSupply.getCertificationRating(),

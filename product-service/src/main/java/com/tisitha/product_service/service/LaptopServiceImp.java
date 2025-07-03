@@ -122,6 +122,7 @@ public class LaptopServiceImp implements LaptopService{
                 laptop.isLatest(),
                 laptop.isTop(),
                 laptop.getDeal(),
+                laptop.getCategory(),
                 laptop.getBrand(),
                 laptop.getProcessorBrand(),
                 laptop.getProcessorSeries(),

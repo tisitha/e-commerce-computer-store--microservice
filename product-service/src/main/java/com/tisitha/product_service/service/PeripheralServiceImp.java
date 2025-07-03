@@ -97,6 +97,7 @@ public class PeripheralServiceImp implements PeripheralService{
                 peripheral.isLatest(),
                 peripheral.isTop(),
                 peripheral.getDeal(),
+                peripheral.getCategory(),
                 peripheral.getBrand(),
                 peripheral.getPeripheralType(),
                 peripheral.getConnectivityType(),

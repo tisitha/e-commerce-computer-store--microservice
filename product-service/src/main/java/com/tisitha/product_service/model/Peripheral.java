@@ -3,40 +3,15 @@ package com.tisitha.product_service.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Peripheral {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
-
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private String imgUrl;
-
-    @Column(nullable = false)
-    private String description;
-
-    @Column(nullable = false)
-    private double price;
-
-    @Column(nullable = false)
-    private boolean latest;
-
-    @Column(nullable = false)
-    private boolean top;
-
-    @Column(nullable = false)
-    private double deal;
+public class Peripheral extends Product{
 
     @Column(nullable = false)
     private String brand;

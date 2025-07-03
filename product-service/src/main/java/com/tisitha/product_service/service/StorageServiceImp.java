@@ -102,6 +102,7 @@ public class StorageServiceImp implements StorageService{
                 storage.isLatest(),
                 storage.isTop(),
                 storage.getDeal(),
+                storage.getCategory(),
                 storage.getBrand(),
                 storage.getStorageType(),
                 storage.getCapacityGB(),

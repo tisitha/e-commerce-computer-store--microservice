@@ -18,6 +18,7 @@ public class DesktopResponseDTO {
     private boolean latest;
     private boolean top;
     private double deal;
+    private String category;
 
     private String brand;
     private String productType;

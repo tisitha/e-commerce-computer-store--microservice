@@ -112,6 +112,7 @@ public class ProcessorServiceImp implements ProcessorService{
                 processor.isLatest(),
                 processor.isTop(),
                 processor.getDeal(),
+                processor.getCategory(),
                 processor.getBrand(),
                 processor.getCpuSeries(),
                 processor.getCpuSocket(),

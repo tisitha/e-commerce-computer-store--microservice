@@ -102,6 +102,7 @@ public class CoolingServiceImp implements CoolingService{
                 cooling.isLatest(),
                 cooling.isTop(),
                 cooling.getDeal(),
+                cooling.getCategory(),
                 cooling.getBrand(),
                 cooling.getCoolingType(),
                 cooling.getSocketCompatibility(),
