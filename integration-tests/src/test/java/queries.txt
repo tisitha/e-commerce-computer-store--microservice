@@ -1,7 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////
 Add these queries to the database to ensure integration-test works correctly
 
-sample
+database info can be found in docker-compose
+sample admin account
 email = admin@admin.com
 password = adminpassword
 ///////////////////////////////////////////////////////////////////////////
@@ -34,27 +35,24 @@ INSERT INTO users (
     'ROLE_USER'
 );
 
-///////////////////////////////////////////////////////////////////////////
-
 INSERT INTO casing (
-    id, brand, case_type, deal, description, img_url, included_fans,
+    id, brand,category, case_type, deal, description, img_url, included_fans,
     latest, maxgpulength, name, price, top
 ) VALUES (
     UNHEX(REPLACE('5911913C-AB8F-4B4C-824E-BBF8338C3501', '-', '')),
     'NovaTech',
+    'Casing',
     'Mid Tower',
-    10,
+    25000,
     'A mid-tower case with tempered glass panels and RGB lighting.',
-    'https://example.com/images/phantom-x7.jpg',
+    'https://example.com/images/phantom-x8.jpg',
     '5x 120mm RGB fans',
     b'0',
     '360mm',
-    'NovaTech phanthom-x8',
+    'NovaTech phantom-x8',
     30000,
     b'0'
 );
-
-///////////////////////////////////////////////////////////////////////////
 
 INSERT INTO inventory (
     id, product_id, quantity
@@ -63,3 +61,5 @@ INSERT INTO inventory (
     UNHEX(REPLACE('5911913C-AB8F-4B4C-824E-BBF8338C3501', '-', '')),
     60
 );
+
+///////////////////////////////////////////////////////////////////////////

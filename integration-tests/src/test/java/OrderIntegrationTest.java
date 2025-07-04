@@ -46,10 +46,7 @@ public class OrderIntegrationTest {
         String CartItemRequestDTO = """
                 {
                         "productId": "5911913c-ab8f-4b4c-824e-bbf8338c3501",
-                        "title": "lol",
-                        "imgUrl": "string",
-                        "price": 0.1,
-                        "deal": 0.1,
+                        "category": "Casing",
                         "quantity": 2,
                         "customerId": "fa29d06d-ad5e-4673-9a9d-e9d15fe8678c"
                 }
