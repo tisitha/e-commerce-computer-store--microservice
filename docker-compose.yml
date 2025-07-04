@@ -28,7 +28,7 @@ services:
     build: ./product-service
     container_name: product-service
     environment:
-      - DB_URL=jdbc:mysql://mysql:3306/ecommerce
+      - DB_URL=jdbc:mysql://mysql:3306/productdb
       - DB_USERNAME=ecommerce_user
       - DB_PASSWORD=ecommerce_pass
     depends_on:
@@ -40,7 +40,7 @@ services:
     build: ./inventory-service
     container_name: inventory-service
     environment:
-      - DB_URL=jdbc:mysql://mysql:3306/ecommerce
+      - DB_URL=jdbc:mysql://mysql:3306/inventorydb
       - DB_USERNAME=ecommerce_user
       - DB_PASSWORD=ecommerce_pass
     depends_on:
@@ -52,7 +52,7 @@ services:
     build: ./order-service
     container_name: order-service
     environment:
-      - DB_URL=jdbc:mysql://mysql:3306/ecommerce
+      - DB_URL=jdbc:mysql://mysql:3306/orderdb
       - DB_USERNAME=ecommerce_user
       - DB_PASSWORD=ecommerce_pass
     depends_on:
@@ -64,7 +64,7 @@ services:
     build: ./user-service
     container_name: user-service
     environment:
-      - DB_URL=jdbc:mysql://mysql:3306/ecommerce
+      - DB_URL=jdbc:mysql://mysql:3306/userdb
       - DB_USERNAME=ecommerce_user
       - DB_PASSWORD=ecommerce_pass
       - JWT_SECRET=388fda9f2b43fd6d6314d810a8c10ab1d9b673373a7a966ef577f05bb162f5a7
@@ -96,13 +96,11 @@ services:
     container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: ecommerce
-      MYSQL_USER: ecommerce_user
-      MYSQL_PASSWORD: ecommerce_pass
     ports:
       - "3307:3306"
     volumes:
       - db-data:/var/lib/mysql
+      - ./init-mysql:/docker-entrypoint-initdb.d
     networks:
       - app-net
 
