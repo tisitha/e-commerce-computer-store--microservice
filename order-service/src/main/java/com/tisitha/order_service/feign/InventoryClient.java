@@ -12,10 +12,10 @@ import java.util.UUID;
 public interface InventoryClient {
 
     @GetMapping("inventory/get-quantity/{id}")
-    public ResponseEntity<InventoryDTO> getQuantity(@PathVariable UUID id);
+    ResponseEntity<InventoryDTO> getQuantity(@PathVariable UUID id);
 
 
     @PutMapping("inventory/update-quantity/{id}")
-    public ResponseEntity<InventoryDTO> updateQuantity(@PathVariable UUID id,@RequestParam Integer quantity,@RequestParam String productName);
+    ResponseEntity<InventoryDTO> updateQuantity(@PathVariable UUID id, @RequestParam Integer quantity, @RequestParam String productName);
 
 }

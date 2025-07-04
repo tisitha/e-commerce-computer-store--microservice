@@ -29,6 +29,9 @@ public class OrderItem {
     private double deal;
 
     @Column(nullable = false)
+    private String category;
+
+    @Column(nullable = false)
     private int quantity;
 
 }

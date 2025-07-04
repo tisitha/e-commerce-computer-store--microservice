@@ -2,8 +2,10 @@ package com.tisitha.order_service.service;
 
 import com.tisitha.order_service.dto.CartItemRequestDTO;
 import com.tisitha.order_service.dto.CartItemResponseDTO;
+import com.tisitha.order_service.dto.ProductDTO;
 import com.tisitha.order_service.exception.ItemNotFoundException;
 import com.tisitha.order_service.exception.UnauthorizeUserException;
+import com.tisitha.order_service.feign.ProductClient;
 import com.tisitha.order_service.model.CartItem;
 import com.tisitha.order_service.repository.CartItemRepository;
 import org.springframework.stereotype.Service;
@@ -15,9 +17,11 @@ import java.util.UUID;
 public class CartItemServiceImp implements CartItemService{
 
     private final CartItemRepository cartItemRepository;
+    private final ProductClient productClient;
 
-    public CartItemServiceImp(CartItemRepository cartItemRepository) {
+    public CartItemServiceImp(CartItemRepository cartItemRepository, ProductClient productClient) {
         this.cartItemRepository = cartItemRepository;
+        this.productClient = productClient;
     }
 
     @Override
@@ -34,6 +38,7 @@ public class CartItemServiceImp implements CartItemService{
         dto.setImgUrl(item.getImgUrl());
         dto.setPrice(item.getPrice());
         dto.setDeal(item.getDeal());
+        dto.setCategory(item.getCategory());
         dto.setQuantity(item.getQuantity());
         dto.setCustomerId(item.getCustomerId());
         return dto;
@@ -41,23 +46,25 @@ public class CartItemServiceImp implements CartItemService{
 
     @Override
     public CartItemResponseDTO addCart(String userId,CartItemRequestDTO dto) {
-        if(!UUID.fromString(userId).equals(dto.getCustomerId())){
-            throw new UnauthorizeUserException("Unauthorize user request");
-        }
         if(dto.getQuantity()==0){
             return null;
         }
-        CartItem item = cartItemRepository.findByProductIdAndCustomerId(dto.getProductId(),dto.getCustomerId());
+        CartItem item = cartItemRepository.findByProductIdAndCustomerId(dto.getProductId(),UUID.fromString(userId));
         if(item==null){
             item = new CartItem();
         }
-        item.setProductId(dto.getProductId());
-        item.setTitle(dto.getTitle());
-        item.setImgUrl(dto.getImgUrl());
-        item.setPrice(dto.getPrice());
-        item.setDeal(dto.getDeal());
+        ProductDTO productDTO = getProductDetails(dto.getProductId(),dto.getCategory());
+        if(productDTO==null){
+            throw new ItemNotFoundException("Product not found (id: "+dto.getProductId()+",category: "+dto.getCategory()+")");
+        }
+        item.setProductId(productDTO.getId());
+        item.setTitle(productDTO.getName());
+        item.setImgUrl(productDTO.getImgUrl());
+        item.setPrice(productDTO.getPrice());
+        item.setDeal(productDTO.getDeal());
+        item.setCategory(productDTO.getCategory());
         item.setQuantity(item.getQuantity()+dto.getQuantity());
-        item.setCustomerId(dto.getCustomerId());
+        item.setCustomerId(UUID.fromString(userId));
         CartItem newItem = cartItemRepository.save(item);
         return itemToDto(newItem);
     }
@@ -79,5 +86,24 @@ public class CartItemServiceImp implements CartItemService{
         }
         item.setQuantity(quantity);
         cartItemRepository.save(item);
+    }
+
+    private ProductDTO getProductDetails(UUID id, String category) {
+        return switch (category) {
+            case "Casing" -> productClient.getProductCasings(id).getBody();
+            case "Cooling" -> productClient.getProductCooling(id).getBody();
+            case "Desktop" -> productClient.getProductDesktops(id).getBody();
+            case "GraphicsCard" -> productClient.getProductGraphics(id).getBody();
+            case "Laptop" -> productClient.getProductLaptops(id).getBody();
+            case "Memory" -> productClient.getProductMemory(id).getBody();
+            case "Monitor" -> productClient.getProductMonitor(id).getBody();
+            case "MotherBoard" -> productClient.getProductMotherBoards(id).getBody();
+            case "Peripheral" -> productClient.getProductPeripherals(id).getBody();
+            case "PowerSupply" -> productClient.getProductPower(id).getBody();
+            case "Processor" -> productClient.getProductProcessors(id).getBody();
+            case "Software" -> productClient.getProductSoftware(id).getBody();
+            case "Storage" -> productClient.getProductStorages(id).getBody();
+            default -> null;
+        };
     }
 }
