@@ -11,6 +11,7 @@ services:
       - zipkin
     networks:
       - app-net
+    restart: unless-stopped
 
   api-gateway:
     build: ./api-gateway
@@ -23,6 +24,7 @@ services:
       - eureka-server
     networks:
       - app-net
+    restart: unless-stopped
 
   product-service:
     build: ./product-service
@@ -35,6 +37,7 @@ services:
       - eureka-server
     networks:
       - app-net
+    restart: unless-stopped
 
   inventory-service:
     build: ./inventory-service
@@ -47,6 +50,7 @@ services:
       - eureka-server
     networks:
       - app-net
+    restart: unless-stopped
 
   order-service:
     build: ./order-service
@@ -59,6 +63,7 @@ services:
       - eureka-server
     networks:
       - app-net
+    restart: unless-stopped
 
   user-service:
     build: ./user-service
@@ -76,6 +81,7 @@ services:
       - eureka-server
     networks:
       - app-net
+    restart: unless-stopped
 
   notification-service:
     build: ./notification-service
@@ -90,6 +96,7 @@ services:
       - eureka-server
     networks:
       - app-net
+    restart: unless-stopped
 
   mysql:
     image: mysql:8
@@ -103,6 +110,7 @@ services:
       - ./init-mysql:/docker-entrypoint-initdb.d
     networks:
       - app-net
+    restart: unless-stopped
 
   fluentbit:
     image: fluent/fluent-bit:2.2
@@ -114,6 +122,7 @@ services:
       - elasticsearch
     networks:
       - app-net
+    restart: unless-stopped
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.13.0
@@ -125,6 +134,7 @@ services:
       - "9200:9200"
     networks:
       - app-net
+    restart: unless-stopped
 
   kibana:
     image: docker.elastic.co/kibana/kibana:8.13.0
@@ -137,6 +147,7 @@ services:
       - elasticsearch
     networks:
       - app-net
+    restart: unless-stopped
 
   zipkin:
     image: openzipkin/zipkin:2.24.3
@@ -145,6 +156,7 @@ services:
       - "9411:9411"
     networks:
       - app-net
+    restart: unless-stopped
 
   prometheus:
     image: prom/prometheus:v2.53.4
@@ -157,6 +169,7 @@ services:
       - "--config.file=/etc/prometheus/prometheus.yml"
     networks:
       - app-net
+    restart: unless-stopped
 
   grafana:
     image: grafana/grafana:12.0.2
@@ -170,6 +183,7 @@ services:
       - prometheus
     networks:
       - app-net
+    restart: unless-stopped
 
   kafka:
     image: apache/kafka:4.0.0
@@ -191,6 +205,7 @@ services:
       KAFKA_NUM_PARTITIONS: 3
     networks:
       - app-net
+    restart: unless-stopped
 
 volumes:
   db-data:
